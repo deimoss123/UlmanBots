@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
 
-//mongodb://localhost:27017
-//config.default.mongoPath
-
+// savienojas ar mongo datubāzi izmantojot mongoose
 const mongo = async () => {
   await mongoose.connect(process.env.MONGOPATH)
   return mongoose

@@ -6,13 +6,13 @@ export default {
   title: 'Top',
   callback: async (message, a, b, client) => {
     const results = await getTop()
+
     let circulacija = 0
+    let resultsArr = []
 
     results.map(result => {
       circulacija += result.lati
     })
-
-    let resultsArr = []
 
     console.log(results[0].userId)
 

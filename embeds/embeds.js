@@ -2,7 +2,6 @@ import { imgLinks } from './imgLinks.js'
 
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {
-
   // kopā ir 15 dīvaino zivju bildes kas ir uploadotas postimg.cc
   // embeds izvēlās randomā vienu no bildēm
   switch (embedName) {
@@ -13,9 +12,7 @@ export const reakcEmbeds = embedName => {
             Math.random() * imgLinks.zivis.length)],
         },
       }
-
   }
-
 }
 
 export const itemTemplate = (title, description, url) => {
@@ -36,7 +33,6 @@ export const itemTemplate = (title, description, url) => {
 }
 
 export const embedTemplate = (title, description, imgUrls) => {
-
   let embed = {
     embeds: [
       {
@@ -80,7 +76,7 @@ export const embedError = (name, description) => {
 }
 
 export const embedSaraksts = (title, description, fields, url) => {
-  let embed = {
+  return {
     embeds: [
       {
         title,
@@ -95,5 +91,4 @@ export const embedSaraksts = (title, description, fields, url) => {
       }],
     allowedMentions: { 'users': [] },
   }
-  return embed
 }

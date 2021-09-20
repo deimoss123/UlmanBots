@@ -19,6 +19,7 @@ export default {
     if (args[0] === 'a' && !args[1]) {
       const result = await findUser(guildId, userId)
 
+      // pārbauda vai katru atkritumu vai tas ir izmantojams
       for (const key in result.items) {
         if (itemList.atkritumi[key]) {
           if (!itemList.atkritumi[key].usable) {
@@ -29,6 +30,8 @@ export default {
           }
         }
       }
+
+      // pārbauda vai ir ko pārdot
       if (itemArr.length) {
         message.reply(itemTemplate('Pārdot', `Tu pārdevi ${stringifyItems(
           itemArr)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
@@ -64,8 +67,8 @@ export default {
       }
 
       let item, price
-
       let i = 0
+
       for (const key in result.items) {
         if (i === index) {
           for (const keydb in itemList) {
@@ -79,7 +82,7 @@ export default {
         i++
       }
 
-
+      // izveido itemArr
       for (let i = 0; i < amount; i++) itemArr.push(item)
 
       total = price * amount

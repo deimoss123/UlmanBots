@@ -20,7 +20,7 @@ const client = new Client({
 // galvenais kods
 client.on('ready', async () => {
   console.log('client ready')
-
+  
   // mēģina savienoties ar mongo datubāzi
   await mongo().then(mongoose => {
     try {

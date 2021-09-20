@@ -14,6 +14,7 @@ export const emoji = [
   '<:876666666666666643:879090145758957588>',
 ]
 
+// smieklīgās atbildes uz smieklīgo tekstu
 export const atbildes = {
 
   // ulmaņa atbildes uz jautājumiem

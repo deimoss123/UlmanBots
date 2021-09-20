@@ -24,6 +24,12 @@ export const reakcijas = client => {
     if (message.author.id === '884514288012759050' || message.channelId !==
       '884514924288671744') return
 
+    // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)
+    if (/^[\u0410-\u044F]+$/.test(message.content)) {
+      message.reply(atbTemplate(atbildes.kirilica.atb, message.content))
+      return
+    }
+
     // pārveido message uz lower case un noņem mīkstinājum un garumzīmes
     const content = latToEng(message.content.toLowerCase())
 
@@ -63,12 +69,6 @@ export const reakcijas = client => {
         embeds: [reakcEmbeds('zivs')],
         allowedMentions: { repliedUser: false },
       })
-      return
-    }
-
-    // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)
-    if (/^[\u0410-\u044F]+$/.test(content)) {
-      message.reply(atbTemplate(atbildes.kirilica.atb, content))
       return
     }
   })

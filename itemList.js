@@ -8,6 +8,7 @@ name: {
   price: 0,
   chance: 0,
   usable: 0,
+  url: null
 },
 
  */
@@ -23,6 +24,7 @@ name: {
 // es ienīstu latviešu valodu
 
 export const itemList = {
+  // preces kas nopērkamas veikalā
   veikals: {
     mullermilch: {
       nameNomVsk: 'mullermilch',
@@ -86,8 +88,7 @@ export const itemList = {
     },
   },
 
-
-
+  // atkritumi, iegūstami no bomžošanas
   atkritumi: {
     zabaks: {
       nameNomVsk: 'lietots zābaks',

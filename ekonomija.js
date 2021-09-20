@@ -1,10 +1,13 @@
 import mongo from './mongo.js'
 import profileSchema from './schemas/profile-schema.js'
 
+// šis ir lietotāju cache, šis paātrina botu, jo samazina datubāzes pieprasījumus
 let userCache = {}
 
 export const findUser = async (guildId, userId) => {
   console.log('running findUser()')
+
+  // meklē lietotāju cache, ja neatrod tad pieprasa datubāzei
   if (userCache[`${guildId}-${userId}`]) {
     console.log('found user in cache', userCache[`${guildId}-${userId}`])
     return userCache[`${guildId}-${userId}`]
@@ -16,6 +19,7 @@ export const findUser = async (guildId, userId) => {
           userId,
         })
 
+        // ja lietoājs nepastāv, izveido jaunu profile schema
         if (!result) {
           const newSchema = {
             _id: `${guildId}-${userId}`,
@@ -39,7 +43,7 @@ export const findUser = async (guildId, userId) => {
   }
 }
 
-// šitais nestrādā
+// atrod bagātākos lietotājus serverī, kā arī nosaka kopējo naudas cirkulāciju
 export const getTop = async () => {
   console.log('running getTop()')
   return await mongo().then(async mongoose => {
@@ -53,6 +57,7 @@ export const getTop = async () => {
   })
 }
 
+// pievieno latus lietotājam
 export const addLati = async (guildId, userId, lati) => {
   console.log('running addLati()')
   let result = await findUser(guildId, userId)
@@ -68,6 +73,7 @@ export const addLati = async (guildId, userId, lati) => {
 
       console.log('addLati() result: ', result)
 
+      // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].lati = result.lati
       return result.lati
     } finally {
@@ -76,6 +82,7 @@ export const addLati = async (guildId, userId, lati) => {
   })
 }
 
+// pievieno itemus lietotājam
 // ja isAdd = 1 tad itemus pievienos, ja ir 0 tad tos itemus noņems
 export const addItems = async (guildId, userId, items, isAdd) => {
   console.log('running addItems()')
@@ -83,7 +90,6 @@ export const addItems = async (guildId, userId, items, isAdd) => {
 
   return await mongo().then(async mongoose => {
     try {
-
       console.log('items to add: ', items)
 
       let itemsdb = await result.items ? result.items : {}
@@ -100,11 +106,13 @@ export const addItems = async (guildId, userId, items, isAdd) => {
         })
       }
 
+      // gala rezultāts
       const result2 = await profileSchema.findOneAndUpdate({
         guildId,
         userId,
       }, { items: itemsdb, }, {})
 
+      // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].items = itemsdb
       console.log('addItems() result: ', itemsdb)
       return result2

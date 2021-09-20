@@ -39,7 +39,6 @@ export default (client) => {
     if (message.author.id === '884514288012759050' || message.channelId !==
       '884514924288671744') return
 
-
     const content = latToEng(message.content.toLowerCase())
 
     // pārbauda vai ziņa sākas ar . (tad tā būs komanda)

@@ -11,18 +11,20 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    const itemCount = Math.floor((Math.random() * 5) + 1)
-
     let acquiredItems = []
     let acquiredItem
 
+    // izvēlās atkritumu daudzumu
+    const itemCount = Math.floor((Math.random() * 5) + 1)
+
+    // izvēlās randomā noteiktu itemu daudzumu
     for (let i = 0; i < itemCount; i++) {
       acquiredItem = chance(itemList.atkritumi)
       acquiredItems.push(acquiredItem)
     }
 
+    // beigu rezultāts
     const resultString = stringifyItems(acquiredItems)
-
     message.reply(embedTemplate('Bomžot', `Tu atradi ${resultString}`, 'atkritumi'))
 
     await addItems(guildId, userId, acquiredItems, 1)

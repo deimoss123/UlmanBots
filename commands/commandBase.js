@@ -58,13 +58,12 @@ export default async (client, message, alias, commandOptions) => {
     }
   })*/
 
-  // sadala komandu array
+  // sadala komandu array un noņem priekšējo komatu
   const args = content.split(/[ ]+/)
-  // noņem . priekšā komandai
   args.shift()
 
-  const wrongSyntax = () => {
-    message.reply(
+  // nepareizas sintakses funkcija
+  const wrongSyntax = () => {message.reply(
       embedTemplate(`${title} - nepareiza sintakse`, `.${alias} ${expectedArgs}`, 'error'))
   }
 

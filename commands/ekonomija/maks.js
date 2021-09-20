@@ -8,9 +8,10 @@ export default {
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
   callback: async (message, args) => {
-
+    const guildId = message.guildId
     let targetId = message.author.id
 
+    // pārbauda vai ir ievadīts lietotājs, ja nav tad izvēlāts tad lietotājs būs ziņas autors
     if (args[0]) {
       const resultId = getUserId(args[0])
       if (!resultId) {
@@ -20,10 +21,7 @@ export default {
       }
     }
 
-    const guildId = message.guildId
-    const userId = targetId
-
-    const info = await findUser(guildId, userId)
+    const info = await findUser(guildId, targetId)
 
     let img = imgLinks.maks[0]
 
@@ -41,6 +39,7 @@ export default {
       img = imgLinks.maks[4]
     }
 
+    // atbilde
     message.reply(embedTemplate('Maks', `<@${targetId}> ir ${info.lati.toFixed(2)} lati`, img))
 
     return 1
