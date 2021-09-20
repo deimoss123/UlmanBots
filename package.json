@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "name": "ulmanbots",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "mongoose": "^6.0.5",
+    "nodemon": "^2.0.12"
+  }
+}
