@@ -58,7 +58,7 @@ export default async (client, message, alias, commandOptions) => {
     }
   })*/
 
-  // sadala komandu array un noņem priekšējo komatu
+  // sadala komandu array un noņem priekšējo lietu
   const args = content.split(/[ ]+/)
   args.shift()
 
@@ -76,8 +76,6 @@ export default async (client, message, alias, commandOptions) => {
   // callback atgrieztās vērtības:
   // 0 - nepareiza sintakse
   // 1 - veiksmīgi
-
-  // ja callback atgriež 0, tad nepareiza sintakse
   const func = await callback(message, args, args.join(' '), client)
   if (!func) wrongSyntax()
 }

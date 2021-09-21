@@ -4,6 +4,8 @@ import { imgLinks } from '../../embeds/imgLinks.js'
 
 export default {
   title: 'Veikals',
+  description: 'Apskatīt veikalu',
+  commands: ['veikals', 'maksima', 'maxima', 'rimi'],
   callback: (message) => {
     let resultArr = []
     let i = 0
@@ -17,6 +19,7 @@ export default {
       })
       i++
     }
+
     message.reply(embedSaraksts('Veikals',
       'Lai nopirktu preci izmanto\n.pirkt <preces numurs> <daudzums>',
       resultArr, imgLinks.rimi))

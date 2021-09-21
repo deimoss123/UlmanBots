@@ -3,33 +3,33 @@ import { embedSaraksts } from '../../embeds/embeds.js'
 import { latsOrLati } from '../../helperFunctions.js'
 
 export default {
-  title: 'Top',
+  title: 'Servera tops',
+  description: 'Parāda bagātākos lietotājus serverī',
+  commands: ['top', 'oligarhi'],
+  maxArgs: 0,
   callback: async (message, a, b, client) => {
     const results = await getTop()
 
-    let circulacija = 0
+    let cirkulacija = 0
     let resultsArr = []
 
     results.map(result => {
-      circulacija += result.lati
+      cirkulacija += result.lati
     })
 
-    console.log(results[0].userId)
-
+    // saliek top lietotājus resultsArr un izveido embedu
+    // max lietotāji kas var būt sarakstā ir 10
     for(let i = 0; i < (results.length < 10 ? results.length : 10); i++) {
-      let user = await client.users.fetch(results[i].userId)
+      const user = await client.users.fetch(results[i].userId)
       resultsArr.push(
         {
           name: `${i + 1}. ${user.username}#${user.discriminator}`,
-          value: `${results[i].lati} ${latsOrLati(results[i].lati)}`
+          value: `${(results[i].lati).toFixed(2)} ${latsOrLati(results[i].lati)}`
         }
       )
     }
 
-    message.reply(embedSaraksts('Servera tops', `Cirkulācijā ir ${circulacija} ${latsOrLati(circulacija)}`, resultsArr))
-
-    console.log(results)
-
+    message.reply(embedSaraksts('Servera tops', `Cirkulācijā ir ${cirkulacija} ${latsOrLati(cirkulacija)}`, resultsArr))
     return 1
   }
 }

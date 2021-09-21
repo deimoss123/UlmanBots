@@ -5,6 +5,8 @@ import { imgLinks } from '../../embeds/imgLinks.js'
 
 export default {
   title: 'Maks',
+  description: 'Apskatīt savu, vai kāda cita lietotāja latu daudzumu',
+  commands: ['maks', 'm'],
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
   callback: async (message, args) => {
@@ -21,27 +23,17 @@ export default {
       }
     }
 
-    const info = await findUser(guildId, targetId)
+    const { lati } = await findUser(guildId, targetId)
 
-    let img = imgLinks.maks[0]
+    let img = 0
 
-    // yandare dev type beat
-    if (info.lati >= 100) {
-      img = imgLinks.maks[1]
-    }
-    if (info.lati >= 500) {
-      img = imgLinks.maks[2]
-    }
-    if (info.lati >= 1000) {
-      img = imgLinks.maks[3]
-    }
-    if (info.lati >= 5000) {
-      img = imgLinks.maks[4]
-    }
+    // izvēlās embed bildi atkarībā no naudas daudzuma
+    if (lati >= 100) img = 1
+    if (lati >= 500) img = 2
+    if (lati >= 1000) img = 3
+    if (lati >= 5000) img = 4
 
-    // atbilde
-    message.reply(embedTemplate('Maks', `<@${targetId}> ir ${info.lati.toFixed(2)} lati`, img))
-
+    message.reply(embedTemplate('Maks', `<@${targetId}> ir ${lati.toFixed(2)} lati`, imgLinks.maks[img]))
     return 1
   },
 }

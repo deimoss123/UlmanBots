@@ -5,6 +5,8 @@ import { embedError, itemTemplate } from '../../embeds/embeds.js'
 
 export default {
   title: 'Pārdot',
+  description: 'Pārdot preci no inventāra',
+  commands: ['pardot'],
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,

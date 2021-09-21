@@ -3,6 +3,8 @@ import { addItems } from '../../ekonomija.js'
 
 export default {
   title: 'AddItem',
+  description: 'iedod itemu (testesanai)',
+  commands: ['additem'],
   minArgs: 2,
   expectedArgs: '<@lietotājs> <item>',
   permissionError: 'Tev vajag būt administrātoram lai lietotu šo komandu',

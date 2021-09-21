@@ -5,7 +5,9 @@ import { itemList } from '../../itemList.js'
 
 export default {
   title: 'Inventārs',
-  expectedArgs: '<lapa> <@lietotājs>',
+  description: 'Apskatīt savu, vai kāda cita lietotāja inventāru',
+  commands: ['inv', 'i', 'inventars'],
+  expectedArgs: '<@lietotājs>',
   maxArgs: 1,
   callback: async (message, args, a, client) => {
     const guildId = message.guildId
@@ -14,16 +16,12 @@ export default {
     // pārbauda vai ir ievadīts lietotājs, ja nav tad izvēlāts tad lietotājs būs ziņas autors
     if (args[0]) {
       const resultId = getUserId(args[0])
-      if (!resultId) {
-        return 0
-      } else {
-        targetId = resultId
-      }
+
+      if (resultId) targetId = resultId
+      else return 0
     }
 
-    let info = await findUser(guildId, targetId)
-    const items = info.items
-
+    const { items } = await findUser(guildId, targetId)
     const avatarUrl = await client.users.cache.find(user => user.id === targetId).avatarURL()
 
     // pārbauda vai inventārs nav tukšs
@@ -41,8 +39,8 @@ export default {
 
         // izveido inventāra embed sarakstu
         embedFieldArr.push({
-          name: `[${embedFieldArr.length + 1}] ${item.nameNomVsk.charAt(0).
-            toUpperCase() + item.nameNomVsk.slice(1)}`,
+          name: `[${embedFieldArr.length + 1}] ${
+            item.nameNomVsk.charAt(0).toUpperCase() + item.nameNomVsk.slice(1)}`,
           value: `daudzums - ${items[key]}\nvērtība - ${item.price} ${latsOrLati(
             item.price)}\nlietojams - ${item.usable ? 'jā' : 'nē'}`,
           inline: true,
@@ -51,9 +49,9 @@ export default {
       }
       message.reply(embedSaraksts('Inventārs', `<@${targetId}>`, embedFieldArr, avatarUrl))
     } else { // inventārs tukšs
-      message.reply(embedSaraksts('Inventārs', `<@${targetId}>`, [
-        { name: 'Tev inventārā nekā nav', value: 'izmanto komandu .bomžot',
-        }], avatarUrl))
+      message.reply(embedSaraksts('Inventārs',
+        `<@${targetId}>`, [{ name: 'Tev inventārā nekā nav', value: 'izmanto komandu .bomžot' }],
+        avatarUrl))
     }
 
     return 1

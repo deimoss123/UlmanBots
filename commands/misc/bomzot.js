@@ -5,8 +5,8 @@ import { embedTemplate } from '../../embeds/embeds.js'
 
 export default {
   title: 'Bomžot',
-  description: '',
-  maxArgs: 0,
+  description: 'Iet atkritumu meklējumos',
+  commands: ['bomzot', 'bomzis'],
   callback: async (message) => {
     const guildId = message.guildId
     const userId = message.author.id

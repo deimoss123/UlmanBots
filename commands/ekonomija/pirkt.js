@@ -5,6 +5,8 @@ import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 
 export default {
   title: 'Pirkt',
+  description: 'Nopirkt preci no veikala',
+  commands: ['pirkt'],
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,
@@ -45,24 +47,24 @@ export default {
     // totālā cena
     const total = itemList.veikals[item].price * 2 * amount
 
-    const result = await findUser(guildId, userId)
+    const { lati } = await findUser(guildId, userId)
 
     // saliek pērkamās preces itemArr
     let itemArr = []
     for (let i = 0; i < amount; i++) itemArr.push(item)
 
     // pārbaudīt vai pietiek nauda
-    if (result.lati < total) {
+    if (lati < total) {
       message.reply(embedError('pirkt',
         `Tev nepietiek naudas lai nopirktu ${stringifyItems(itemArr)}\nCena: ${total} ${
-          latsOrLati(total)}\nTev ir ${result.lati} ${latsOrLati(result.lati)}`))
+          latsOrLati(total)}\nTev ir ${lati} ${latsOrLati(lati)}`))
       return 1
     }
 
     // veiksmīgs pirkums
     message.reply(itemTemplate('Pirkt',
       `Tu nopirkti ${stringifyItems(itemArr)} par ${total} latiem\nTev palika ${
-      (result.lati - total).toFixed(2)} ${latsOrLati(result.lati - total)}`,
+      (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
       itemList.veikals[item].url))
 
     await addItems(guildId, userId, itemArr, 1)

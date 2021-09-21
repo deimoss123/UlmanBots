@@ -2,12 +2,11 @@ import { itemList } from '../../itemList.js'
 import { chance, stringifyItems } from '../../helperFunctions.js'
 import { addItems, addLati } from '../../ekonomija.js'
 import { embedTemplate } from '../../embeds/embeds.js'
-import { latsOrLati } from '../../helperFunctions.js'
 
 export default {
   title: 'Ubagot',
-  description: '',
-  maxArgs: 0,
+  description: 'Ubagot uz ielas',
+  commands: ['ubagot', 'ubags'],
   callback: async (message) => {
     const guildId = message.guildId
     const userId = message.author.id
@@ -16,11 +15,11 @@ export default {
     const item = Math.random() <= 0.3 ? chance(itemList.atkritumi) : null
 
     // izvēlās cik naudu var dabūt no ubagošanas
-    const lati = Math.floor((Math.random() * 5) + 3)
+    const lati = Math.floor(((Math.random() * 5) + 3) * 100) / 100
 
     // rezultāts
     message.reply(embedTemplate('Ubagot',
-      `Tu noubagoji ${lati} ${latsOrLati(lati)} ${item ? 'un ' + stringifyItems([item]) : ''}`,
+      `Tu noubagoji ${lati} latus${item ? 'un ' + stringifyItems([item]) : ''}`,
       'ubagot'))
 
     await addLati(guildId, userId, lati)

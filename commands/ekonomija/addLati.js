@@ -2,7 +2,9 @@ import { Permissions } from 'discord.js'
 import { addLati } from '../../ekonomija.js'
 
 export default {
-  title: 'addLati',
+  title: 'AddLati',
+  description: 'iedod latus (testesanai)',
+  commands: ['addlati', 'pievnaud'],
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: '<@lietotājs> <daudzums>',
