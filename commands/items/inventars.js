@@ -50,7 +50,7 @@ export default {
       message.reply(embedSaraksts('Inventārs', `<@${targetId}>`, embedFieldArr, avatarUrl))
     } else { // inventārs tukšs
       message.reply(embedSaraksts('Inventārs',
-        `<@${targetId}>`, [{ name: 'Tev inventārā nekā nav', value: 'izmanto komandu .bomžot' }],
+        `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu .bomžot' }],
         avatarUrl))
     }
 

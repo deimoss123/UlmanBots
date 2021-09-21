@@ -35,39 +35,36 @@ export default {
 
     // atrod veikalā preci un tai nosaka indeksu
     let i = 0
-    let item
-    for (const key in itemList.veikals) {
+    let item = {}
+    let key
+    for (key in itemList.veikals) {
       if (index == i) {
-        item = key
+        item[key] = amount
         break
       }
       i++
     }
 
     // totālā cena
-    const total = itemList.veikals[item].price * 2 * amount
-
-    const { lati } = await findUser(guildId, userId)
-
-    // saliek pērkamās preces itemArr
-    let itemArr = []
-    for (let i = 0; i < amount; i++) itemArr.push(item)
+    const total = itemList.veikals[key].price * 2 * amount
 
     // pārbaudīt vai pietiek nauda
+    const { lati } = await findUser(guildId, userId)
+
     if (lati < total) {
       message.reply(embedError('pirkt',
-        `Tev nepietiek naudas lai nopirktu ${stringifyItems(itemArr)}\nCena: ${total} ${
+        `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: ${total} ${
           latsOrLati(total)}\nTev ir ${lati} ${latsOrLati(lati)}`))
       return 1
     }
 
     // veiksmīgs pirkums
     message.reply(itemTemplate('Pirkt',
-      `Tu nopirkti ${stringifyItems(itemArr)} par ${total} latiem\nTev palika ${
+      `Tu nopirkti ${stringifyItems(item)} par ${total} latiem\nTev palika ${
       (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
-      itemList.veikals[item].url))
+      itemList.veikals[key].url))
 
-    await addItems(guildId, userId, itemArr, 1)
+    await addItems(guildId, userId, item, 1)
     await addLati(guildId, userId, total * -1)
 
     return 1

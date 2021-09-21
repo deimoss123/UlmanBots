@@ -34,23 +34,17 @@ export const chance = obj => {
 
 
 // pārvērš array ar itemiem par izlasāmu tekstu
-export const stringifyItems = arr => {
+export const stringifyItems = items => {
 
   let resultArr = []
-  let count = {}
-
-  // pārvērš array par objektu
-  arr.map(num => {
-    count[num] = count[num] ? count[num] + 1 : 1
-  })
 
   // pārtaisa objektu par teksta stringu
-  for (const key in count) {
+  for (const key in items) {
     for (const keysdb in itemList) {
       for (const keydb in itemList[keysdb]) {
         if (keydb === key) {
           resultArr.push(
-            `${count[key]} ${count[key] === 1
+            `${items[key]} ${items[key] === 1
               ? itemList[keysdb][keydb].nameAkuVsk
               : itemList[keysdb][keydb].nameAkuDsk}`)
         }

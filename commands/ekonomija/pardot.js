@@ -14,29 +14,29 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    let itemArr = []
+    let items = {}
     let total = 0
 
     // pārdot visus nelietojamos atkritumus
     if (args[0] === 'a' && !args[1]) {
       const result = await findUser(guildId, userId)
 
+      if (!Object.keys(result.items).length) return 1
+
       // pārbauda vai katru atkritumu vai tas ir izmantojams
-      for (const key in result.items) {
+      Object.keys(result.items).map(key => {
         if (itemList.atkritumi[key]) {
           if (!itemList.atkritumi[key].usable) {
-            for (let i = 0; i < result.items[key]; i++) {
-              itemArr.push(key)
-              total += itemList.atkritumi[key].price
-            }
+            items[key] = result.items[key]
+            total += itemList.atkritumi[key].price * items[key]
           }
         }
-      }
+      })
 
       // pārbauda vai ir ko pārdot
-      if (itemArr.length) {
+      if (Object.keys(items).length) {
         message.reply(itemTemplate('Pārdot', `Tu pārdevi ${stringifyItems(
-          itemArr)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
+          items)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
           2)} ${latsOrLati(result.lati + total)}`))
       } else {
         message.reply(itemTemplate('Pārdot', 'Tev nav atkritumi ko pārdot'))
@@ -47,13 +47,8 @@ export default {
       // pārbaudīt sintaksi
       if (isNaN(parseInt(args[0])) || (isNaN(parseInt(args[1])) && args[1])) return 0
 
-      console.log(args[0], args[1])
-
       const amount = args[1] ? parseInt(args[1]) : 1
       const index = parseInt(args[0]) - 1
-
-      console.log('amount un index:')
-      console.log(amount, index)
 
       // pārbaudīt vai ievadītais daudzums nav mazāks par 1
       if (amount < 1) {
@@ -68,40 +63,39 @@ export default {
         return 1
       }
 
-      let item, price
       let i = 0
+      let resultKey
 
-      for (const key in result.items) {
+      Object.keys(result.items).map(key => {
         if (i === index) {
-          for (const keydb in itemList) {
+          Object.keys(itemList).map(keydb => {
             if (itemList[keydb][key]) {
-              item = key
-              price = itemList[keydb][key].price
+              total = itemList[keydb][key].price * amount
+              items[key] = amount
+              resultKey = key
             }
-          }
-          break
+          })
         }
         i++
-      }
-
-      // izveido itemArr
-      for (let i = 0; i < amount; i++) itemArr.push(item)
-
-      total = price * amount
+      })
 
       // pārbauda vai lietotājam ir tik daudz itemu
-      if (result.items[item] < amount) {
-        message.reply(itemTemplate('Pārdot', `Tavā inventārā nav ${stringifyItems(itemArr)}`))
+      if (result.items[resultKey] < amount) {
+        message.reply(itemTemplate('Pārdot', `Tavā inventārā nav ${stringifyItems(items)}`))
         return 1
       } else {
         message.reply(itemTemplate('Pārdot',
-          `Tu pārdevi ${stringifyItems(itemArr)} par ${total} latiem\nTev tagad ir ${
+          `Tu pārdevi ${stringifyItems(items)} par ${total} latiem\nTev tagad ir ${
           (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`))
       }
     }
 
+    Object.keys(items).map(item => items[item] *= -1)
+
+    console.log(items, 'items')
+
     await addLati(guildId, userId, total)
-    await addItems(guildId, userId, itemArr, 0)
+    await addItems(guildId, userId, items)
     return 1
   },
 }

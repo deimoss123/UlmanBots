@@ -19,11 +19,11 @@ export default {
 
     // rezultāts
     message.reply(embedTemplate('Ubagot',
-      `Tu noubagoji ${lati} latus${item ? 'un ' + stringifyItems([item]) : ''}`,
+      `Tu noubagoji ${lati} latus${item ? ` un ${stringifyItems(item)}` : ''}`,
       'ubagot'))
 
     await addLati(guildId, userId, lati)
-    if (item) await addItems(guildId, userId, [item], 1)
+    if (item) await addItems(guildId, userId, item)
 
     return 1
   },

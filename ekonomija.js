@@ -84,37 +84,32 @@ export const addLati = async (guildId, userId, lati) => {
 
 // pievieno itemus lietotājam
 // ja isAdd = 1 tad itemus pievienos, ja ir 0 tad tos itemus noņems
-export const addItems = async (guildId, userId, items, isAdd) => {
+export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
   console.log('running addItems()')
-  const result = await findUser(guildId, userId)
+  let { items } = await findUser(guildId, userId)
 
   return await mongo().then(async mongoose => {
     try {
-      console.log('items to add: ', items)
+      console.log('fetched items:', items)
+      console.log('items to add:', itemsToAdd)
 
-      let itemsdb = await result.items ? result.items : {}
+      Object.keys(itemsToAdd).map(item => {
+        if (!items[item]) items[item] = itemsToAdd[item]
+        else if (!(items[item] - itemsToAdd[item])) delete items[item]
+        else items[item] += itemsToAdd[item]
+      })
 
-      if (isAdd) {
-        items.map(item => {
-          itemsdb[item] = itemsdb[item] ? itemsdb[item] + 1 : 1
-        })
-      } else {
-        items.map(item => {
-          if (itemsdb[item] === 1) {
-            delete itemsdb[item]
-          } else itemsdb[item]--
-        })
-      }
+      console.log('new items:', items)
 
       // gala rezultāts
       const result2 = await profileSchema.findOneAndUpdate({
         guildId,
         userId,
-      }, { items: itemsdb, }, {})
+      }, { items }, {})
 
       // pievieno gala rezultātu cache
-      userCache[`${guildId}-${userId}`].items = itemsdb
-      console.log('addItems() result: ', itemsdb)
+      userCache[`${guildId}-${userId}`].items = items
+      console.log('addItems() result: ', items)
       return result2
     } finally {
       await mongoose.connection.close()

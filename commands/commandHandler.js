@@ -5,7 +5,6 @@ import { latToEng } from '../helperFunctions.js'
 // visu komandu importi
 import maks from './ekonomija/maks.js'
 import addLati from './ekonomija/addLati.js'
-import addItem from './ekonomija/addItem.js'
 import bomzot from './misc/bomzot.js'
 import ubagot from './misc/ubagot.js'
 import inventars from './items/inventars.js'
@@ -15,7 +14,7 @@ import pirkt from './ekonomija/pirkt.js'
 import pardot from './ekonomija/pardot.js'
 
 const commands = [
-  maks, addLati, addItem, bomzot, ubagot, inventars, top, veikals, pirkt, pardot
+  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot
 ]
 
 export default (client) => {
