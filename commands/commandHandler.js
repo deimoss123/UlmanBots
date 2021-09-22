@@ -14,36 +14,29 @@ import pirkt from './ekonomija/pirkt.js'
 import pardot from './ekonomija/pardot.js'
 
 const commands = [
-  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot
+  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot,
 ]
 
-export default (client) => {
+export default (client, message) => {
 
-  client.on('messageCreate', message => {
+  const content = latToEng(message.content.toLowerCase())
 
-    // pārbauda vai sūtītā ziņa nav no bota
-    if (message.author.id === '884514288012759050' || message.channelId !==
-      '884514924288671744') return
+  // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
+  if (content.startsWith('.')) {
 
-    const content = latToEng(message.content.toLowerCase())
+    // sadala ziņu array, pirmā ziņa būs komanda
+    const args = content.split(/[ ]+/)
 
-    // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
-    if (content.startsWith('.')) {
+    // lietotāja komanda, kas tiks pārbaudīta un salīdzināta ar citām komandām
+    // noņem . no komandas
+    const userCommand = args[0].slice(1)
 
-      // sadala ziņu array, pirmā ziņa būs komanda
-      const args = content.split(/[ ]+/)
-
-      // lietotāja komanda, kas tiks pārbaudīta un salīdzināta ar citām komandām
-      // noņem . no komandas
-      const userCommand = args[0].slice(1)
-
-      let i = 0
-      commands.map(command => {
-        command.commands.map(cmd => {
-          if (userCommand === cmd) commandBase(client, message, cmd, commands[i])
-        })
-        i++
+    let i = 0
+    commands.map(command => {
+      command.commands.map(async cmd => {
+        if (userCommand === cmd) await commandBase(client, message, cmd, commands[i])
       })
-    }
-  })
+      i++
+    })
+  }
 }

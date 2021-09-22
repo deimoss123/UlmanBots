@@ -9,6 +9,14 @@ import commandHandler from './commands/commandHandler.js'
 
 dotenv.config()
 
+// kanāli kuros ziņas izdzēšas pēc noteikta laika
+const channels = [
+  '875123318842351757',
+  '875083366611955715'
+]
+
+const timeout = 10000
+
 // definē DiscordJS klientu
 const client = new Client({
   intents: [
@@ -29,9 +37,19 @@ client.on('ready', async () => {
       mongoose.connection.close()
     }
   })
-
-  commandHandler(client)
-  reakcijas(client)
+  client.on("messageCreate", async message => {
+    // pārbauda vai ziņa nav no bota
+    if (message.author.id === '884514288012759050') {
+      channels.map(channel => {
+        if (channel === message.channelId) setTimeout(() => {
+          message.delete()
+        }, timeout)
+      })
+    } else {
+      await commandHandler(client, message)
+      await reakcijas(client, message)
+    }
+  })
 })
 
 // bots ieloggojas discorda

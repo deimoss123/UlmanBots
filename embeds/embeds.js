@@ -7,6 +7,7 @@ export const reakcEmbeds = embedName => {
   switch (embedName) {
     case 'zivs':
       return {
+        color: 0x9d2235,
         image: {
           url: imgLinks.zivis[Math.floor(
             Math.random() * imgLinks.zivis.length)],

@@ -35,6 +35,26 @@ export const atbildes = {
     ],
   },
 
+  // atbildes uz kirilicas lietošanu
+  kirilica: {
+    atb: [
+      `Šeit nav uzvaras pieminieklis okupant ${emoji[2]}`,
+      `Aizver muti okupant ${emoji[2]}`,
+      `Krievi ${emoji[3]}`,
+      `Krievija ${emoji[3]}`,
+
+    ],
+  },
+
+  // neiesaku šito lasīt ja esi mentāli stabils cilvēks
+  sieviete: {
+    atb: [
+      'Pieniņš\:baby_bottle:pieniņš\:milk:silts\:fire:un garšīgs\:tongue:mammīt\:girl:pabaro mani\:stuck_out_tongue:fiksi!\:tired_face:Es gribu pieniņu\:milk:no mammas pupiem!\:coconut:\:coconut:Es gribu mammas un ne citu!\:rage:Dod!\:stuck_out_tongue:Dod!\:star_struck:Dod tagad!\:heart_eyes:Dod pieniņu\:milk:tu, govs!\:cow2:Ja nedosi\:scream:Es kliegšu\:tired_face: un bļaušu!\:triumph:Īdēšu\:confounded:un čīkstēšu\:sob:un dusmošos!<:neapmierinats:844856934732791858>',
+      'Sveiki kuce, jauki pupi ahahahahah pienaini pienaini pienaini bērniņi izslāpuši māmiņbērni grib pienu zīst sūkāt sūkāt sūkāt suha hahahaha stulba pizda dod man tos lielos tesmeņus tu slampa hahahaha krūtis zīle pupi man tavs alu cilvēks man izmantot lielos pupus lielai bitty Honk Honk pienains mazulis vēlas vairāk tagad Honk Honk Honk Pitter Patter uz tiem lielajiem mammām milkies hee hee hee haha haaaa haaaa nevar apturēt piena mašīnu, kas nāk caur honk honk visiem klāja pupu vilciens hee hee woop wooooooo honk honk honk',
+      'Labvakar, vai es, sieviešu atbalstošs feminists, varētu saņemt no jums bildi ar vismaz vienu jūsu krūti, mana karaliene? Ja jums šķiet, ka es neesmu piemērots vīrietis un ja šis lūgums jūs traucē, lūdzu, informējiet mani. Jūs, mana karaliene, esat pelnījuši jebkura vīrieša vislielāko cieņu. Tomēr šķiet, ka daudzi no mana dzimuma seksualizē sievietes un uzskata viņas par seksa rotaļlietām. Tomēr, mana karaliene, es nepiekrītu šiem uzskatiem. Drīzāk es vērtēju sieviešu dzimumu kā augstāko, un es, cienījams vīrietis, lūdzu no jūsu ķermeņa apskatīt izolētu, vienu krūti. Es gaidu jūsu atbildi, mana karaliene.',
+    ],
+  },
+
   // ulmaņa atbildes kādam pieminot martinsonu
   martinsons: {
     text: [
@@ -70,6 +90,12 @@ export const atbildes = {
   },
 
   olas: {
+    text: [
+      'sis olas',
+      'olas sis',
+      'olas',
+      'penis',
+    ],
     atb: [
       '<:izbrinits:843106796083871744> <:izbrinits:843106796083871744> <:izbrinits:843106796083871744>',
       'nu nejau ',
@@ -85,25 +111,4 @@ export const atbildes = {
       'smird <:Trola_seja:797826157226491965>',
     ],
   },
-
-  // neiesaku šito lasīt ja esi mentāli stabils cilvēks
-  sieviete: {
-    atb: [
-      'Pieniņš\:baby_bottle:pieniņš\:milk:silts\:fire:un garšīgs\:tongue:mammīt\:girl:pabaro mani\:stuck_out_tongue:fiksi!\:tired_face:Es gribu pieniņu\:milk:no mammas pupiem!\:coconut:\:coconut:Es gribu mammas un ne citu!\:rage:Dod!\:stuck_out_tongue:Dod!\:star_struck:Dod tagad!\:heart_eyes:Dod pieniņu\:milk:tu, govs!\:cow2:Ja nedosi\:scream:Es kliegšu\:tired_face: un bļaušu!\:triumph:Īdēšu\:confounded:un čīkstēšu\:sob:un dusmošos!<:neapmierinats:844856934732791858>',
-      'Sveiki kuce, jauki pupi ahahahahah pienaini pienaini pienaini bērniņi izslāpuši māmiņbērni grib pienu zīst sūkāt sūkāt sūkāt suha hahahaha stulba pizda dod man tos lielos tesmeņus tu slampa hahahaha krūtis zīle pupi man tavs alu cilvēks man izmantot lielos pupus lielai bitty Honk Honk pienains mazulis vēlas vairāk tagad Honk Honk Honk Pitter Patter uz tiem lielajiem mammām milkies hee hee hee haha haaaa haaaa nevar apturēt piena mašīnu, kas nāk caur honk honk visiem klāja pupu vilciens hee hee woop wooooooo honk honk honk',
-      'Labvakar, vai es, sieviešu atbalstošs feminists, varētu saņemt no jums bildi ar vismaz vienu jūsu krūti, mana karaliene? Ja jums šķiet, ka es neesmu piemērots vīrietis un ja šis lūgums jūs traucē, lūdzu, informējiet mani. Jūs, mana karaliene, esat pelnījuši jebkura vīrieša vislielāko cieņu. Tomēr šķiet, ka daudzi no mana dzimuma seksualizē sievietes un uzskata viņas par seksa rotaļlietām. Tomēr, mana karaliene, es nepiekrītu šiem uzskatiem. Drīzāk es vērtēju sieviešu dzimumu kā augstāko, un es, cienījams vīrietis, lūdzu no jūsu ķermeņa apskatīt izolētu, vienu krūti. Es gaidu jūsu atbildi, mana karaliene.',
-    ],
-  },
-
-  // atbildes uz kirilicas lietošanu
-  kirilica: {
-    atb: [
-      `Šeit nav uzvaras pieminieklis okupant ${emoji[2]}`,
-      `Aizver muti okupant ${emoji[2]}`,
-      `Krievi ${emoji[3]}`,
-      `Krievija ${emoji[3]}`,
-
-    ],
-  },
-
 }
