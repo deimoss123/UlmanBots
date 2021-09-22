@@ -6,6 +6,7 @@ export default {
   title: 'Veikals',
   description: 'Apskatīt veikalu',
   commands: ['veikals', 'maksima', 'maxima', 'rimi'],
+  cooldown: 2000,
   callback: (message) => {
     let resultArr = []
     let i = 0

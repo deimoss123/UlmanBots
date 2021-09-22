@@ -7,6 +7,7 @@ export default {
   title: 'Pirkt',
   description: 'Nopirkt preci no veikala',
   commands: ['pirkt'],
+  cooldown: 2000,
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,

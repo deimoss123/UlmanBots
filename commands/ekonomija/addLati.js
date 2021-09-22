@@ -5,6 +5,7 @@ export default {
   title: 'AddLati',
   description: 'iedod latus (testesanai)',
   commands: ['addlati', 'pievnaud'],
+  cooldown: 2000,
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: '<@lietotājs> <daudzums>',

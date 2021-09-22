@@ -64,6 +64,37 @@ export const stringifyItems = items => {
   return resultString.replace(/,([^,]*)$/, '$1')
 }
 
+// pārvērš laiku sekundēs uz tekstu
+export const timeToText = (time, option = 0) => {
+
+  const h = Math.floor(time / 3600)
+  const m = Math.floor(time % 3600 / 60)
+  const s = Math.floor(time % 3600 % 60)
+
+  let result = []
+
+  // pārvērtīs uz formātu "stundas, minūtes, sekundes"
+  if (!option) {
+    if (h) result.push(`${h} ${h % 10 === 1 && h % 100 !== 11 ? 'stunda' : 'stundas'}`)
+    if (m) result.push(`${m} ${m % 10 === 1 && m % 100 !== 11 ? 'minūte' : 'minūtes'}`)
+    if (s) result.push(`${s} ${s % 10 === 1 && s % 100 !== 11 ? 'sekunde' : 'sekundes'}`)
+  }
+
+  // pārvērtīs uz formātu "stundām, minūtēm, sekundēm"
+  if (option) {
+    if (h) result.push(`${h} ${h % 10 === 1 && h % 100 !== 11 ? 'stundas' : 'stundām'}`)
+    if (m) result.push(`${m} ${m % 10 === 1 && m % 100 !== 11 ? 'minūtes' : 'minūtēm'}`)
+    if (s) result.push(`${s} ${s % 10 === 1 && s % 100 !== 11 ? 'sekundes' : 'sekundēm'}`)
+  }
+
+  let str = result.join(', ')
+  if (result.length > 1) {
+    result[result.length - 1] = 'un ' + result[result.length - 1]
+  }
+  return str.replace(/,([^,]*)$/, '$1')
+
+}
+
 
 // šī funkcija pārveidu garumzīmes un mīkstinājumzīmes uz parastajiem burtiem
 // š => s, ā => a, utt.

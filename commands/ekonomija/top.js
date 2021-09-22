@@ -6,10 +6,10 @@ export default {
   title: 'Servera tops',
   description: 'Parāda bagātākos lietotājus serverī',
   commands: ['top', 'oligarhi'],
+  cooldown: 10000,
   maxArgs: 0,
   callback: async (message, a, b, client) => {
     const results = await getTop()
-
     let cirkulacija = 0
     let resultsArr = []
 
@@ -29,7 +29,7 @@ export default {
       )
     }
 
-    message.reply(embedSaraksts('Servera tops', `Cirkulācijā ir ${cirkulacija} ${latsOrLati(cirkulacija)}`, resultsArr))
+    message.reply(embedSaraksts('Servera tops', `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(cirkulacija)}`, resultsArr))
     return 1
   }
 }

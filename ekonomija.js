@@ -2,7 +2,7 @@ import mongo from './mongo.js'
 import profileSchema from './schemas/profile-schema.js'
 
 // šis ir lietotāju cache, šis paātrina botu, jo samazina datubāzes pieprasījumus
-let userCache = {}
+export let userCache = {}
 
 export const findUser = async (guildId, userId) => {
   console.log('running findUser()')
@@ -27,11 +27,13 @@ export const findUser = async (guildId, userId) => {
             userId,
             lati: 0,
             items: {},
+            cooldowns: {}
           }
           await new profileSchema(newSchema).save()
           result = newSchema
         }
         if (!result.items) result.items = {}
+        if (!result.cooldowns) result.cooldowns = {}
 
         console.log('findUser() result: ', result)
         userCache[`${guildId}-${userId}`] = result
@@ -95,7 +97,7 @@ export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
 
       Object.keys(itemsToAdd).map(item => {
         if (!items[item]) items[item] = itemsToAdd[item]
-        else if (!(items[item] - itemsToAdd[item])) delete items[item]
+        if (!(items[item] + itemsToAdd[item])) delete items[item]
         else items[item] += itemsToAdd[item]
       })
 
@@ -111,6 +113,27 @@ export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
       userCache[`${guildId}-${userId}`].items = items
       console.log('addItems() result: ', items)
       return result2
+    } finally {
+      await mongoose.connection.close()
+    }
+  })
+}
+
+export const addCooldown = async (guildId, userId, command)  => {
+  return await mongo().then(async mongoose => {
+    try {
+      let { cooldowns } = await findUser(guildId, userId)
+
+      cooldowns[command] = Date.now()
+
+      userCache[`${guildId}-${userId}`].cooldowns = cooldowns
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId
+      }, { cooldowns }, { new: true, upsert: true })
+
+      console.log(cooldowns)
+
     } finally {
       await mongoose.connection.close()
     }

@@ -16,6 +16,9 @@ const profileSchema = new mongoose.Schema({
   items: {
     type: Object,
     required: true
+  },
+  cooldowns: {
+    type: Object
   }
 })
 

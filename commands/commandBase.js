@@ -7,6 +7,7 @@ export default async (client, message, alias, commandOptions) => {
   // defaultie parametri
   let {
     title = '',
+    description,
     expectedArgs = '',
     permissionError = 'Tev nav nepieciešamās atlaujas',
     roleError = 'Tev nav nepieciešamā loma',
@@ -75,7 +76,9 @@ export default async (client, message, alias, commandOptions) => {
 
   // callback atgrieztās vērtības:
   // 0 - nepareiza sintakse
-  // 1 - veiksmīgi
+  // 1 - veiksmigi
+  // 2 - komandai errors
   const func = await callback(message, args, args.join(' '), client)
   if (!func) wrongSyntax()
+  if (func === 1) return 1
 }
