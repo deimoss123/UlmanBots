@@ -38,8 +38,8 @@ export const findUser = async (guildId, userId) => {
         console.log('findUser() result: ', result)
         userCache[`${guildId}-${userId}`] = result
         return result
-      } finally {
-        await mongoose.connection.close()
+      } catch (e) {
+        console.error(e)
       }
     })
   }
@@ -53,8 +53,8 @@ export const getTop = async () => {
       const result = await profileSchema.find().sort({ 'lati': -1 }).select({ lati:1, userId:1, guildId:1 })
       console.log('getTop() result: ', result)
       return result
-    } finally {
-      await mongoose.connection.close()
+    } catch (e) {
+      console.error(e)
     }
   })
 }
@@ -78,8 +78,8 @@ export const addLati = async (guildId, userId, lati) => {
       // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].lati = result.lati
       return result.lati
-    } finally {
-      await mongoose.connection.close()
+    } catch (e) {
+      console.error(e)
     }
   })
 }
@@ -113,8 +113,8 @@ export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
       userCache[`${guildId}-${userId}`].items = items
       console.log('addItems() result: ', items)
       return result2
-    } finally {
-      await mongoose.connection.close()
+    } catch (e) {
+      console.error(e)
     }
   })
 }
@@ -134,8 +134,8 @@ export const addCooldown = async (guildId, userId, command)  => {
 
       console.log(cooldowns)
 
-    } finally {
-      await mongoose.connection.close()
+    } catch (e) {
+      console.error(e)
     }
   })
 }

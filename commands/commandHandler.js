@@ -2,6 +2,11 @@ import commandBase from './commandBase.js'
 
 import { latToEng, timeToText } from '../helperFunctions.js'
 
+import { addCooldown, findUser } from '../ekonomija.js'
+import { embedError } from '../embeds/embeds.js'
+
+let commands
+
 // visu komandu importi
 import maks from './ekonomija/maks.js'
 import addLati from './ekonomija/addLati.js'
@@ -12,12 +17,15 @@ import top from './ekonomija/top.js'
 import veikals from './items/veikals.js'
 import pirkt from './ekonomija/pirkt.js'
 import pardot from './ekonomija/pardot.js'
-import { addCooldown, findUser } from '../ekonomija.js'
-import { embedError } from '../embeds/embeds.js'
+import zagt from './ekonomija/zagt.js'
+import maksat from './ekonomija/maksat.js'
 
-const commands = [
-  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot,
+commands = [
+  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat
 ]
+
+
+console.log(commands)
 
 export default (client, message) => {
   const guildId = message.guildId
