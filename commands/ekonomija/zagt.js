@@ -31,15 +31,13 @@ export default {
     const user = await findUser(guildId, userId)
     const target = await findUser(guildId, targetId)
 
-    if (user.lati <= 30 || user.lati <= 30) {
+    if (user.lati <= 30 || target.lati <= 30) {
       message.reply(embedError('Zagt', 'Gan tev, gan lietotājam no kā tu zagsi ir jābūt vismaz 30 latiem'))
       return 2
     }
 
-    let maxSteal
-
+    let maxSteal = target.lati
     if (target.lati > user.lati) maxSteal = user.lati
-    else maxSteal = target.lati
 
     let randChance = floorTwo((( Math.random() * 0.7 ) + 0.2 ))
 
