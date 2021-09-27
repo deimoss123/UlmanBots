@@ -27,7 +27,7 @@ export default {
       // pārbauda vai katru atkritumu vai tas ir izmantojams
       Object.keys(result.items).map(key => {
         if (itemList.atkritumi[key]) {
-          if (!itemList.atkritumi[key].usable) {
+          if (!itemList.atkritumi[key].use) {
             items[key] = result.items[key]
             total += itemList.atkritumi[key].price * items[key]
           }

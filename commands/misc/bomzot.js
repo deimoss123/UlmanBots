@@ -7,8 +7,8 @@ export default {
   title: 'Bomžot',
   description: 'Iet atkritumu meklējumos',
   commands: ['bomzot', 'bomzis'],
-  cooldown: 10000,
-  callback: async (message) => {
+  cooldown: 60000,
+  callback: async message => {
     const guildId = message.guildId
     const userId = message.author.id
 

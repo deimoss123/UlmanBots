@@ -88,7 +88,7 @@ export const addLati = async (guildId, userId, lati) => {
 
 // pievieno itemus lietotājam
 // ja isAdd = 1 tad itemus pievienos, ja ir 0 tad tos itemus noņems
-export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
+export const addItems = async (guildId, userId, itemsToAdd) => {
   console.log('running addItems()')
   let { items } = await findUser(guildId, userId)
 
@@ -99,7 +99,7 @@ export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
 
       Object.keys(itemsToAdd).map(item => {
         if (!items[item]) items[item] = itemsToAdd[item]
-        if (!(items[item] + itemsToAdd[item])) delete items[item]
+        else if (!(items[item] + itemsToAdd[item])) delete items[item]
         else items[item] += itemsToAdd[item]
       })
 

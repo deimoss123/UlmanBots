@@ -237,6 +237,69 @@ export const itemList = {
       },
     },
   },
+  zivis: {
+    draudzinzivs: {
+      nameNomVsk: 'draudziņzivs',
+      nameNomDsk: 'draudziņzivis',
+      nameAkuVsk: 'draudziņzivi',
+      nameAkuDsk: 'draudziņzivis',
+      price: 20,
+      chance: '*',
+      url: null
+    },
+    daundizvs: {
+      nameNomVsk: 'dauņzivs',
+      nameNomDsk: 'dauņzivis',
+      nameAkuVsk: 'dauņzivi',
+      nameAkuDsk: 'dauņzivis',
+      price: 20,
+      chance: '*',
+      url: null
+    },
+    dizdraudzinzivs: {
+      nameNomVsk: 'diždraudziņzivs',
+      nameNomDsk: 'diždraudziņzivis',
+      nameAkuVsk: 'diždraudziņzivi',
+      nameAkuDsk: 'diždraudziņzivis',
+      price: 50,
+      chance: 0.2,
+      url: null
+    },
+    dizdaundizvs: {
+      nameNomVsk: 'diždauņzivs',
+      nameNomDsk: 'diždauņzivis',
+      nameAkuVsk: 'diždauņzivi',
+      nameAkuDsk: 'diždauņzivis',
+      price: 50,
+      chance: 0.2,
+      url: null
+    },
+    divainazivs: {
+      nameNomVsk: 'dīvainā zivs',
+      nameNomDsk: 'dīvainās zivis',
+      nameAkuVsk: 'dīvaino zivi',
+      nameAkuDsk: 'dīvainās zivis',
+      price: 200,
+      chance: 0.1,
+      url: null,
+
+    },
+    juridiskazivs: {
+      nameNomVsk: 'juridiskā zivs',
+      nameNomDsk: 'juridiskā zivis',
+      nameAkuVsk: 'juridisko zivi',
+      nameAkuDsk: 'juridiskās zivis',
+      price: 100,
+      chance: 0.1,
+      url: null,
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { juridisks: statusList.juridisks.time })
+        return `Tu apēdi juridisko zivi un sajuties juridisks\nTu esi atvieglināts no nodokļiem ${timeToText(
+          result.juridisks - Date.now())}`
+      }
+    },
+  }
 }
 
 // defaultais laiks cik pievieno pie statusa

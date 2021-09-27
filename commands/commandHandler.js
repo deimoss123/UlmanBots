@@ -2,7 +2,7 @@ import commandBase from './commandBase.js'
 
 import { latToEng, timeToText } from '../helperFunctions.js'
 
-import { addCooldown, findUser } from '../ekonomija.js'
+import { addCooldown, findUser, checkStatus } from '../ekonomija.js'
 import { embedError } from '../embeds/embeds.js'
 
 let commands
@@ -21,9 +21,10 @@ import zagt from './ekonomija/zagt.js'
 import maksat from './ekonomija/maksat.js'
 import izmantot from './items/izmantot.js'
 import status from './items/status.js'
+import zvejot from './items/zvejot.js'
 
 commands = [
-  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat, izmantot, status
+  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat, izmantot, status, zvejot
 ]
 
 
@@ -48,16 +49,22 @@ export default (client, message) => {
     commands.map(command => {
       command.commands.map(async cmd => {
         if (userCommand === cmd) {
-          const { cooldowns } = await findUser(guildId, userId)
+          let { cooldowns } = await findUser(guildId, userId)
+
+          let cmdCooldown = command.cooldown
+
+          if (command.title === 'Bomžot'){
+            if (await checkStatus(guildId, userId, 'bomzis')) cmdCooldown /= 2
+          }
 
           if (!cooldowns[command.title] ||
-            (Date.now() - cooldowns[command.title]) >= command.cooldown) {
+            (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
 
             if (await commandBase(client, message, cmd, command)) {
               await addCooldown(guildId, userId, command.title)
             }
           } else {
-            const time = command.cooldown - (Date.now() - cooldowns[command.title])
+            const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
             message.reply(
               embedError(command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
