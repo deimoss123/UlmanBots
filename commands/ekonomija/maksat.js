@@ -54,7 +54,7 @@ export default {
       // pievieno naudu mērķim
       await addLati(guildId, targetId, latiAmount)
       // pievieno nodokli valsts bankai
-      await addLati(guildId, '884514288012759050', nodoklisLati)
+      await addLati(guildId, process.env.ULMANISID, nodoklisLati)
 
       return 1
     }

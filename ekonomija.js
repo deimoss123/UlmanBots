@@ -27,12 +27,14 @@ export const findUser = async (guildId, userId) => {
             userId,
             lati: 0,
             items: {},
-            cooldowns: {}
+            cooldowns: {},
+            status: {}
           }
           await new profileSchema(newSchema).save()
           result = newSchema
         }
         if (!result.items) result.items = {}
+        if (!result.status) result.status = {}
         if (!result.cooldowns) result.cooldowns = {}
 
         console.log('findUser() result: ', result)
@@ -117,6 +119,54 @@ export const addItems = async (guildId, userId, itemsToAdd, isAdd) => {
       console.error(e)
     }
   })
+}
+
+export const addStatus = async (guildId, userId, newStatus) => {
+  return await mongo().then(async mongoose => {
+    try {
+      let { status } = await findUser(guildId, userId)
+
+      Object.keys(newStatus).map(key => {
+        if (status[key] < Date.now()) status[key] = 0
+        status[key] = status[key] ? status[key] + newStatus[key] : newStatus[key] + Date.now()
+      })
+
+      console.log(status, 'statuss')
+
+      userCache[`${guildId}-${userId}`].status = status
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId
+      }, { status }, { new: true, upsert: true})
+      return status
+    } catch (e) {
+      console.error(e)
+    }
+  })
+}
+
+export const checkStatus = async (guildId, userId, statusName) => {
+   return await mongo().then(async mongoose => {
+     try {
+       let { status } = await findUser(guildId, userId)
+
+       if (status[statusName]) {
+         if (status[statusName] <= Date.now()) {
+           delete status[statusName]
+
+           userCache[`${guildId}-${userId}`].status = status
+           await profileSchema.findOneAndUpdate({
+             guildId,
+             userId,
+           }, { status }, {})
+
+           return 0
+         } else return status[statusName] - Date.now()
+       }
+     } catch (e) {
+       console.error(e)
+     }
+   })
 }
 
 export const addCooldown = async (guildId, userId, command)  => {

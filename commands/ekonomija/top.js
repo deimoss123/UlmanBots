@@ -2,6 +2,8 @@ import { getTop } from '../../ekonomija.js'
 import { embedSaraksts } from '../../embeds/embeds.js'
 import { latsOrLati } from '../../helperFunctions.js'
 
+const floorTwo = num => { return Math.floor(num * 100) / 100 }
+
 export default {
   title: 'Servera tops',
   description: 'Parāda bagātākos lietotājus serverī',
@@ -9,6 +11,8 @@ export default {
   cooldown: 10000,
   maxArgs: 0,
   callback: async (message, a, b, client) => {
+    const guildId = message.guildId
+
     const results = await getTop()
     let cirkulacija = 0
     let resultsArr = []
@@ -17,7 +21,8 @@ export default {
       cirkulacija += result.lati
     })
 
-
+    const banka = results.find(obj => obj['_id'] === `${guildId}-${process.env.ULMANISID}`)
+    results.splice(results.indexOf(banka), 1)
 
     // saliek top lietotājus resultsArr un izveido embedu
     // max lietotāji kas var būt sarakstā ir 10
@@ -39,7 +44,8 @@ export default {
     }
 
     message.reply(embedSaraksts('Servera tops',
-      `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(cirkulacija)}`, resultsArr))
+      `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(
+        cirkulacija)}\nValsts bankai ir ${floorTwo(banka.lati).toFixed(2)} ${latsOrLati(banka.lati)}`, resultsArr))
     return 1
   },
 }

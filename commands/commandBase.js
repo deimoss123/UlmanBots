@@ -79,6 +79,6 @@ export default async (client, message, alias, commandOptions) => {
   // 1 - veiksmigi
   // 2 - komandai errors
   const func = await callback(message, args, args.join(' '), client)
-  if (!func) wrongSyntax()
+  if (func === 0) wrongSyntax()
   if (func === 1) return 1
 }

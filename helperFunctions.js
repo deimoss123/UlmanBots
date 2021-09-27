@@ -67,6 +67,8 @@ export const stringifyItems = items => {
 // pārvērš laiku sekundēs uz tekstu
 export const timeToText = (time, option = 0) => {
 
+  time = Math.floor(time / 1000)
+
   const h = Math.floor(time / 3600)
   const m = Math.floor(time % 3600 / 60)
   const s = Math.floor(time % 3600 % 60)
@@ -87,10 +89,12 @@ export const timeToText = (time, option = 0) => {
     if (s) result.push(`${s} ${s % 10 === 1 && s % 100 !== 11 ? 'sekundes' : 'sekundēm'}`)
   }
 
-  let str = result.join(', ')
   if (result.length > 1) {
     result[result.length - 1] = 'un ' + result[result.length - 1]
   }
+
+  let str = result.join(', ')
+
   return str.replace(/,([^,]*)$/, '$1')
 
 }

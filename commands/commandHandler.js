@@ -19,9 +19,11 @@ import pirkt from './ekonomija/pirkt.js'
 import pardot from './ekonomija/pardot.js'
 import zagt from './ekonomija/zagt.js'
 import maksat from './ekonomija/maksat.js'
+import izmantot from './items/izmantot.js'
+import status from './items/status.js'
 
 commands = [
-  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat
+  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat, izmantot, status
 ]
 
 
@@ -55,8 +57,7 @@ export default (client, message) => {
               await addCooldown(guildId, userId, command.title)
             }
           } else {
-            const time = Math.floor(
-              (command.cooldown - (Date.now() - cooldowns[command.title])) / 1000)
+            const time = command.cooldown - (Date.now() - cooldowns[command.title])
 
             message.reply(
               embedError(command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)

@@ -17,9 +17,8 @@ const profileSchema = new mongoose.Schema({
     type: Object,
     required: true
   },
-  cooldowns: {
-    type: Object
-  }
+  status: { type: Object, },
+  cooldowns: { type: Object }
 })
 
 export default mongoose.model('profiles', profileSchema)

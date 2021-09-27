@@ -3,6 +3,8 @@ import { embedError, itemTemplate } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 
+const floorTwo = num => { return Math.floor(num * 100) / 100 }
+
 export default {
   title: 'Pirkt',
   description: 'Nopirkt preci no veikala',
@@ -55,13 +57,13 @@ export default {
     if (lati < total) {
       message.reply(embedError('pirkt',
         `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: ${total} ${
-          latsOrLati(total)}\nTev ir ${lati} ${latsOrLati(lati)}`))
+          latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`))
       return 1
     }
 
     // veiksmīgs pirkums
     message.reply(itemTemplate('Pirkt',
-      `Tu nopirkti ${stringifyItems(item)} par ${total} latiem\nTev palika ${
+      `Tu nopirkti ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
       (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
       itemList.veikals[key].url))
 

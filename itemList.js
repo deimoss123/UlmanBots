@@ -1,3 +1,6 @@
+import { addLati, addStatus, findUser } from './ekonomija.js'
+import { timeToText } from './helperFunctions.js'
+
 /*
 template objekts priekš kopēšanas
 name: {
@@ -9,6 +12,9 @@ name: {
   chance: 0,
   usable: 0,
   url: null
+  use: async message => {
+
+  }
 },
 
  */
@@ -33,8 +39,13 @@ export const itemList = {
       nameAkuDsk: 'mullermilch',
       price: 500,
       chance: 0,
-      usable: 1,
-      url: 'https://i.postimg.cc/QtJ3QLXq/mullermilch.jpg'
+      url: 'https://i.postimg.cc/QtJ3QLXq/mullermilch.jpg',
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { aizsardziba: statusList.aizsardziba.time })
+        return `Tu izdzēri mullermilch, tavi kauli palika daudz stiprāki\nTu esi aizsargāts no zagšanas ${timeToText(
+          result.aizsardziba - Date.now())}`
+      },
     },
     makskere: {
       nameNomVsk: 'makšķere',
@@ -43,8 +54,13 @@ export const itemList = {
       nameAkuDsk: 'makšķeres',
       price: 200,
       chance: 0,
-      usable: 0,
-      url: 'https://i.postimg.cc/B603PZG6/makskere.jpg'
+      url: 'https://i.postimg.cc/B603PZG6/makskere.jpg',
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { zvejotajs: statusList.zvejotajs.time })
+        return `Tu agresīvi paskatījies uz makšķeri\nTu vari zvejot ${timeToText(
+          result.zvejotajs - Date.now())}`
+      }
     },
     nazis: {
       nameNomVsk: 'nazis',
@@ -53,8 +69,13 @@ export const itemList = {
       nameAkuDsk: 'nažus',
       price: 100,
       chance: 0,
-      usable: 0,
-      url: 'https://i.postimg.cc/3NrH9LNQ/nazis.jpg'
+      url: 'https://i.postimg.cc/3NrH9LNQ/nazis.jpg',
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { laupitajs: statusList.laupitajs.time })
+        return `Tu izvilki nazi un agresīvi sāki skatīties uz garāmgājējiem\nTavai zagšanai ir palielināta efektivitāte ${timeToText(
+          result.laupitajs - Date.now())}`
+      },
     },
     latloto: {
       nameNomVsk: 'latloto biļete',
@@ -63,8 +84,10 @@ export const itemList = {
       nameAkuDsk: 'latloto biļetes',
       price: 50,
       chance: 0,
-      usable: 1,
-      url: 'https://i.postimg.cc/SK8qK233/latloto.jpg'
+      url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
+      use: async message => {
+
+      },
     },
     zemenurasens: {
       nameNomVsk: 'zemeņu Rāsēns',
@@ -73,8 +96,13 @@ export const itemList = {
       nameAkuDsk: 'zemeņu Rāsēnus',
       price: 50,
       chance: 0,
-      usable: 1,
-      url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg'
+      url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg',
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { aizsardziba: 3600000 })
+        return `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\nTu esi aizsargāts no zagšanas ${timeToText(
+          result.aizsardziba - Date.now())}`
+      },
     },
     virve: {
       nameNomVsk: 'virve',
@@ -83,8 +111,12 @@ export const itemList = {
       nameAkuDsk: 'virves',
       price: 10,
       chance: 0,
-      usable: 1,
-      url: 'https://i.postimg.cc/zvdYQnHb/virve.jpg'
+      url: 'https://i.postimg.cc/zvdYQnHb/virve.jpg',
+      use: async message => {
+        const { lati } = await findUser(message.guildId, message.author.id)
+        await addLati(message.guildId, message.author.id, lati * -1)
+        return `Tu pakāries un pazaudēji visu savu naudu`
+      },
     },
   },
 
@@ -97,7 +129,6 @@ export const itemList = {
       nameAkuDsk: 'lietotus zābakus',
       price: 10,
       chance: '*',
-      usable: 0,
     },
     stiklapudele: {
       nameNomVsk: 'stikla pudele',
@@ -106,7 +137,6 @@ export const itemList = {
       nameAkuDsk: 'stikla pudeles',
       price: 3,
       chance: '*',
-      usable: 0,
     },
     plastpudele: {
       nameNomVsk: 'plastmasas pudele',
@@ -115,7 +145,6 @@ export const itemList = {
       nameAkuDsk: 'plastmasas pudeles',
       price: 1,
       chance: '*',
-      usable: 0,
     },
     metalluznis: {
       nameNomVsk: 'metāllūznis',
@@ -124,7 +153,6 @@ export const itemList = {
       nameAkuDsk: 'metāllūžņus',
       price: 2,
       chance: '*',
-      usable: 0,
     },
     kartonakaste: {
       nameNomVsk: 'kartona kaste',
@@ -133,7 +161,6 @@ export const itemList = {
       nameAkuDsk: 'kartona kastes',
       price: 0.5,
       chance: '*',
-      usable: 0,
     },
     stiklaburka: {
       nameNomVsk: 'stikla burka',
@@ -142,7 +169,6 @@ export const itemList = {
       nameAkuDsk: 'stikla burkas',
       price: 3,
       chance: '*',
-      usable: 0,
     },
     konservi: {
       nameNomVsk: 'tukša konservu bundža',
@@ -151,7 +177,6 @@ export const itemList = {
       nameAkuDsk: 'tukšas konservu bundžas',
       price: 2,
       chance: '*',
-      usable: 0,
     },
     plastdaksa: {
       nameNomVsk: 'plastmasas dakšiņa',
@@ -160,16 +185,6 @@ export const itemList = {
       nameAkuDsk: 'plastmasas dakšiņas',
       price: 0.5,
       chance: '*',
-      usable: 0,
-    },
-    maska: {
-      nameNomVsk: 'sejas maska',
-      nameNomDsk: 'sejas maskas',
-      nameAkuVsk: 'sejas masku',
-      nameAkuDsk: 'sejas maskas',
-      price: 1,
-      chance: '*',
-      usable: 1,
     },
     avize: {
       nameNomVsk: 'avīze',
@@ -178,7 +193,6 @@ export const itemList = {
       nameAkuDsk: 'avīzes',
       price: 1,
       chance: '*',
-      usable: 0,
     },
     oditiscitrus: {
       nameNomVsk: 'odekolons "Citrus"',
@@ -187,7 +201,12 @@ export const itemList = {
       nameAkuDsk: 'odekolonus "Citrus"',
       price: 10,
       chance: 0.05,
-      usable: 1,
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { bomzis: statusList.bomzis.time })
+        return `Tu izpisi odīti un sāki smirdēt\nTu vari biežāk nodarboties ar bomžošanu ${timeToText(
+          result.bomzis - Date.now())}`
+      },
     },
     covidsertifikats: {
       nameNomVsk: 'Covid-19 sertifikāts',
@@ -195,8 +214,13 @@ export const itemList = {
       nameAkuVsk: 'Covid-19 sertifikātu',
       nameAkuDsk: 'Covid-19 sertifikātus',
       price: 50,
-      chance: 0.01,
-      usable: 1,
+      chance: 0.05,
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { vakcinets: statusList.vakcinets.time / 2 })
+        return `Tu nolaizīji covid sertifikātu un kļuvi vakcinēts\nTu vari strādāt veikalā ${timeToText(
+          result.vakcinets - Date.now())}`
+      },
     },
     sputnikvakc: {
       nameNomVsk: '"Sputnik V" vakcīna',
@@ -204,8 +228,42 @@ export const itemList = {
       nameAkuVsk: '"Sputnik V" vakcīnu',
       nameAkuDsk: '"Sputnik V" vakcīnas',
       price: 50,
-      chance: 0.01,
-      usable: 1,
+      chance: 0.05,
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { vakcinets: statusList.vakcinets.time })
+        return `Tu izmantoji okupantu šļirci un kļuvi vakcinēts\nTu vari strādāt veikalā ${timeToText(
+          result.vakcinets - Date.now())}`
+      },
     },
+  },
+}
+
+// defaultais laiks cik pievieno pie statusa
+
+export const statusList = {
+  aizsardziba: {
+    name: 'Aizsardzība',
+    time: 86400000,// 24h 86400000
+  },
+  bomzis: {
+    name: 'Bomzis',
+    time: 14400000, // 4h 14400000
+  },
+  laupitajs: {
+    name: 'Laupītājs',
+    time: 3600000, // 1h 3600000
+  },
+  vakcinets: {
+    name: 'Vakcinēts',
+    time: 43200000, // 12h 43200000
+  },
+  zvejotajs: {
+    name: 'Zvejotājs',
+    time: 86400000, // 24h 86400000
+  },
+  juridisks: {
+    name: 'Juridiska persona',
+    time: 259200000, // 72h 259200000
   },
 }

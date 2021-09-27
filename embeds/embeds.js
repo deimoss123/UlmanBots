@@ -33,7 +33,7 @@ export const itemTemplate = (title, description, url) => {
   }
 }
 
-export const embedTemplate = (title, description, imgUrls) => {
+export const embedTemplate = (title, description, imgUrls = null) => {
   let embed = {
     embeds: [
       {

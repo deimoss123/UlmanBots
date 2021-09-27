@@ -43,7 +43,7 @@ export default {
           name: `[${embedFieldArr.length + 1}] ${
             item.nameNomVsk.charAt(0).toUpperCase() + item.nameNomVsk.slice(1)}`,
           value: `daudzums - ${items[key]}\nvērtība - ${item.price} ${latsOrLati(
-            item.price)}\nlietojams - ${item.usable ? 'jā' : 'nē'}`,
+            item.price)}\nlietojams - ${item.use ? 'jā' : 'nē'}`,
           inline: true,
         })
         i++
