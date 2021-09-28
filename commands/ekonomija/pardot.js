@@ -18,18 +18,24 @@ export default {
     let items = {}
     let total = 0
 
-    // pārdot visus nelietojamos atkritumus
-    if (args[0] === 'a' && !args[1]) {
+    // pārdot visus nelietojamos atkritumus vai zivis
+    if (!args[1] && (args[0] === 'a' || args[0] === 'z')) {
+      let type
+      if (args[0] === 'a') type = 'atkritumi'
+      if (args[0] === 'z') type = 'zivis'
+
       const result = await findUser(guildId, userId)
 
-      if (!Object.keys(result.items).length) return 2
-
+      if (!Object.keys(result.items).length) {
+        message.reply(embedError('pārdot', 'Tev nav ko pārdot'))
+        return 2
+      }
       // pārbauda vai katru atkritumu vai tas ir izmantojams
       Object.keys(result.items).map(key => {
-        if (itemList.atkritumi[key]) {
-          if (!itemList.atkritumi[key].use) {
+        if (itemList[type][key]) {
+          if (!itemList[type][key].use) {
             items[key] = result.items[key]
-            total += itemList.atkritumi[key].price * items[key]
+            total += itemList[type][key].price * items[key]
           }
         }
       })
@@ -40,7 +46,7 @@ export default {
           items)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
           2)} ${latsOrLati(result.lati + total)}`))
       } else {
-        message.reply(itemTemplate('Pārdot', 'Tev nav atkritumi ko pārdot'))
+        message.reply(itemTemplate('Pārdot', `Tev nav ${type} ko pārdot`))
         return 2
       }
     } else { // pārdot atsevišķu preci

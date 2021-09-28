@@ -44,7 +44,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { aizsardziba: statusList.aizsardziba.time })
         return `Tu izdzēri mullermilch, tavi kauli palika daudz stiprāki\nTu esi aizsargāts no zagšanas ${timeToText(
-          result.aizsardziba - Date.now())}`
+          result.aizsardziba - Date.now(), 2)}`
       },
     },
     makskere: {
@@ -59,7 +59,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { zvejotajs: statusList.zvejotajs.time })
         return `Tu agresīvi paskatījies uz makšķeri\nTu vari zvejot ${timeToText(
-          result.zvejotajs - Date.now())}`
+          result.zvejotajs - Date.now(), 2)}`
       }
     },
     nazis: {
@@ -74,7 +74,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { laupitajs: statusList.laupitajs.time })
         return `Tu izvilki nazi un agresīvi sāki skatīties uz garāmgājējiem\nTavai zagšanai ir palielināta efektivitāte ${timeToText(
-          result.laupitajs - Date.now())}`
+          result.laupitajs - Date.now(), 2)}`
       },
     },
     latloto: {
@@ -101,7 +101,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { aizsardziba: 3600000 })
         return `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\nTu esi aizsargāts no zagšanas ${timeToText(
-          result.aizsardziba - Date.now())}`
+          result.aizsardziba - Date.now(), 2)}`
       },
     },
     virve: {
@@ -205,7 +205,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { bomzis: statusList.bomzis.time })
         return `Tu izpisi odīti un sāki smirdēt\nTu vari biežāk nodarboties ar bomžošanu ${timeToText(
-          result.bomzis - Date.now())}`
+          result.bomzis - Date.now(), 2)}`
       },
     },
     covidsertifikats: {
@@ -219,7 +219,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { vakcinets: statusList.vakcinets.time / 2 })
         return `Tu nolaizīji covid sertifikātu un kļuvi vakcinēts\nTu vari strādāt veikalā ${timeToText(
-          result.vakcinets - Date.now())}`
+          result.vakcinets - Date.now(), 2)}`
       },
     },
     sputnikvakc: {
@@ -232,8 +232,8 @@ export const itemList = {
       use: async message => {
         const result = await addStatus(message.guildId, message.author.id,
           { vakcinets: statusList.vakcinets.time })
-        return `Tu izmantoji okupantu šļirci un kļuvi vakcinēts\nTu vari strādāt veikalā ${timeToText(
-          result.vakcinets - Date.now())}`
+        return `Tu sev iedūri okupantu šļirci un kļuvi vakcinēts\nTu vari strādāt veikalā ${timeToText(
+          result.vakcinets - Date.now(), 2)}`
       },
     },
   },
@@ -243,7 +243,7 @@ export const itemList = {
       nameNomDsk: 'draudziņzivis',
       nameAkuVsk: 'draudziņzivi',
       nameAkuDsk: 'draudziņzivis',
-      price: 20,
+      price: 10,
       chance: '*',
       url: null
     },
@@ -252,7 +252,7 @@ export const itemList = {
       nameNomDsk: 'dauņzivis',
       nameAkuVsk: 'dauņzivi',
       nameAkuDsk: 'dauņzivis',
-      price: 20,
+      price: 10,
       chance: '*',
       url: null
     },
@@ -261,7 +261,7 @@ export const itemList = {
       nameNomDsk: 'diždraudziņzivis',
       nameAkuVsk: 'diždraudziņzivi',
       nameAkuDsk: 'diždraudziņzivis',
-      price: 50,
+      price: 25,
       chance: 0.2,
       url: null
     },
@@ -270,7 +270,7 @@ export const itemList = {
       nameNomDsk: 'diždauņzivis',
       nameAkuVsk: 'diždauņzivi',
       nameAkuDsk: 'diždauņzivis',
-      price: 50,
+      price: 25,
       chance: 0.2,
       url: null
     },
@@ -279,7 +279,7 @@ export const itemList = {
       nameNomDsk: 'dīvainās zivis',
       nameAkuVsk: 'dīvaino zivi',
       nameAkuDsk: 'dīvainās zivis',
-      price: 200,
+      price: 100,
       chance: 0.1,
       url: null,
 
@@ -296,7 +296,7 @@ export const itemList = {
         const result = await addStatus(message.guildId, message.author.id,
           { juridisks: statusList.juridisks.time })
         return `Tu apēdi juridisko zivi un sajuties juridisks\nTu esi atvieglināts no nodokļiem ${timeToText(
-          result.juridisks - Date.now())}`
+          result.juridisks - Date.now(), 2)}`
       }
     },
   }

@@ -9,7 +9,7 @@ export const findUser = async (guildId, userId) => {
 
   // meklē lietotāju cache, ja neatrod tad pieprasa datubāzei
   if (userCache[`${guildId}-${userId}`]) {
-    console.log('found user in cache', userCache[`${guildId}-${userId}`])
+    //console.log('found user in cache', userCache[`${guildId}-${userId}`])
     return userCache[`${guildId}-${userId}`]
   } else {
     return await mongo().then(async mongoose => {
@@ -53,7 +53,7 @@ export const getTop = async () => {
   return await mongo().then(async mongoose => {
     try {
       const result = await profileSchema.find().sort({ 'lati': -1 }).select({ lati:1, userId:1, guildId:1 })
-      console.log('getTop() result: ', result)
+      //console.log('getTop() result: ', result)
       return result
     } catch (e) {
       console.error(e)
@@ -75,7 +75,7 @@ export const addLati = async (guildId, userId, lati) => {
         userId,
       }, { lati: result.lati }, {})
 
-      console.log('addLati() result: ', result)
+      //console.log('addLati() result: ', result)
 
       // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].lati = result.lati
@@ -94,7 +94,7 @@ export const addItems = async (guildId, userId, itemsToAdd) => {
 
   return await mongo().then(async mongoose => {
     try {
-      console.log('fetched items:', items)
+      //console.log('fetched items:', items)
       console.log('items to add:', itemsToAdd)
 
       Object.keys(itemsToAdd).map(item => {
@@ -103,7 +103,7 @@ export const addItems = async (guildId, userId, itemsToAdd) => {
         else items[item] += itemsToAdd[item]
       })
 
-      console.log('new items:', items)
+      //console.log('new items:', items)
 
       // gala rezultāts
       const result2 = await profileSchema.findOneAndUpdate({
@@ -113,7 +113,7 @@ export const addItems = async (guildId, userId, itemsToAdd) => {
 
       // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].items = items
-      console.log('addItems() result: ', items)
+      //console.log('addItems() result: ', items)
       return result2
     } catch (e) {
       console.error(e)
@@ -131,7 +131,7 @@ export const addStatus = async (guildId, userId, newStatus) => {
         status[key] = status[key] ? status[key] + newStatus[key] : newStatus[key] + Date.now()
       })
 
-      console.log(status, 'statuss')
+      //console.log(status, 'statuss')
 
       userCache[`${guildId}-${userId}`].status = status
       await profileSchema.findOneAndUpdate({
@@ -182,7 +182,7 @@ export const addCooldown = async (guildId, userId, command)  => {
         userId
       }, { cooldowns }, { new: true, upsert: true })
 
-      console.log(cooldowns)
+      //console.log(cooldowns)
 
     } catch (e) {
       console.error(e)

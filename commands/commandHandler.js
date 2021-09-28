@@ -21,14 +21,11 @@ import zagt from './ekonomija/zagt.js'
 import maksat from './ekonomija/maksat.js'
 import izmantot from './items/izmantot.js'
 import status from './items/status.js'
-import zvejot from './items/zvejot.js'
+import zvejot from './misc/zvejot.js'
 
 commands = [
   maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat, izmantot, status, zvejot
 ]
-
-
-console.log(commands)
 
 export default (client, message) => {
   const guildId = message.guildId

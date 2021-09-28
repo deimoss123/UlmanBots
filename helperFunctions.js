@@ -83,10 +83,17 @@ export const timeToText = (time, option = 0) => {
   }
 
   // pārvērtīs uz formātu "stundām, minūtēm, sekundēm"
-  if (option) {
+  if (option === 1) {
     if (h) result.push(`${h} ${h % 10 === 1 && h % 100 !== 11 ? 'stundas' : 'stundām'}`)
     if (m) result.push(`${m} ${m % 10 === 1 && m % 100 !== 11 ? 'minūtes' : 'minūtēm'}`)
     if (s) result.push(`${s} ${s % 10 === 1 && s % 100 !== 11 ? 'sekundes' : 'sekundēm'}`)
+  }
+  
+  // pārvērtīs uz formātu "stundu, minūti, sekundi"
+  if (option === 2) {
+    if (h) result.push(`${h} ${h % 10 === 1 && h % 100 !== 11 ? 'stundu' : 'stundas'}`)
+    if (m) result.push(`${m} ${m % 10 === 1 && m % 100 !== 11 ? 'minūti' : 'minūtes'}`)
+    if (s) result.push(`${s} ${s % 10 === 1 && s % 100 !== 11 ? 'sekundi' : 'sekundes'}`)
   }
 
   if (result.length > 1) {
