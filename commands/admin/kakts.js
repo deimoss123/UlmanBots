@@ -4,8 +4,8 @@ import { addKakts } from "../../ekonomija.js"
 import { timeToText, getUserId } from "../../helperFunctions.js"
 
 export default {
-  title: 'Kaktot (moderātoriem)',
-  description: 'Ielikt kādu kaktā',
+  title: 'Kaktot',
+  description: 'Ielikt kādu kaktā\n(tikai moderātoriem)',
   commands: ['kakts', 'kaktot'],
   requiredRoles: ['842856307097731093', '859535871165333515', '797589274437353512', '884515007608537139'],
   cooldown: 0,

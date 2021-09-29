@@ -5,8 +5,6 @@ import { latToEng, timeToText } from '../helperFunctions.js'
 import { addCooldown, findUser, checkStatus } from '../ekonomija.js'
 import { embedError } from '../embeds/embeds.js'
 
-let commands
-
 // visu komandu importi
 import maks from './ekonomija/maks.js'
 import addLati from './ekonomija/addLati.js'
@@ -25,11 +23,14 @@ import zvejot from './misc/zvejot.js'
 import stradat from './misc/stradat.js'
 import kakts from './admin/kakts.js'
 import izkaktot from './admin/izkaktot.js'
+import palidziba from './misc/palidziba.js'
 
-commands = [
-  addLati, maks, bomzot, ubagot, inventars, top, 
-  veikals, pirkt, pardot, zagt, maksat, izmantot, 
-  status, zvejot, stradat, kakts, izkaktot
+export const commands = [
+  palidziba, top, maks, zagt, maksat,
+  bomzot, ubagot, zvejot, stradat,
+  inventars, veikals, pirkt, pardot, izmantot, status,
+  kakts, izkaktot,
+  addLati,
 ]
 
 export default (client, message) => {
@@ -51,6 +52,9 @@ export default (client, message) => {
     commands.map(command => {
       command.commands.map(async cmd => {
         if (userCommand === cmd) {
+          // addlati komandu var izmantot tikai testa serverī
+          if (command.title === 'AddLati' && guildId !== '875083366611955712') return
+
           let { cooldowns } = await findUser(guildId, userId)
 
           let cmdCooldown = command.cooldown
@@ -68,9 +72,11 @@ export default (client, message) => {
           } else {
             const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
-            message.reply(
+            const msg = await message.reply(
               embedError(command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
                 ? timeToText(time, 1) : '1 sekundes'}`))
+
+            setTimeout(() => msg.delete(), 10000)
           }
         }
       })
