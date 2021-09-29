@@ -11,14 +11,11 @@ const profileSchema = new mongoose.Schema({
   userId: reqString,
   lati: {
     type: Number,
-    required: true
+    required: true,
   },
-  items: {
-    type: Object,
-    required: true
-  },
+  items: { type: Object, },
   status: { type: Object, },
-  cooldowns: { type: Object }
+  cooldowns: { type: Object, },
 })
 
 export default mongoose.model('profiles', profileSchema)

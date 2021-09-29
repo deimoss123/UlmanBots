@@ -37,8 +37,8 @@ export default {
         {
           name: `${i + 1}. ${user.username}${user.discriminator === '-'
             ? ``
-            : `#${user.discriminator}`}`,
-          value: `${(results[i].lati).toFixed(2)} ${latsOrLati(results[i].lati)}`,
+            : `#${user.discriminator}`} (${floorTwo(results[i].lati / cirkulacija * 100).toFixed(2)}%)`,
+          value: `${floorTwo(results[i].lati).toFixed(2)} ${latsOrLati(results[i].lati)}`,
         },
       )
     }

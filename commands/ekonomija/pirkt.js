@@ -69,6 +69,8 @@ export default {
 
     await addItems(guildId, userId, item, 1)
     await addLati(guildId, userId, total * -1)
+    // pvn valsts bankai
+    await addLati(guildId, process.env.ULMANISID, total * 0.21)
 
     return 1
   },

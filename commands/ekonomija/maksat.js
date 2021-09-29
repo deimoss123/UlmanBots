@@ -1,5 +1,5 @@
 import { getUserId, latsOrLati } from '../../helperFunctions.js'
-import { addLati, findUser } from '../../ekonomija.js'
+import { addLati, checkStatus, findUser } from '../../ekonomija.js'
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
@@ -25,13 +25,18 @@ export default {
       message.reply(embedError('maksāt', `Minimālais maksāšanas daudzums ir 1 lats`))
       return 2
     }
+    
+    if (targetId === process.env.ULMANISID) {
+      message.reply(embedError('maksāt', 'Tu nevari maksāt valsts bankai'))
+      return 2
+    }
 
     const user = await findUser(guildId, userId)
     const target = await findUser(guildId, targetId)
 
-    const nodoklis = 1.1
-    //latiAmount = floorTwo(latiAmount * nodoklis)
-
+    let nodoklis = 1.1
+    if (checkStatus(guildId, userId, 'juridisks')) nodoklis = 1
+    
     const arNodokli = floorTwo(latiAmount * nodoklis)
     const nodoklisLati = floorTwo(arNodokli - latiAmount)
 
@@ -54,8 +59,8 @@ export default {
       // pievieno naudu mērķim
       await addLati(guildId, targetId, latiAmount)
       // pievieno nodokli valsts bankai
-      await addLati(guildId, process.env.ULMANISID, nodoklisLati)
-
+      if (nodoklis !== 1) await addLati(guildId, process.env.ULMANISID, nodoklisLati)
+      
       return 1
     }
   },

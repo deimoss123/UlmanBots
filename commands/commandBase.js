@@ -1,6 +1,6 @@
 import { latToEng } from '../helperFunctions.js'
 import { Permissions } from 'discord.js'
-import { embedTemplate } from '../embeds/embeds.js'
+import { embedError, embedTemplate } from '../embeds/embeds.js'
 
 export default async (client, message, alias, commandOptions) => {
 
@@ -9,55 +9,27 @@ export default async (client, message, alias, commandOptions) => {
     title = '',
     description,
     expectedArgs = '',
-    permissionError = 'Tev nav nepieciešamās atlaujas',
     roleError = 'Tev nav nepieciešamā loma',
     minArgs = 0,
     maxArgs = null,
-    permissions = [],
     requiredRoles = [],
     callback,
   } = commandOptions
 
   const content = latToEng(message.content.toLowerCase())
 
-  const { member, guild } = message
-
-  // Permissions.FLAGS.ADMINISTRATOR
-
-  // Pārbaudīt vai ir pareizās atļaujas
-  permissions.map(permission => {
-    if (!message.member.permissions.has(permission)) {
-      message.reply({
-        embeds: [
-          {
-            title: 'Kļūda',
-            description: permissionError,
-            color: 0xdb170d, // sarkans
-          }],
-        allowedMentions: { repliedUser: false },
-      })
-    }
-  })
+  const { member } = message
 
   // Pārbaudīt vai ir pareizās lomas
-  /*requiredRoles.map(requiredRole => {
-    const role = guild.roles.cache.find(role => role.name === requiredRole)
+  let roletest = 0
+  if (requiredRoles.length) {
+    if (member.roles.cache.some(r => requiredRoles.includes(r.id))) roletest = 1
+  } else roletest = 1
 
-    console.log(role)
-
-    if (!role || member.roles.cache.has(role.id)) {
-      message.reply({
-        embeds: [{
-          title: "Kļūda",
-          description: roleError,
-          color: 0xdb170d // sarkans
-        }],
-        allowedMentions: { repliedUser: false }
-      })
-
-      return
-    }
-  })*/
+  if (!roletest) {
+    message.reply(embedError(alias, roleError))
+    return 2
+  }
 
   // sadala komandu array un noņem priekšējo lietu
   const args = content.split(/[ ]+/)

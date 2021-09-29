@@ -22,9 +22,14 @@ import maksat from './ekonomija/maksat.js'
 import izmantot from './items/izmantot.js'
 import status from './items/status.js'
 import zvejot from './misc/zvejot.js'
+import stradat from './misc/stradat.js'
+import kakts from './admin/kakts.js'
+import izkaktot from './admin/izkaktot.js'
 
 commands = [
-  maks, addLati, bomzot, ubagot, inventars, top, veikals, pirkt, pardot, zagt, maksat, izmantot, status, zvejot
+  addLati, maks, bomzot, ubagot, inventars, top, 
+  veikals, pirkt, pardot, zagt, maksat, izmantot, 
+  status, zvejot, stradat, kakts, izkaktot
 ]
 
 export default (client, message) => {
