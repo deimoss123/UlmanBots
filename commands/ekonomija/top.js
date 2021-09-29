@@ -43,7 +43,7 @@ export default {
       )
     }
 
-    message.reply(embedSaraksts('Servera tops',
+    message.reply(embedSaraksts(message, 'Servera tops',
       `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(
         cirkulacija)}\nValsts bankai ir ${floorTwo(banka.lati).toFixed(2)} ${latsOrLati(banka.lati)}`, resultsArr))
     return 1

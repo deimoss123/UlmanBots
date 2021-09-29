@@ -22,12 +22,12 @@ export default {
     if (!targetId || isNaN(latiAmount)) return 0
 
     if (latiAmount < 1) {
-      message.reply(embedError('maksāt', `Minimālais maksāšanas daudzums ir 1 lats`))
+      message.reply(embedError(message, 'maksāt', `Minimālais maksāšanas daudzums ir 1 lats`))
       return 2
     }
     
     if (targetId === process.env.ULMANISID) {
-      message.reply(embedError('maksāt', 'Tu nevari maksāt valsts bankai'))
+      message.reply(embedError(message, 'maksāt', 'Tu nevari maksāt valsts bankai'))
       return 2
     }
 
@@ -41,13 +41,13 @@ export default {
     const nodoklisLati = floorTwo(arNodokli - latiAmount)
 
     if (floorTwo(user.lati) < arNodokli) {
-      message.reply(embedError('maksāt',
+      message.reply(embedError(message, 'maksāt',
         `Tev nav ${arNodokli.toFixed(2)} ${latsOrLati(
           arNodokli)}\nTu maksimāli vari maksāt ${floorTwo(
           user.lati / nodoklis).toFixed(2)} latus`))
       return 2
     } else {
-      message.reply(embedTemplate('Maksāt',
+      message.reply(embedTemplate(message, 'Maksāt',
         `Tu iedevi ${latiAmount.toFixed(2)} latus <@${targetId}>, ${nodoklisLati.toFixed(2)} ${
           latsOrLati(nodoklisLati)} aizgāja nodokļos\n<@${
           targetId}> tagad ir ${floorTwo(target.lati + latiAmount).toFixed(2)} ${

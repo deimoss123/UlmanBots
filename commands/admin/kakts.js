@@ -27,7 +27,7 @@ export default {
     if (!targetId || isNaN(args[1]) || !Object.keys(time).includes(args[2])) return 0
     
     if (args[1] < 1) {
-      message.reply(embedError('Kakts', `Ievadi pareizu skaitli dauni`))
+      message.reply(embedError(message, 'Kakts', `Ievadi pareizu skaitli dauni`))
       return 2
     }
 
@@ -38,7 +38,7 @@ export default {
 
     const kaktsTime = Math.floor(args[1]) * time[args[2]]
 
-    message.reply(embedTemplate('Kakts', `<@${targetId}> sēž kaktā ${args[2] === 'muziba' ? 'mūžību' : `${
+    message.reply(embedTemplate(message, 'Kakts', `<@${targetId}> sēž kaktā ${args[2] === 'muziba' ? 'mūžību' : `${
       timeToText(kaktsTime, 2)}`}`))
     
     await kaktsRole(guildId, targetId)

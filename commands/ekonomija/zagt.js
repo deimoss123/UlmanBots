@@ -40,14 +40,14 @@ export default {
     if (targetId === process.env.ULMANISID) {
       for (const key in statusList) {
         if (!await checkStatus(guildId, userId, `${key}`)) {
-          message.reply(embedError('Zagt', 
+          message.reply(embedError(message, 'Zagt',
           'Lai zagtu no valsts bankas ir nepieciešami visi statusi\nSavus status var apskatīt izmantojot komandu .status'))
           return 2
         }
       }
 
       const lati = Math.floor((Math.random() * target.lati * 0.3) + 0.3)
-      message.reply(embedTemplate('Zagt', 
+      message.reply(embedTemplate(message, 'Zagt',
       `Tu nozagi ${floorTwo(lati).toFixed(2)} latus no valsts bankas un pazaudēji visus statusus`))
       
       const status = {}
@@ -61,7 +61,7 @@ export default {
     
     // parastā zagšana
     if (user.lati <= 30 || target.lati <= 30) {
-      message.reply(embedError('Zagt', `Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
+      message.reply(embedError(message, 'Zagt', `Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
       return 2
     }
 
@@ -92,7 +92,7 @@ export default {
         break
     }
 
-    message.reply(embedTemplate('Zagšana', resultText))
+    message.reply(embedTemplate(message, 'Zagšana', resultText))
     await addLati(guildId, userId, stolen)
     await addLati(guildId, targetId, stolen * -1)
     return 1

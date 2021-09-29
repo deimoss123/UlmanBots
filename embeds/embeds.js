@@ -1,5 +1,7 @@
 import { imgLinks } from './imgLinks.js'
 
+const ulmanversija = '3.0'
+
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {
   // kopā ir 15 dīvaino zivju bildes kas ir uploadotas postimg.cc
@@ -16,24 +18,7 @@ export const reakcEmbeds = embedName => {
   }
 }
 
-export const itemTemplate = (title, description, url) => {
-  return {
-    embeds: [
-      {
-        title,
-        description,
-        color: 0x9d2235,
-        author: {
-          name: 'UlmaņBots 3.0',
-          icon_url: imgLinks.ulmanis,
-        },
-        thumbnail: { url }
-      }],
-    allowedMentions: { 'users': [] },
-  }
-}
-
-export const embedTemplate = (title, description, imgUrls = null) => {
+export const embedTemplate = (message, title, description, imgUrls = null) => {
   let embed = {
     embeds: [
       {
@@ -41,9 +26,12 @@ export const embedTemplate = (title, description, imgUrls = null) => {
         description,
         color: 0x9d2235,
         author: {
-          name: 'UlmaņBots 3.0',
-          icon_url: imgLinks.ulmanis,
+          name: message.member.displayName,
+          icon_url: message.author.avatarURL(),
         },
+        footer: {
+          text: `UlmaņBots ${ulmanversija}`
+        }
       }],
     allowedMentions: { 'users': [] },
   }
@@ -57,7 +45,7 @@ export const embedTemplate = (title, description, imgUrls = null) => {
   return embed
 }
 
-export const embedError = (name, description) => {
+export const embedError = (message, name, description) => {
   return {
     embeds: [
       {
@@ -65,18 +53,21 @@ export const embedError = (name, description) => {
         description,
         color: 0x9d2235,
         author: {
-          name: 'UlmaņBots 3.0',
-          icon_url: imgLinks.ulmanis,
+          name: message.member.displayName,
+          icon_url: message.author.avatarURL(),
         },
         thumbnail: {
           url: imgLinks.error[Math.floor(Math.random() * imgLinks.error.length)]
+        },
+        footer: {
+          text: `UlmaņBots ${ulmanversija}`
         }
       }],
     allowedMentions: { 'users': [] },
   }
 }
 
-export const embedSaraksts = (title, description, fields, url) => {
+export const embedSaraksts = (message, title, description, fields, url) => {
   return {
     embeds: [
       {
@@ -84,11 +75,14 @@ export const embedSaraksts = (title, description, fields, url) => {
         description,
         color: 0x9d2235,
         author: {
-          name: 'UlmaņBots 3.0',
-          icon_url: imgLinks.ulmanis,
+          name: message.member.displayName,
+          icon_url: message.author.avatarURL(),
         },
         fields,
-        thumbnail: { url }
+        thumbnail: { url },
+        footer: {
+          text: `UlmaņBots ${ulmanversija}`
+        }
       }],
     allowedMentions: { 'users': [] },
   }

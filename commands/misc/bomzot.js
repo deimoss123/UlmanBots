@@ -25,7 +25,7 @@ export default {
 
     await addItems(guildId, userId, items)
 
-    message.reply(embedTemplate('Bomžot', `Tu atradi ${stringifyItems(items)}`, 'atkritumi'))
+    message.reply(embedTemplate(message, 'Bomžot', `Tu atradi ${stringifyItems(items)}`, 'atkritumi'))
     return 1
   },
 }

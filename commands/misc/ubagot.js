@@ -24,9 +24,10 @@ export default {
     const lati = Math.floor(((Math.random() * 5) + 3) * 100) / 100
 
     // rezultāts
-    message.reply(embedTemplate('Ubagot',
+    message.reply(embedTemplate(message, 'Ubagot',
       `Tu noubagoji ${lati} latus${item ? ` un ${stringifyItems(itemObj)}` : ''}`,
       'ubagot'))
+
 
     await addLati(guildId, userId, lati)
     if (item) await addItems(guildId, userId, itemObj)

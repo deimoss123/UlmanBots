@@ -36,7 +36,7 @@ export default {
 
     console.log(resultArr)
     message.reply(
-      embedSaraksts('Statusu saraksts',
+      embedSaraksts(message, 'Statusu saraksts',
         `<@${targetId}>, Lai iegūtu statusu izmanto kādu lietu no inventāra`,
         resultArr, null))
     return 1

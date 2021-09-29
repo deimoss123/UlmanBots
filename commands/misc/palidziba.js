@@ -16,6 +16,6 @@ export default {
       })
     })
 
-    message.reply(embedSaraksts('Palīdzība', 'Visas Ulmaņa komandas', resultArr))
+    message.reply(embedSaraksts(message, 'Palīdzība', 'Visas Ulmaņa komandas', resultArr))
   }
 }

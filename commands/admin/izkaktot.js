@@ -19,9 +19,9 @@ export default {
     if (!targetId) return 0
 
     if (!await addKakts(guildId, targetId, 0, 0)) {
-      message.reply(embedError('Izkaktot', `Nevar izkaktot <@${targetId}>, jo viņš nav kaktā`))
+      message.reply(embedError(message, 'Izkaktot', `Nevar izkaktot <@${targetId}>, jo viņš nav kaktā`))
     } else {
-      message.reply(embedTemplate('Izkaktot', `<@${targetId}> veiksmīgi izkaktots`))
+      message.reply(embedTemplate(message, 'Izkaktot', `<@${targetId}> veiksmīgi izkaktots`))
     }
 
     await kaktsRole(guildId, targetId, 0)

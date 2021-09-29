@@ -20,7 +20,7 @@ export default {
     const result = await findUser(guildId, userId)
 
     if (args[0] <= 0 || Object.keys(result.items).length < args[0]) {
-      message.reply(embedError('Izmantot', 'Tavā inventārā nav šāda lieta'))
+      message.reply(embedError(message, 'Izmantot', 'Tavā inventārā nav šāda lieta'))
       return 2
     }
 
@@ -30,7 +30,7 @@ export default {
       if (itemList[key][selectedItem]) {
         if (!itemList[key][selectedItem].use) {
           message.reply(
-            embedError('Izmantot', `${itemList[key][selectedItem].nameNomVsk} nav izmantojams`))
+            embedError(message, 'Izmantot', `${itemList[key][selectedItem].nameNomVsk} nav izmantojams`))
           return 2
         } else {
           let item = {}
@@ -38,7 +38,7 @@ export default {
           await addItems(guildId, userId, item)
           const text = await itemList[key][selectedItem].use(message, result, args)
           message.reply(
-            embedTemplate(`Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text, itemList[key][selectedItem].url))
+            embedTemplate(message, `Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text, itemList[key][selectedItem].url))
           return 1
         }
       }

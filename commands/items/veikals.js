@@ -21,7 +21,7 @@ export default {
       i++
     }
 
-    message.reply(embedSaraksts('Veikals',
+    message.reply(embedSaraksts(message, 'Veikals',
       'Lai nopirktu preci izmanto\n.pirkt <preces numurs> <daudzums>',
       resultArr, imgLinks.rimi))
     return 1

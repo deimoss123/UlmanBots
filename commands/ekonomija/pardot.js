@@ -1,7 +1,8 @@
 import { itemList } from '../../itemList.js'
 import { addItems, findUser, addLati } from '../../ekonomija.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
-import { embedError, itemTemplate } from '../../embeds/embeds.js'
+import { embedError, embedTemplate } from '../../embeds/embeds.js'
+import { imgLinks } from '../../embeds/imgLinks.js'
 
 export default {
   title: 'Pārdot',
@@ -27,7 +28,7 @@ export default {
       const result = await findUser(guildId, userId)
 
       if (!Object.keys(result.items).length) {
-        message.reply(embedError('pārdot', 'Tev nav ko pārdot'))
+        message.reply(embedError(message, 'pārdot', 'Tev nav ko pārdot'))
         return 2
       }
       // pārbauda vai katru atkritumu vai tas ir izmantojams
@@ -42,11 +43,11 @@ export default {
 
       // pārbauda vai ir ko pārdot
       if (Object.keys(items).length) {
-        message.reply(itemTemplate('Pārdot', `Tu pārdevi ${stringifyItems(
+        message.reply(embedTemplate(message, 'Pārdot', `Tu pārdevi ${stringifyItems(
           items)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
-          2)} ${latsOrLati(result.lati + total)}`))
+          2)} ${latsOrLati(result.lati + total)}`, `${type}`))
       } else {
-        message.reply(itemTemplate('Pārdot', `Tev nav ${type} ko pārdot`))
+        message.reply(embedTemplate(message, 'Pārdot', `Tev nav ${type} ko pārdot`, `${type}`))
         return 2
       }
     } else { // pārdot atsevišķu preci
@@ -59,19 +60,18 @@ export default {
 
       // pārbaudīt vai ievadītais daudzums nav mazāks par 1
       if (amount < 1) {
-        message.reply(embedError('pārdot', `Tu nevari pārdot ${amount} lietas, ļoti smieklīgi`))
+        message.reply(embedError(message, 'pārdot', `Tu nevari pārdot ${amount} lietas, ļoti smieklīgi`))
         return 2
       }
 
       const result = await findUser(guildId, userId)
 
       if (index >= Object.keys(result.items).length || index < 0) {
-        message.reply(embedError('pārdot', 'Ko tu vēlies pārdot?'))
+        message.reply(embedError(message, 'pārdot', 'Ko tu vēlies pārdot?'))
         return 2
       }
 
-      let i = 0
-      let resultKey
+      let resultKey, imgurl, i = 0
 
       Object.keys(result.items).map(key => {
         if (i === index) {
@@ -80,6 +80,8 @@ export default {
               total = itemList[keydb][key].price * amount
               items[key] = amount
               resultKey = key
+
+              imgurl = itemList[keydb][key].url
             }
           })
         }
@@ -88,18 +90,16 @@ export default {
 
       // pārbauda vai lietotājam ir tik daudz itemu
       if (result.items[resultKey] < amount) {
-        message.reply(itemTemplate('Pārdot', `Tavā inventārā nav ${stringifyItems(items)}`))
+        message.reply(embedTemplate(message, 'Pārdot', `Tavā inventārā nav ${stringifyItems(items)}`, imgurl))
         return 2
       } else {
-        message.reply(itemTemplate('Pārdot',
+        message.reply(embedTemplate(message, 'Pārdot',
           `Tu pārdevi ${stringifyItems(items)} par ${total} latiem\nTev tagad ir ${
-          (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`))
+          (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`, imgurl))
       }
     }
 
     Object.keys(items).map(item => items[item] *= -1)
-
-    console.log(items, 'items')
 
     await addLati(guildId, userId, total)
     await addItems(guildId, userId, items)

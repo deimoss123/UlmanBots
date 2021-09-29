@@ -1,5 +1,5 @@
 import { addItems, findUser, addLati } from '../../ekonomija.js'
-import { embedError, itemTemplate } from '../../embeds/embeds.js'
+import { embedError, embedTemplate } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 
@@ -26,13 +26,13 @@ export default {
 
     // pārbaudīt vai prece eksistē
     if (index >= Object.keys(itemList.veikals).length || index < 0) {
-      message.reply(embedError('pirkt', 'Šāda prece neeksistē'))
+      message.reply(embedError(message, 'pirkt', 'Šāda prece neeksistē'))
       return 1
     }
 
     // pārbaudīt vai ievadītais daudzums nav mazāks par 1
     if (amount < 1) {
-      message.reply(embedError('pirkt', `Tu nevari nopirkt ${amount} preces, ļoti smieklīgi`))
+      message.reply(embedError(message, 'pirkt', `Tu nevari nopirkt ${amount} preces, ļoti smieklīgi`))
       return 1
     }
 
@@ -55,14 +55,14 @@ export default {
     const { lati } = await findUser(guildId, userId)
 
     if (lati < total) {
-      message.reply(embedError('pirkt',
+      message.reply(embedError(message, 'pirkt',
         `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: ${total} ${
           latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`))
       return 1
     }
 
     // veiksmīgs pirkums
-    message.reply(itemTemplate('Pirkt',
+    message.reply(embedTemplate(message, 'Pirkt',
       `Tu nopirkti ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
       (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
       itemList.veikals[key].url))

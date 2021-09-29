@@ -73,7 +73,7 @@ export default (client, message) => {
             const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
             const msg = await message.reply(
-              embedError(command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
+              embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
                 ? timeToText(time, 1) : '1 sekundes'}`))
 
             setTimeout(() => msg.delete(), 10000)

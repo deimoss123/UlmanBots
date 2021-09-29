@@ -27,7 +27,7 @@ export default async (client, message, alias, commandOptions) => {
   } else roletest = 1
 
   if (!roletest) {
-    message.reply(embedError(alias, roleError))
+    message.reply(embedError(message, alias, roleError))
     return 2
   }
 
@@ -37,7 +37,7 @@ export default async (client, message, alias, commandOptions) => {
 
   // nepareizas sintakses funkcija
   const wrongSyntax = () => {message.reply(
-      embedTemplate(`${title} - nepareiza sintakse`, `.${alias} ${expectedArgs}`, 'error'))
+      embedTemplate(message, `${title} - nepareiza sintakse`, `.${alias} ${expectedArgs}`, 'error'))
   }
 
   // Pārbauda vai ir pareiza sintakse

@@ -48,9 +48,9 @@ export default {
         })
         i++
       }
-      message.reply(embedSaraksts('Inventārs', `<@${targetId}>`, embedFieldArr, avatarUrl))
+      message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr, avatarUrl))
     } else { // inventārs tukšs
-      message.reply(embedSaraksts('Inventārs',
+      message.reply(embedSaraksts(message, 'Inventārs',
         `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu .bomžot' }],
         avatarUrl))
     }

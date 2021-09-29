@@ -34,7 +34,7 @@ export default {
     if (lati >= 1000) img = 3
     if (lati >= 5000) img = 4
 
-    message.reply(embedTemplate('Maks', `<@${targetId}> ir ${lati.toFixed(2)} lati`, imgLinks.maks[img]))
+    message.reply(embedTemplate(message, 'Maks', `<@${targetId}> ir ${lati.toFixed(2)} lati`, imgLinks.maks[img]))
     return 1
   },
 }
