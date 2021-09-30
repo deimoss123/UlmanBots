@@ -35,7 +35,7 @@ export default {
     const target = await findUser(guildId, targetId)
 
     let nodoklis = 1.1
-    if (checkStatus(guildId, userId, 'juridisks')) nodoklis = 1
+    if (await checkStatus(guildId, userId, 'juridisks')) nodoklis = 1
     
     const arNodokli = floorTwo(latiAmount * nodoklis)
     const nodoklisLati = floorTwo(arNodokli - latiAmount)
