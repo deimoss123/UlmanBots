@@ -23,6 +23,7 @@ export default {
       message.reply(embedTemplate(message, 'Zvejošana', `Tu nozvejoji ${stringifyItems(item)}`,
         imgLinks.zivis[11]))
       await addItems(guildId, userId, item)
+      return 1
     }
   },
 }

@@ -27,7 +27,7 @@ import palidziba from './misc/palidziba.js'
 
 export const commands = [
   palidziba, top, maks, zagt, maksat,
-  bomzot, ubagot, zvejot,
+  bomzot, ubagot, zvejot, stradat,
   inventars, veikals, pirkt, pardot, izmantot, status,
   kakts, izkaktot,
   addLati,
