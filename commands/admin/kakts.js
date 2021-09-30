@@ -18,7 +18,7 @@ export default {
       m: 60000,
       h: 3600000,
       d: 86400000,
-      muziba: 999999999999 // smieklīgi es zinu
+      muziba: -1 // smieklīgi es zinu
     }
     
     const guildId = message.guildId
