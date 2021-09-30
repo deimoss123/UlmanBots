@@ -7,6 +7,7 @@ import { reakcijas } from './reakcijas/reakcijas.js'
 
 import commandHandler from './commands/commandHandler.js'
 import { cacheKaktus, checkKakts } from './ekonomija.js'
+import { antispam } from './antispam.js'
 
 dotenv.config()
 
@@ -58,6 +59,7 @@ client.on('ready', async () => {
         }, timeout)
       })
     } else {
+      await antispam(message)
       await commandHandler(client, message)
       await reakcijas(client, message)
     }
