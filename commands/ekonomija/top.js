@@ -13,7 +13,7 @@ export default {
   callback: async (message, a, b, client) => {
     const guildId = message.guildId
 
-    const results = await getTop()
+    const results = await getTop(guildId)
     let cirkulacija = 0
     let resultsArr = []
 

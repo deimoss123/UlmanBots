@@ -28,7 +28,7 @@ export const findUser = async (guildId, userId) => {
             lati: 0,
             items: {},
             cooldowns: {},
-            status: {}
+            status: {},
           }
           await new profileSchema(newSchema).save()
           result = newSchema
@@ -48,11 +48,15 @@ export const findUser = async (guildId, userId) => {
 }
 
 // atrod bagātākos lietotājus serverī, kā arī nosaka kopējo naudas cirkulāciju
-export const getTop = async () => {
+export const getTop = async (guildId) => {
   console.log('running getTop()')
   return await mongo().then(async mongoose => {
     try {
-      return await profileSchema.find().sort({ 'lati': -1 }).select({ lati:1, userId:1, guildId:1 })
+      const result = await profileSchema.find().
+        sort({ 'lati': -1 }).
+        select({ lati: 1, userId: 1, guildId: 1 })
+
+      return result.filter(r => r['guildId'] === guildId)
     } catch (e) {
       console.error(e)
     }
@@ -131,8 +135,8 @@ export const addStatus = async (guildId, userId, newStatus) => {
       userCache[`${guildId}-${userId}`].status = status
       await profileSchema.findOneAndUpdate({
         guildId,
-        userId
-      }, { status }, { new: true, upsert: true})
+        userId,
+      }, { status }, { new: true, upsert: true })
       return status
     } catch (e) {
       console.error(e)
@@ -141,30 +145,30 @@ export const addStatus = async (guildId, userId, newStatus) => {
 }
 
 export const checkStatus = async (guildId, userId, statusName) => {
-   return await mongo().then(async mongoose => {
-     try {
-       let { status } = await findUser(guildId, userId)
+  return await mongo().then(async mongoose => {
+    try {
+      let { status } = await findUser(guildId, userId)
 
-       if (status[statusName]) {
-         if (status[statusName] <= Date.now()) {
-           delete status[statusName]
+      if (status[statusName]) {
+        if (status[statusName] <= Date.now()) {
+          delete status[statusName]
 
-           userCache[`${guildId}-${userId}`].status = status
-           await profileSchema.findOneAndUpdate({
-             guildId,
-             userId,
-           }, { status }, {})
+          userCache[`${guildId}-${userId}`].status = status
+          await profileSchema.findOneAndUpdate({
+            guildId,
+            userId,
+          }, { status }, {})
 
-           return 0
-         } else return status[statusName] - Date.now()
-       }
-     } catch (e) {
-       console.error(e)
-     }
-   })
+          return 0
+        } else return status[statusName] - Date.now()
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  })
 }
 
-export const addCooldown = async (guildId, userId, command)  => {
+export const addCooldown = async (guildId, userId, command) => {
   return await mongo().then(async mongoose => {
     try {
       let { cooldowns } = await findUser(guildId, userId)
@@ -174,7 +178,7 @@ export const addCooldown = async (guildId, userId, command)  => {
       userCache[`${guildId}-${userId}`].cooldowns = cooldowns
       await profileSchema.findOneAndUpdate({
         guildId,
-        userId
+        userId,
       }, { cooldowns }, { new: true, upsert: true })
     } catch (e) {
       console.error(e)
@@ -186,16 +190,15 @@ export const addKakts = async (guildId, userId, time, isAdd = 1) => {
   return await mongo().then(async mongoose => {
     try {
       const kakti = kaktsCache
-      
-      if (isAdd) {  
+
+      if (isAdd) {
         const timeToAdd = Date.now() + time
         kakti[`${guildId}-${userId}`] = timeToAdd
       } else {
         if (!kakti[`${guildId}-${userId}`]) return 0
         delete kakti[`${guildId}-${userId}`]
       }
-      
-      
+
       kaktsCache = kakti
       await kaktsSchema.findOneAndUpdate({ _id: 'test' }, { kakti })
       return 1
@@ -225,7 +228,7 @@ export const checkKakts = async () => {
             await kaktsRole(args[0], args[1], 0)
           }
         }
-        
+
       })
     } catch (e) {
       console.error(e)
