@@ -8,7 +8,7 @@ const floorTwo = num => { return Math.floor(num * 100) / 100 }
 export default {
   title: 'Maks',
   description: 'Apskatīt savu, vai kāda cita lietotāja latu daudzumu',
-  commands: ['maks', 'm'],
+  commands: ['maks', 'm', 'makste'],
   cooldown: 1000,
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
