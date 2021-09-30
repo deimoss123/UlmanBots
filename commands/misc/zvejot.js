@@ -6,7 +6,7 @@ import { imgLinks } from '../../embeds/imgLinks.js'
 
 export default {
   title: 'Zvejot',
-  description: 'Zvejot dižlatvijas ezeros',
+  description: 'Zvejot dižLatvijas ezeros',
   commands: ['zvejot', 'makskeret'],
   cooldown: 3600000,
   callback: async message => {

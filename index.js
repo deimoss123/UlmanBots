@@ -18,7 +18,7 @@ const channels = [
   '890662723648647249'
 ]
 
-const timeout = 60000
+const timeout = 300000
 
 // definē DiscordJS klientu
 const client = new Client({
