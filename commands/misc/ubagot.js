@@ -18,14 +18,12 @@ export default {
     let itemObj = {}
     itemObj[item] = 1
 
-    console.log(item, 'item to ubagot')
-
     // izvēlās cik naudu var dabūt no ubagošanas
     const lati = Math.floor(((Math.random() * 5) + 3) * 100) / 100
 
     // rezultāts
     message.reply(embedTemplate(message, 'Ubagot',
-      `Tu noubagoji ${lati} latus${item ? ` un ${stringifyItems(itemObj)}` : ''}`,
+      `Tu noubagoji **${lati.toFixed(2)}** latus${item ? ` un ${stringifyItems(itemObj)}` : ''}`,
       'ubagot'))
 
 

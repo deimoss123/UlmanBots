@@ -41,7 +41,7 @@ export default {
       for (const key in statusList) {
         if (!await checkStatus(guildId, userId, `${key}`)) {
           message.reply(embedError(message, 'Zagt',
-          'Lai zagtu no valsts bankas ir nepieciešami visi statusi\nSavus status var apskatīt izmantojot komandu .status'))
+          'Lai zagtu no valsts bankas ir nepieciešami **visi** statusi\nSavus status var apskatīt izmantojot komandu `.status`'))
           return 2
         }
       }

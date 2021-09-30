@@ -11,7 +11,7 @@ export default {
 
     commands.map(cmd => {
       if (cmd.title !== 'AddLati') resultArr.push({
-        name: `.${cmd.commands[0]} ${cmd.expectedArgs ? cmd.expectedArgs : ''}`,
+        name: '`' + `.${cmd.commands[0]} ${cmd.expectedArgs ? cmd.expectedArgs : ''}` + '`',
         value: `${cmd.description}`
       })
     })

@@ -56,7 +56,7 @@ export default {
 
     if (lati < total) {
       message.reply(embedError(message, 'pirkt',
-        `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: ${total} ${
+        `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: **${total}** ${
           latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`))
       return 1
     }

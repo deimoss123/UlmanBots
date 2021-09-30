@@ -12,7 +12,7 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    if (!checkStatus(guildId, userId, 'zvejotajs')) {
+    if (!await checkStatus(guildId, userId, 'zvejotajs')) {
       message.reply(embedError(message, 'Zvejot',
         'Lai zvejotu tev vajag būt zvejotājam, nopērc no veikala makšķeri un izmanto to'))
       return 2

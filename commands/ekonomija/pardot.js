@@ -4,9 +4,11 @@ import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
 
+const floorTwo = num => { return Math.floor(num * 100) / 100 }
+
 export default {
   title: 'Pārdot',
-  description: 'Pārdot preci no inventāra\nPārdot atkritumus - **.pardot a**\nPārdot zivis - **.pardot z**',
+  description: 'Pārdot preci no inventāra\nPārdot atkritumus - `.pardot a`\nPārdot zivis - `.pardot z`',
   commands: ['pardot'],
   cooldown: 10000,
   expectedArgs: '<preces numurs> <daudzums>',
@@ -44,7 +46,7 @@ export default {
       // pārbauda vai ir ko pārdot
       if (Object.keys(items).length) {
         message.reply(embedTemplate(message, 'Pārdot', `Tu pārdevi ${stringifyItems(
-          items)}, un ieguvi ${total} latus\nTev tagad ir ${(result.lati + total).toFixed(
+          items)}, un ieguvi **${floorTwo(total).toFixed(2)}** latus\nTev tagad ir ${(result.lati + total).toFixed(
           2)} ${latsOrLati(result.lati + total)}`, `${type}`))
       } else {
         message.reply(embedTemplate(message, 'Pārdot', `Tev nav ${type} ko pārdot`, `${type}`))
@@ -94,7 +96,7 @@ export default {
         return 2
       } else {
         message.reply(embedTemplate(message, 'Pārdot',
-          `Tu pārdevi ${stringifyItems(items)} par ${total} latiem\nTev tagad ir ${
+          `Tu pārdevi ${stringifyItems(items)} par **${total}** latiem\nTev tagad ir ${
           (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`, imgurl))
       }
     }

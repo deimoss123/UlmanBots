@@ -61,7 +61,7 @@ export const stringifyItems = items => {
   let resultString = resultArr.join(', ')
 
   // noņem pēdējo komatu
-  return resultString.replace(/,([^,]*)$/, '$1')
+  return '`' + resultString.replace(/,([^,]*)$/, '$1') + '`'
 }
 
 // pārvērš laiku sekundēs uz tekstu

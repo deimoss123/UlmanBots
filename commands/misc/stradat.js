@@ -16,7 +16,7 @@ export default {
       return 2
     } else {
       const lati = Math.floor((Math.random() * 20) + 15) 
-      message.reply(embedTemplate(message, 'Strādāt', `Tu pastrādāji veikalā un nopelnīji ${lati} latus`))
+      message.reply(embedTemplate(message, 'Strādāt', `Tu pastrādāji veikalā un nopelnīji **${lati}** latus`))
       await addLati(guildId, userId, lati)
     }
   }

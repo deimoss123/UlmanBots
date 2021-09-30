@@ -38,8 +38,8 @@ export default {
 
     const kaktsTime = Math.floor(args[1]) * time[args[2]]
 
-    message.reply(embedTemplate(message, 'Kakts', `<@${targetId}> sēž kaktā ${args[2] === 'muziba' ? 'mūžību' : `${
-      timeToText(kaktsTime, 2)}`}`))
+    message.reply(embedTemplate(message, 'Kakts', `<@${targetId}> sēž kaktā **${args[2] === 'muziba' ? 'mūžību' : `${
+      timeToText(kaktsTime, 2)}`}**`))
     
     await kaktsRole(guildId, targetId)
     await addKakts(guildId, targetId, kaktsTime)

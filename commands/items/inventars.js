@@ -23,7 +23,6 @@ export default {
     }
 
     const { items } = await findUser(guildId, targetId)
-    const avatarUrl = await client.users.cache.find(user => user.id === targetId).avatarURL()
 
     // pārbauda vai inventārs nav tukšs
     if (Object.keys(items).length) {
@@ -40,19 +39,18 @@ export default {
 
         // izveido inventāra embed sarakstu
         embedFieldArr.push({
-          name: `[${embedFieldArr.length + 1}] ${
-            item.nameNomVsk.charAt(0).toUpperCase() + item.nameNomVsk.slice(1)}`,
-          value: `daudzums - ${items[key]}\nvērtība - ${item.price} ${latsOrLati(
-            item.price)}\nlietojams - ${item.use ? 'jā' : 'nē'}`,
+          name: '`' + `[${embedFieldArr.length + 1}] ${
+            item.nameNomVsk.charAt(0).toUpperCase() + item.nameNomVsk.slice(1)}` + '`',
+          value: `daudzums - ${items[key]}\nvērtība - **${item.price}** ${latsOrLati(
+            item.price)}\nlietojams - ${item.use ? '✅' : '❌'}`,
           inline: true,
         })
         i++
       }
-      message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr, avatarUrl))
+      message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
     } else { // inventārs tukšs
       message.reply(embedSaraksts(message, 'Inventārs',
-        `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu .bomžot' }],
-        avatarUrl))
+        `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu `.bomžot`' }]))
     }
 
     return 1

@@ -22,7 +22,7 @@ export default {
     if (!targetId || isNaN(latiAmount)) return 0
 
     if (latiAmount < 1) {
-      message.reply(embedError(message, 'maksāt', `Minimālais maksāšanas daudzums ir 1 lats`))
+      message.reply(embedError(message, 'maksāt', `Minimālais maksāšanas daudzums ir **1** lats`))
       return 2
     }
     
@@ -43,16 +43,16 @@ export default {
     if (floorTwo(user.lati) < arNodokli) {
       message.reply(embedError(message, 'maksāt',
         `Tev nav ${arNodokli.toFixed(2)} ${latsOrLati(
-          arNodokli)}\nTu maksimāli vari maksāt ${floorTwo(
-          user.lati / nodoklis).toFixed(2)} latus`))
+          arNodokli)}\nTu maksimāli vari maksāt **${floorTwo(
+          user.lati / nodoklis).toFixed(2)}** latus`))
       return 2
     } else {
       message.reply(embedTemplate(message, 'Maksāt',
-        `Tu iedevi ${latiAmount.toFixed(2)} latus <@${targetId}>, ${nodoklisLati.toFixed(2)} ${
+        `Tu iedevi **${latiAmount.toFixed(2)}** latus <@${targetId}>, ${nodoklisLati.toFixed(2)} ${
           latsOrLati(nodoklisLati)} aizgāja nodokļos\n<@${
-          targetId}> tagad ir ${floorTwo(target.lati + latiAmount).toFixed(2)} ${
-          latsOrLati(floorTwo(target.lati + latiAmount))}\nTev palika ${
-          (user.lati - arNodokli).toFixed(2)} ${latsOrLati(user.lati - arNodokli)}`))
+          targetId}> tagad ir **${floorTwo(target.lati + latiAmount).toFixed(2)}** ${
+          latsOrLati(floorTwo(target.lati + latiAmount))}\nTev palika **${
+          (user.lati - arNodokli).toFixed(2)}** ${latsOrLati(user.lati - arNodokli)}`))
 
       // noņem no lietotāja
       await addLati(guildId, userId, arNodokli * -1)
