@@ -9,7 +9,7 @@ export default {
   title: 'Pirkt',
   description: 'Nopirkt preci no veikala',
   commands: ['pirkt'],
-  cooldown: 2000,
+  cooldown: 1000,
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,
@@ -32,7 +32,8 @@ export default {
 
     // pārbaudīt vai ievadītais daudzums nav mazāks par 1
     if (amount < 1) {
-      message.reply(embedError(message, 'pirkt', `Tu nevari nopirkt ${amount} preces, ļoti smieklīgi`))
+      message.reply(
+        embedError(message, 'pirkt', `Tu nevari nopirkt ${amount} preces, ļoti smieklīgi`))
       return 1
     }
 
@@ -57,7 +58,8 @@ export default {
     if (lati < total) {
       message.reply(embedError(message, 'pirkt',
         `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: **${total}** ${
-          latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`))
+          latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`,
+        itemList.veikals[key].url))
       return 1
     }
 

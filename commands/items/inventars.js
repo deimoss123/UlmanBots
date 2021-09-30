@@ -7,7 +7,7 @@ export default {
   title: 'Inventārs',
   description: 'Apskatīt savu, vai kāda cita lietotāja inventāru',
   commands: ['inv', 'i', 'inventars'],
-  cooldown: 2000,
+  cooldown: 1000,
   expectedArgs: '<@lietotājs>',
   maxArgs: 1,
   callback: async (message, args, a, client) => {

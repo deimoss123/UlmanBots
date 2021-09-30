@@ -10,7 +10,7 @@ export default {
   title: 'Pārdot',
   description: 'Pārdot preci no inventāra\nPārdot atkritumus - `.pardot a`\nPārdot zivis - `.pardot z`',
   commands: ['pardot'],
-  cooldown: 10000,
+  cooldown: 1000,
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,
@@ -46,10 +46,12 @@ export default {
       // pārbauda vai ir ko pārdot
       if (Object.keys(items).length) {
         message.reply(embedTemplate(message, 'Pārdot', `Tu pārdevi ${stringifyItems(
-          items)}, un ieguvi **${floorTwo(total).toFixed(2)}** latus\nTev tagad ir ${(result.lati + total).toFixed(
+          items)}, un ieguvi **${floorTwo(total).toFixed(2)}** latus\nTev tagad ir ${(result.lati +
+          total).toFixed(
           2)} ${latsOrLati(result.lati + total)}`, `${type}`))
       } else {
-        message.reply(embedTemplate(message, 'Pārdot', `Tev nav ${type} ko pārdot`, `${type}`))
+        message.reply(embedTemplate(message, 'Pārdot', `Tev nav ${type} ko pārdot`,
+          `${type === 'zivis' ? imgLinks.zivis[11] : type}`))
         return 2
       }
     } else { // pārdot atsevišķu preci
@@ -62,7 +64,8 @@ export default {
 
       // pārbaudīt vai ievadītais daudzums nav mazāks par 1
       if (amount < 1) {
-        message.reply(embedError(message, 'pārdot', `Tu nevari pārdot ${amount} lietas, ļoti smieklīgi`))
+        message.reply(
+          embedError(message, 'pārdot', `Tu nevari pārdot ${amount} lietas, ļoti smieklīgi`))
         return 2
       }
 
@@ -92,12 +95,13 @@ export default {
 
       // pārbauda vai lietotājam ir tik daudz itemu
       if (result.items[resultKey] < amount) {
-        message.reply(embedTemplate(message, 'Pārdot', `Tavā inventārā nav ${stringifyItems(items)}`, imgurl))
+        message.reply(
+          embedTemplate(message, 'Pārdot', `Tavā inventārā nav ${stringifyItems(items)}`, imgurl))
         return 2
       } else {
         message.reply(embedTemplate(message, 'Pārdot',
           `Tu pārdevi ${stringifyItems(items)} par **${total}** latiem\nTev tagad ir ${
-          (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`, imgurl))
+            (result.lati + total).toFixed(2)} ${latsOrLati(result.lati + total)}`, imgurl))
       }
     }
 

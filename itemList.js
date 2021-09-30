@@ -1,5 +1,6 @@
 import { addLati, addStatus, findUser } from './ekonomija.js'
 import { timeToText } from './helperFunctions.js'
+import { imgLinks } from './embeds/imgLinks.js'
 
 /*
 template objekts priekš kopēšanas
@@ -245,7 +246,7 @@ export const itemList = {
       nameAkuDsk: 'draudziņzivis',
       price: 10,
       chance: '*',
-      url: null,
+      url: imgLinks.zivis[11],
     },
     daundizvs: {
       nameNomVsk: 'dauņzivs',
@@ -254,7 +255,7 @@ export const itemList = {
       nameAkuDsk: 'dauņzivis',
       price: 10,
       chance: '*',
-      url: null,
+      url: imgLinks.zivis[11],
     },
     dizdraudzinzivs: {
       nameNomVsk: 'diždraudziņzivs',
@@ -263,7 +264,7 @@ export const itemList = {
       nameAkuDsk: 'diždraudziņzivis',
       price: 25,
       chance: 0.2,
-      url: null,
+      url: imgLinks.zivis[11],
     },
     dizdaundizvs: {
       nameNomVsk: 'diždauņzivs',
@@ -272,7 +273,7 @@ export const itemList = {
       nameAkuDsk: 'diždauņzivis',
       price: 25,
       chance: 0.2,
-      url: null,
+      url: imgLinks.zivis[11],
     },
     divainazivs: {
       nameNomVsk: 'dīvainā zivs',
@@ -281,7 +282,7 @@ export const itemList = {
       nameAkuDsk: 'dīvainās zivis',
       price: 100,
       chance: 0.1,
-      url: null,
+      url: imgLinks.zivis[11],
 
     },
     juridiskazivs: {
@@ -291,7 +292,7 @@ export const itemList = {
       nameAkuDsk: 'juridiskās zivis',
       price: 100,
       chance: 0.1,
-      url: null,
+      url: imgLinks.zivis[11],
       use: async message => {
         const result = await addStatus(message.guildId, message.author.id,
           { juridisks: statusList.juridisks.time })

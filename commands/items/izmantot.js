@@ -6,7 +6,7 @@ export default {
   title: 'Izmantot',
   description: 'Izmantot kādu lietu no inventāra',
   commands: ['izmantot', 'lietot'],
-  cooldown: 5000,
+  cooldown: 1000,
   expectedArgs: '<lietas numurs>',
   maxArgs: 2,
   minArgs: 1,
@@ -30,7 +30,9 @@ export default {
       if (itemList[key][selectedItem]) {
         if (!itemList[key][selectedItem].use) {
           message.reply(
-            embedError(message, 'Izmantot', `${itemList[key][selectedItem].nameNomVsk} nav izmantojams`))
+            embedError(message, 'Izmantot',
+              `${itemList[key][selectedItem].nameNomVsk} nav izmantojams`,
+              itemList[key][selectedItem].url))
           return 2
         } else {
           let item = {}
@@ -38,7 +40,8 @@ export default {
           await addItems(guildId, userId, item)
           const text = await itemList[key][selectedItem].use(message, result, args)
           message.reply(
-            embedTemplate(message, `Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text, itemList[key][selectedItem].url))
+            embedTemplate(message, `Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text,
+              itemList[key][selectedItem].url))
           return 1
         }
       }

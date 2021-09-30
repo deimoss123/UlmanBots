@@ -7,7 +7,7 @@ export default {
   title: 'Ubagot',
   description: 'Ubagot uz ielas',
   commands: ['ubagot', 'ubags'],
-  cooldown: 10000,
+  cooldown: 1800000,
   callback: async (message) => {
     const guildId = message.guildId
     const userId = message.author.id

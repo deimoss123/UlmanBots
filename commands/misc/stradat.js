@@ -5,7 +5,7 @@ export default {
   title: 'Strādāt',
   description: 'Strādāt veikalā',
   commands: ['stradat', 'darbs'],
-  cooldown: 1000,
+  cooldown: 3600000,
   callback: async message => {
     const guildId = message.guildId
     const userId = message.author.id

@@ -7,7 +7,7 @@ export default {
   title: 'Statusu saraksts',
   description: 'Apskatīt savu, vai kāda cita lietotāja statusus',
   commands: ['status', 'statuss'],
-  cooldown: 5000,
+  cooldown: 1000,
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
   callback: async (message, args) => {
