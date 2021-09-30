@@ -76,7 +76,7 @@ export default (client, message) => {
               embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
                 ? timeToText(time, 1) : '1 sekundes'}`))
 
-            setTimeout(() => msg.delete(), 10000)
+            setTimeout(() => msg.delete(), 15000)
           }
         }
       })
