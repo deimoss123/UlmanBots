@@ -1,5 +1,5 @@
 import { addLati, addStatus, findUser } from './ekonomija.js'
-import { timeToText } from './helperFunctions.js'
+import { chance, timeToText } from './helperFunctions.js'
 import { imgLinks } from './embeds/imgLinks.js'
 
 /*
@@ -87,7 +87,41 @@ export const itemList = {
       chance: 0,
       url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
       use: async message => {
+        const laimesti = {
+          massive: {
+            name: 'milzīgo',
+            chance: 0.02,
+            reward: 1000
+          },
+          big: {
+            name: 'lielo',
+            chance: 0.1,
+            reward: 250
+          },
+          mid: {
+            name: 'vidējo',
+            chance: 0.2,
+            reward: 120
+          },
+          small: {
+            name: 'mazo',
+            chance: 0.4,
+            reward: 50
+          },
+          nothing: {
+            name: 'neko',
+            chance: '*',
+            reward: 0
+          }
+        }
+        const res = chance(laimesti)
 
+        if (laimesti[res].name !== 'neko') {
+          await addLati(message.guildId, message.author.id, laimesti[res].reward)
+          return `Tu vinnēji ${laimesti[res].name} laimestu - **${laimesti[res].reward}** latus`
+        } else {
+          return `Tu neko nevinnēji :(`
+        }
       },
     },
     zemenurasens: {

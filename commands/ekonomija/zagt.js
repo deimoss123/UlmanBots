@@ -22,7 +22,7 @@ export default {
   title: 'Zagt',
   description: 'Apzagt kādu lietotāju',
   commands: ['zagt', 'apzagt'],
-  cooldown: 600000,
+  cooldown: 6000,
   expectedArgs: '<@lietotājs>',
   minArgs: 1,
   maxArgs: 1,
@@ -32,6 +32,11 @@ export default {
 
     let targetId = getUserId(args[0])
     if (!targetId) return 0
+
+    if (await checkStatus(guildId, targetId, 'aizsardziba')) {
+      message.reply(embedTemplate(message, 'Zagšana', `Tu nevari zagt no <@${targetId}>, jo viņam ir aizsardzība`))
+      return 2
+    }
 
     const user = await findUser(guildId, userId)
     const target = await findUser(guildId, targetId)
