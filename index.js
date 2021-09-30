@@ -13,8 +13,9 @@ dotenv.config()
 
 // kanāli kuros ziņas izdzēšas pēc noteikta laika
 const channels = [
-  '875123318842351757',
-  '875083366611955715'
+  '797584379685240885',
+  '797587282672484392',
+  '890662723648647249'
 ]
 
 const timeout = 15000
@@ -72,7 +73,7 @@ client.login(process.env.TOKEN).then(() => {
 })
 
 // okdd '798149915057717269'
-const kaktsRoleId = '892509162590842880'
+const kaktsRoleId = '798149915057717269'
 
 export const kaktsRole = async (guildId, userId, isAdd = 1) => {
   const guild = await client.guilds.cache.get(guildId)
