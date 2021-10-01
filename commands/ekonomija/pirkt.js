@@ -65,7 +65,7 @@ export default {
 
     // veiksmīgs pirkums
     message.reply(embedTemplate(message, 'Pirkt',
-      `Tu nopirkti ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
+      `Tu nopirki ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
       (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
       itemList.veikals[key].url))
 
