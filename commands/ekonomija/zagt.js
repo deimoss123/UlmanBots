@@ -22,7 +22,7 @@ export default {
   title: 'Zagt',
   description: 'Apzagt kādu lietotāju',
   commands: ['zagt', 'apzagt'],
-  cooldown: 6000,
+  cooldown: 600000,
   expectedArgs: '<@lietotājs>',
   minArgs: 1,
   maxArgs: 1,
