@@ -7,7 +7,7 @@ import { imgLinks } from '../../embeds/imgLinks.js'
 export default {
   title: 'Zvejot',
   description: 'Zvejot dižLatvijas ezeros',
-  commands: ['zvejot', 'makskeret'],
+  commands: ['zvejot', 'makskeret', 'copet'],
   cooldown: 3600000,
   callback: async message => {
     const guildId = message.guildId
