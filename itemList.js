@@ -357,7 +357,7 @@ export const statusList = {
     time: 43200000, // 12h 43200000
   },
   zvejotajs: {
-    name: 'Zvejotājs',
+    name: 'Zvejnieks',
     time: 86400000, // 24h 86400000
   },
   juridisks: {
