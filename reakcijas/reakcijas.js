@@ -40,6 +40,14 @@ export const reakcijas = (client, message) => {
     return
   }
 
+  // KABACIS
+  if (content.includes('kabacis')) {
+    message.reply({
+      embeds: [reakcEmbeds('kabacis')],
+      allowedMentions: { repliedUser: false },
+    })
+  }
+
   // DĪVAINĀ ZIVS
   if (content.includes('zivs')) {
     message.reply({

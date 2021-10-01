@@ -15,6 +15,13 @@ export const reakcEmbeds = embedName => {
             Math.random() * imgLinks.zivis.length)],
         },
       }
+    case 'kabacis':
+      return {
+        color: 0x9d2235,
+        image: {
+          url: imgLinks.kabacis
+        },
+      }
   }
 }
 

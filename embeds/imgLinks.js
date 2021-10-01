@@ -3,6 +3,8 @@ export const imgLinks = {
   ulmanis: 'https://i.postimg.cc/W3fvhpJp/Karlis-Ulmanis.jpg',
   rimi: 'https://i.postimg.cc/VkYzz6Lf/rimi.png',
 
+  kabacis: 'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
+
   error: [
     'https://i.postimg.cc/tR5mBxrN/error1.jpg',
     'https://i.postimg.cc/NfjCSjSq/error2.jpg',
