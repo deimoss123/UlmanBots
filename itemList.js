@@ -90,22 +90,22 @@ export const itemList = {
         const laimesti = {
           massive: {
             name: 'milzīgo',
-            chance: 0.02,
+            chance: 0.01,
             reward: 1000
           },
           big: {
             name: 'lielo',
-            chance: 0.1,
+            chance: 0.08,
             reward: 250
           },
           mid: {
             name: 'vidējo',
-            chance: 0.2,
+            chance: 0.15,
             reward: 120
           },
           small: {
             name: 'mazo',
-            chance: 0.4,
+            chance: 0.3,
             reward: 50
           },
           nothing: {
