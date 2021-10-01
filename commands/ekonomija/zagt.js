@@ -58,7 +58,7 @@ export default {
       const status = {}
       Object.keys(statusList).map(key => status[key] = -10000000000)
       
-      //await addStatus(guildId, userId, status)
+      await addStatus(guildId, userId, status)
       await addLati(guildId, userId, lati)
       await addLati(guildId, targetId, lati * -1)
       return 1
