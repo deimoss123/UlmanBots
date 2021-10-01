@@ -51,14 +51,14 @@ export default {
         }
       }
 
-      const lati = Math.floor((Math.random() * target.lati * 0.3) + 0.3)
+      const lati = target.lati * ( (Math.random() * 0.3) + 0.3 )
       message.reply(embedTemplate(message, 'Zagt',
       `Tu nozagi ${floorTwo(lati).toFixed(2)} latus no valsts bankas un pazaudēji visus statusus`))
       
       const status = {}
       Object.keys(statusList).map(key => status[key] = -10000000000)
       
-      await addStatus(guildId, userId, status)
+      //await addStatus(guildId, userId, status)
       await addLati(guildId, userId, lati)
       await addLati(guildId, targetId, lati * -1)
       return 1
