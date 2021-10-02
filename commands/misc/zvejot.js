@@ -15,7 +15,7 @@ export default {
 
     if (!await checkStatus(guildId, userId, 'zvejotajs')) {
       message.reply(embedError(message, 'Zvejot',
-        'Lai zvejotu tev vajag būt zvejotājam, nopērc no veikala makšķeri un izmanto to'))
+        'Lai zvejotu tev vajag būt licencētam zvejniekam, nopērc no veikala zvejošanas licenci un izmanto to'))
       return 2
     } else {
       let item = {}

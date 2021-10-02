@@ -38,7 +38,7 @@ export const itemList = {
       nameNomDsk: 'mullermilch',
       nameAkuVsk: 'mullermilch',
       nameAkuDsk: 'mullermilch',
-      price: 500,
+      price: 450,
       chance: 0,
       url: 'https://i.postimg.cc/QtJ3QLXq/mullermilch.jpg',
       use: async (message) => {
@@ -49,18 +49,64 @@ export const itemList = {
       },
     },
     makskere: {
-      nameNomVsk: 'makšķere',
-      nameNomDsk: 'makšķeres',
-      nameAkuVsk: 'makšķeri',
-      nameAkuDsk: 'makšķeres',
-      price: 200,
+      nameNomVsk: 'zvejošans licence',
+      nameNomDsk: 'zvejošans licences',
+      nameAkuVsk: 'zvejošans licenci',
+      nameAkuDsk: 'zvejošans licences',
+      price: 175,
       chance: 0,
       url: 'https://i.postimg.cc/B603PZG6/makskere.jpg',
       use: async (message) => {
         const result = await addStatus(message.guildId, message.author.id,
           { zvejotajs: statusList.zvejotajs.time })
-        return `Tu agresīvi paskatījies uz makšķeri\nTu vari zvejot **${timeToText(
+        return `Tu agresīvi paskatījies uz zvejošanas licenci\nTu vari zvejot **${timeToText(
           result.zvejotajs - Date.now(), 2)}**`
+      },
+    },
+    dizloto: {
+      nameNomVsk: 'dižloto biļete',
+      nameNomDsk: 'dižloto biļetes',
+      nameAkuVsk: 'dižloto biļeti',
+      nameAkuDsk: 'dižloto biļetes',
+      price: 150,
+      chance: 0,
+      url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
+      use: async message => {
+        const laimesti = {
+          massive: {
+            name: 'milzīgo',
+            chance: 0.01,
+            reward: 4000
+          },
+          big: {
+            name: 'lielo',
+            chance: 0.08,
+            reward: 800
+          },
+          mid: {
+            name: 'vidējo',
+            chance: 0.15,
+            reward: 400
+          },
+          small: {
+            name: 'mazo',
+            chance: 0.3,
+            reward: 175
+          },
+          nothing: {
+            name: 'neko',
+            chance: '*',
+            reward: 0
+          }
+        }
+        const res = chance(laimesti)
+
+        if (laimesti[res].name !== 'neko') {
+          await addLati(message.guildId, message.author.id, laimesti[res].reward)
+          return `Tu vinnēji ${laimesti[res].name} laimestu - **${laimesti[res].reward}** latus`
+        } else {
+          return `Tu neko nevinnēji :(`
+        }
       },
     },
     nazis: {
@@ -76,6 +122,21 @@ export const itemList = {
           { laupitajs: statusList.laupitajs.time })
         return `Tu izvilki nazi un agresīvi sāki skatīties uz garāmgājējiem\nTavai zagšanai ir palielināta efektivitāte **${
           timeToText(result.laupitajs - Date.now(), 2)}**`
+      },
+    },
+    zemenurasens: {
+      nameNomVsk: 'zemeņu Rāsēns',
+      nameNomDsk: 'zemeņu Rāsēni',
+      nameAkuVsk: 'zemeņu Rāsēnu',
+      nameAkuDsk: 'zemeņu Rāsēnus',
+      price: 55,
+      chance: 0,
+      url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg',
+      use: async message => {
+        const result = await addStatus(message.guildId, message.author.id,
+          { aizsardziba: 3600000 })
+        return `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\nTu esi aizsargāts no zagšanas **${
+          timeToText(result.aizsardziba - Date.now(), 2)}**`
       },
     },
     latloto: {
@@ -122,21 +183,6 @@ export const itemList = {
         } else {
           return `Tu neko nevinnēji :(`
         }
-      },
-    },
-    zemenurasens: {
-      nameNomVsk: 'zemeņu Rāsēns',
-      nameNomDsk: 'zemeņu Rāsēni',
-      nameAkuVsk: 'zemeņu Rāsēnu',
-      nameAkuDsk: 'zemeņu Rāsēnus',
-      price: 50,
-      chance: 0,
-      url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg',
-      use: async message => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { aizsardziba: 3600000 })
-        return `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\nTu esi aizsargāts no zagšanas **${
-          timeToText(result.aizsardziba - Date.now(), 2)}**`
       },
     },
     virve: {
