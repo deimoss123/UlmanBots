@@ -3,7 +3,7 @@ import { kaktsRole } from './index.js'
 import { addKakts } from './ekonomija.js'
 
 const limit = 10
-const timeframe = 10000
+const timeframe = 15000
 
 
 const msgCache = {}
