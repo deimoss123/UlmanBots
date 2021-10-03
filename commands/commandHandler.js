@@ -24,6 +24,7 @@ import stradat from './misc/stradat.js'
 import kakts from './admin/kakts.js'
 import izkaktot from './admin/izkaktot.js'
 import palidziba from './misc/palidziba.js'
+import feniks from './ekonomija/feniks.js'
 
 export const commands = [
   palidziba, top, maks, zagt, maksat,
@@ -31,6 +32,13 @@ export const commands = [
   inventars, veikals, pirkt, pardot, izmantot, status,
   kakts, izkaktot,
   addLati,
+]
+
+// lietotāju melnais saraksts
+const blacklist = [
+  '893518835808890880', // edzhas alts 1
+  '893527734431678584', // edzhas alts 2
+  '893457171478642728', // edzhas alts 3
 ]
 
 export default (client, message) => {
@@ -52,6 +60,10 @@ export default (client, message) => {
     commands.map(command => {
       command.commands.map(async cmd => {
         if (userCommand === cmd) {
+
+          // neļauj cilvēkiem melnajā sarakstā lietot komandas
+          for (const id in blacklist) if (id === userId) return
+
           // addlati komandu var izmantot tikai testa serverī
           if (command.title === 'AddLati' && guildId !== '875083366611955712') return
 
