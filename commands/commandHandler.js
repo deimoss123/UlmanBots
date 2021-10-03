@@ -62,7 +62,7 @@ export default (client, message) => {
         if (userCommand === cmd) {
 
           // neļauj cilvēkiem melnajā sarakstā lietot komandas
-          for (const id in blacklist) if (id === userId) return
+          if (blacklist.includes(userId)) return
 
           // addlati komandu var izmantot tikai testa serverī
           if (command.title === 'AddLati' && guildId !== '875083366611955712') return
