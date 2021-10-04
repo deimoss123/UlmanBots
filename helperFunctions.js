@@ -33,7 +33,7 @@ export const chance = obj => {
 }
 
 
-// pārvērš array ar itemiem par izlasāmu tekstu
+// pārvērš arr ar itemiem par izlasāmu tekstu
 export const stringifyItems = items => {
 
   let resultArr = []
@@ -57,7 +57,7 @@ export const stringifyItems = items => {
     resultArr[resultArr.length - 1] = 'un ' + resultArr[resultArr.length - 1]
   }
 
-  // pārtaisa jauno array par stringu ar komatiem
+  // pārtaisa jauno arr par stringu ar komatiem
   let resultString = resultArr.join(', ')
 
   // noņem pēdējo komatu
@@ -125,5 +125,21 @@ export const getUserId = (text) => {
     }
     return text
   } else return 0
+}
+
+// sajauc array randoma
+export const shuffle = (arr) => {
+  let currentIndex = arr.length,  randomIndex
+
+  while (currentIndex !== 0) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+
+    [arr[currentIndex], arr[randomIndex]] = [
+      arr[randomIndex], arr[currentIndex]]
+  }
+
+  return arr
 }
 

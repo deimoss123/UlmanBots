@@ -1,6 +1,6 @@
 import { imgLinks } from './imgLinks.js'
 
-const ulmanversija = '3.0'
+export const ulmanversija = '3.1'
 
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {

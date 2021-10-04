@@ -4,6 +4,7 @@ export const imgLinks = {
   rimi: 'https://i.postimg.cc/VkYzz6Lf/rimi.png',
 
   kabacis: 'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
+  fenikss: 'https://i.postimg.cc/xdJyG8hd/fenikss-neg.png',
 
   error: [
     'https://i.postimg.cc/tR5mBxrN/error1.jpg',
