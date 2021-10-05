@@ -94,6 +94,20 @@ export const atbildes = {
     ],
   },
 
+  piens: {
+    text: [
+      'piens',
+      'pienu',
+      'pienins',
+      'pieninu',
+      'rasens',
+      'mullermilch'
+    ],
+    atb: [
+      'Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛'
+    ]
+  },
+
   // ulmaņa atbildes kādam pieminot martinsonu
   martinsons: {
     text: [
