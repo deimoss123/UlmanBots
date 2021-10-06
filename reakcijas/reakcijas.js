@@ -23,6 +23,7 @@ export const reakcijas = (client, message) => {
   // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)
   if (/^[\u0410-\u044F]+$/.test(message.content)) {
     message.reply(atbTemplate(atbildes.kirilica.atb, message.content))
+    return
   }
 
   // pārveido message uz lower case un noņem mīkstinājum un garumzīmes
@@ -31,11 +32,13 @@ export const reakcijas = (client, message) => {
   // JAUTĀJUMS
   if (content.endsWith('?') && content.startsWith('ulmani')) {
     message.reply(atbTemplate(atbildes.jaut.atb, content))
+    return
   }
 
   // SIEVIETE
   if (content.includes('sieviete')) {
     message.reply(atbTemplate(atbildes.sieviete.atb, content))
+    return
   }
 
   // KABACIS
@@ -44,6 +47,7 @@ export const reakcijas = (client, message) => {
       embeds: [reakcEmbeds('kabacis')],
       allowedMentions: { 'users': [] },
     })
+    return
   }
 
   // LABS
@@ -51,6 +55,7 @@ export const reakcijas = (client, message) => {
     message.reply(imgLinks['labs'][Math.floor(Math.random() * 2)], {
       allowedMentions: { 'users': [] },
     })
+    return
   }
 
   // DĪVAINĀ ZIVS
@@ -59,6 +64,7 @@ export const reakcijas = (client, message) => {
       embeds: [reakcEmbeds('zivs')],
       allowedMentions: { 'users': [] },
     })
+    return
   }
 
   let atbildesKeys = Object.keys(atbildes)
@@ -68,6 +74,7 @@ export const reakcijas = (client, message) => {
     for(const text of atbildes[key].text) {
       if (content.includes(text)) {
         message.reply(atbTemplate(atbildes[key].atb, content, 1))
+        return
       }
     }
   }
