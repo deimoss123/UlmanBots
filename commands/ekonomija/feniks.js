@@ -6,6 +6,9 @@ import { imgLinks } from '../../embeds/imgLinks.js'
 
 // ~ 93% vidējais atgriezums
 const laimesti = {
+  varde: {
+    chance: '*',
+  },
   depresija: {
     chance: '*',
   },
@@ -20,7 +23,7 @@ const laimesti = {
     chance: 0.08,
     multiplier: 0.1
   },
-  varde: {
+  muskulis: {
     chance: 0.05,
     multiplier: 0.2
   },
@@ -76,13 +79,15 @@ const testChances = (laim) => {
 
 // EJ NAHUJ ŠITO HUIŅU
 
-const slotsEmbed = (message, emojis, won = undefined, multiplier) => {
+const slotsEmbed = (message, emojis, won, multiplier, lati) => {
   let izsauk = ''
   for (let i = 0; i < Math.floor(multiplier) + 1; i++) izsauk += '!'
 
   let res, color
   if (won !== 0) {
-    color = 0x1ed402
+    if (Math.floor(multiplier) < 1) color = 0xe3911e
+    else if (multiplier === 1) color = 0xe6de0e
+    else color = 0x1ed402
     res = `<@${message.author.id}> LAIMĒJA **${Math.round(won)}** LATUS **${izsauk}**`
   }
   else {
@@ -97,7 +102,8 @@ const slotsEmbed = (message, emojis, won = undefined, multiplier) => {
   return {
     embeds: [{
       title: 'Ulmaņa naudas aparāts',
-      description: `${won !== undefined ? `${res} \n` : '⠀\n'}`  +
+      description: `Likme - ${lati} lati\n` +
+        `${won !== undefined ? `${res} \n\n` : '⠀\n\n'}`  +
         `${cloneEmojis[0].join(' ')}\n` +
         `${cloneEmojis[1].join(' ')}\n` +
         '---------------------\n' +
@@ -124,7 +130,7 @@ const sl = async (message, win, lati) => {
   // ģenerēt pirmās līnijas
   emojis.map((_, i) => emojis[i] = generateRow(laimesti).row)
 
-  const msg = await message.reply(slotsEmbed(message, emojis))
+  const msg = await message.reply(slotsEmbed(message, emojis, undefined, undefined, lati))
 
   let i = 0
   emojis.pop()
@@ -134,7 +140,7 @@ const sl = async (message, win, lati) => {
 
     if (i < 2) setTimeout(_ => {
       i++
-      msg.edit(slotsEmbed(message, emojis))
+      msg.edit(slotsEmbed(message, emojis, undefined, undefined, lati))
 
       emojis.pop()
       emojis.unshift(generateRow(laimesti).row)
@@ -143,7 +149,7 @@ const sl = async (message, win, lati) => {
     }, 1000)
 
     else setTimeout(_ => {
-      msg.edit(slotsEmbed(message, emojis, lati * win.totalMultiplier, win.totalMultiplier))
+      msg.edit(slotsEmbed(message, emojis, lati * win.totalMultiplier, win.totalMultiplier, lati))
     }, 1000)
   }
 
@@ -163,7 +169,9 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    const likmes = [50, 100, 200, 500, 1000, 5000]
+    let likme = args[0]
+
+    const likmes = ['50', '100', '200', '500', '1000', '2000', '5000']
     let reizinataji = ''
     Object.keys(laimesti).map(l => {
       if (laimesti[l].multiplier) {
@@ -175,32 +183,53 @@ export default {
       message.reply(embedTemplate(message, 'Fenikss',
         'Lai grieztu aparātu izmanto komandu `.feniks <likme>`\n' +
         `Pieejamās likmes - **${likmes.join(', ')}** lati\n\n` +
+        'Lai grieztu aparātu ar nejauši izvēlētu likmi izmanto `.feniks virve`\n\n' +
         '**Reizinātāji**\n' +
         `${reizinataji}`
       , imgLinks.fenikss))
       return 2
-    } else if (!likmes.includes(parseInt(args[0]))) {
+    } else if (!likmes.includes(likme) && likme !== 'virve') {
       message.reply(embedError(message, 'Fenikss', 'Tu neesi izvēlējies pareizu likmi\n' +
         `Pieejamās likmes - **${likmes.join(', ')}** lati\n\n`
       ))
       return 2
     } else {
       const { lati } = await findUser(guildId, userId)
-      if (lati < parseInt(args[0])) {
+
+      if (likme === 'virve'){
+        if (lati < 50) {
+          message.reply(embedError(message, 'Fenikss',
+            `Lai grieztu pašnāvnieku aparātu tev vajag vismaz 50 latus\nTev ir **${
+            floorTwo(lati).toFixed(2)}** lati`))
+          return 2
+        }
+        likme = Math.floor( Math.random() * (lati - 50) ) + 50
+      } else if (lati < likme) {
         message.reply(embedError(message, 'Fenikss',
-          `Tev nepietiek naudas lai grieztu aparātu ar **${args[0]}** latu likmi\nTev ir **${
-          floorTwo(lati).toFixed(2)}** lati`))
+          `Tev nepietiek naudas lai grieztu aparātu ar **${likme}** latu likmi\nTev ir **${
+            floorTwo(lati).toFixed(2)}** lati`))
         return 2
-      } else {
-
-        const win = generateRow(laimesti)
-        await sl(message, win, parseInt(args[0]))
-
-        const resLati = (parseInt(args[0]) * -1) + Math.round(parseInt(args[0]) * win.totalMultiplier)
-
-        await addLati(guildId, userId, resLati)
-        return 1
       }
+
+      /*
+      if (likme === 'max') {
+        if (lati < 50) {
+          message.reply(embedError(message, 'Feniks',
+            `Tev vajag vismaz 50 latus lai grieztu aparātu\nTev ir **${
+            floorTwo(lati).toFixed(2)}** lati`))
+          return 2
+        } else likme = lati
+      }
+      */
+
+      const win = generateRow(laimesti)
+      await sl(message, win, likme)
+
+      const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
+
+      await addLati(guildId, userId, resLati)
+      return 1
+
     }
   }
 }
