@@ -1,6 +1,7 @@
 import { reakcEmbeds } from '../embeds/embeds.js'
 import { atbildes, emoji } from './atbildes.js'
 import { latToEng } from '../helperFunctions.js'
+import { imgLinks } from '../embeds/imgLinks.js'
 
 // ģenerē random numuru no 0 līdz num
 const rand = num => {
@@ -44,7 +45,14 @@ export const reakcijas = (client, message) => {
   if (content.includes('kabacis')) {
     message.reply({
       embeds: [reakcEmbeds('kabacis')],
-      allowedMentions: { repliedUser: false },
+      allowedMentions: { 'users': [] },
+    })
+  }
+
+  // LABS
+  if (content.includes('labs')) {
+    message.reply(imgLinks['labs'][Math.floor(Math.random() * 2)], {
+      allowedMentions: { 'users': [] },
     })
   }
 
@@ -52,7 +60,7 @@ export const reakcijas = (client, message) => {
   if (content.includes('zivs')) {
     message.reply({
       embeds: [reakcEmbeds('zivs')],
-      allowedMentions: { repliedUser: false },
+      allowedMentions: { 'users': [] },
     })
     return
   }

@@ -5,6 +5,10 @@ export const imgLinks = {
 
   kabacis: 'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
   fenikss: 'https://i.postimg.cc/xdJyG8hd/fenikss-neg.png',
+  labs: [
+    'https://gfycat.com/flimsyrequiredhapuku',
+    'https://gfycat.com/ExhaustedSandyAmericanindianhorse'
+  ],
 
   error: [
     'https://i.postimg.cc/tR5mBxrN/error1.jpg',
