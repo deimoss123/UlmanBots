@@ -3,7 +3,11 @@ export const imgLinks = {
   ulmanis: 'https://i.postimg.cc/W3fvhpJp/Karlis-Ulmanis.jpg',
   rimi: 'https://i.postimg.cc/VkYzz6Lf/rimi.png',
 
-  kabacis: 'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
+  kabacis: [
+    'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
+    'https://i.postimg.cc/G2Vf76p2/kabacis2.jpg'
+  ],
+
   fenikss: 'https://i.postimg.cc/xdJyG8hd/fenikss-neg.png',
   labs: [
     'https://gfycat.com/flimsyrequiredhapuku',

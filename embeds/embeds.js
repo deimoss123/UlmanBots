@@ -19,7 +19,8 @@ export const reakcEmbeds = embedName => {
       return {
         color: 0x9d2235,
         image: {
-          url: imgLinks.kabacis
+          url: imgLinks.kabacis[Math.floor(
+            Math.random() * imgLinks.kabacis.length)]
         },
       }
   }
