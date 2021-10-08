@@ -79,11 +79,10 @@ export const atbildes = {
   // atbildes uz kirilicas lietošanu
   kirilica: {
     atb: [
-      `Šeit nav uzvaras pieminieklis okupant ${emoji[2]}`,
+      `Šeit nav uzvaras piemineklis okupant ${emoji[2]}`,
       `Aizver muti okupant ${emoji[2]}`,
       `Krievi ${emoji[3]}`,
       `Krievija ${emoji[3]}`,
-
     ],
   },
 

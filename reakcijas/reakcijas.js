@@ -21,7 +21,7 @@ const atbTemplate = (t, content, randEmoji = 0) => {
 export const reakcijas = (client, message) => {
 
   // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)
-  if (/^[\u0410-\u044F]+$/.test(message.content)) {
+  if (/[а-яА-ЯЁё]/.test(message.content)) {
     message.reply(atbTemplate(atbildes.kirilica.atb, message.content))
     return
   }
