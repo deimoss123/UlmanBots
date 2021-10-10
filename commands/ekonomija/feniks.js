@@ -196,7 +196,8 @@ export default {
       message.reply(embedTemplate(message, 'Fenikss',
         'Lai grieztu aparātu izmanto komandu `.feniks <likme>`\n' +
         `Pieejamās likmes - **${likmes.join(', ')}** lati\n\n` +
-        'Lai grieztu aparātu ar nejauši izvēlētu likmi izmanto `.feniks virve`\n\n' +
+        'Lai grieztu aparātu ar nejauši izvēlētu likmi izmanto `.feniks virve`\n' +
+        'Griezt aparātu ar visu savu naudu - `.feniks viss`\n\n' +
         '**Reizinātāji**\n' +
         `${reizinataji}`
       , imgLinks.fenikss))
