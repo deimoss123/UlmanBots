@@ -363,7 +363,14 @@ export const itemList = {
       price: 100,
       chance: 0.1,
       url: imgLinks.zivis[11],
-
+      use: async message => {
+        let st = {}
+        const status = statusList[Object.keys(statusList)[Math.floor(Math.random() * 6)]]
+        st[status.name] = status.time / 2
+        const result = await addStatus(message.guildId, message.author.id, st)
+        return `Tu apēdi dīvaino zivi un nejauši ieguvi "${status.name.toLowerCase()}" statusu\n` +
+          `Tu tagad esi ${status.name.toLowerCase()} **${timeToText(result[status.name]  - Date.now(), 2)}**`
+      }
     },
     juridiskazivs: {
       nameNomVsk: 'juridiskā zivs',
@@ -387,7 +394,7 @@ export const itemList = {
 
 export const statusList = {
   aizsardziba: {
-    name: 'Aizsardzība',
+    name: 'Aizsargāts',
     time: 86400000,// 24h 86400000
   },
   bomzis: {

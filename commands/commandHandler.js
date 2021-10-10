@@ -25,14 +25,23 @@ import kakts from './admin/kakts.js'
 import izkaktot from './admin/izkaktot.js'
 import palidziba from './misc/palidziba.js'
 import feniks from './ekonomija/feniks.js'
+import jaunumi from './misc/jaunumi.js'
+import pabalsts from './misc/pabalsts.js'
 
-export const commands = [
-  palidziba, top, maks, zagt, maksat,
-  bomzot, ubagot, zvejot, stradat, feniks,
-  inventars, veikals, pirkt, pardot, izmantot, status,
-  kakts, izkaktot,
-  addLati,
-]
+export const commands = {
+  'Informācija': [
+    palidziba, jaunumi, top, maks, inventars, status,
+  ],
+  'Peļņa': [
+    bomzot, ubagot, zvejot, stradat, feniks, pabalsts,
+  ],
+  'Ekonomija': [
+    veikals, pirkt, pardot, izmantot,  maksat, zagt,
+  ],
+  'Moderātoriem': [
+    kakts, izkaktot, addLati
+  ]
+}
 
 // lietotāju melnais saraksts
 const blacklist = [
@@ -56,41 +65,42 @@ export default (client, message) => {
     // lietotāja komanda, kas tiks pārbaudīta un salīdzināta ar citām komandām
     // noņem . no komandas
     const userCommand = args[0].slice(1)
+    Object.keys(commands).map(category => {
+      commands[category].map(command => {
+        command.commands.map(async cmd => {
+          if (userCommand === cmd) {
 
-    commands.map(command => {
-      command.commands.map(async cmd => {
-        if (userCommand === cmd) {
+            // neļauj cilvēkiem melnajā sarakstā lietot komandas
+            if (blacklist.includes(userId)) return
 
-          // neļauj cilvēkiem melnajā sarakstā lietot komandas
-          if (blacklist.includes(userId)) return
+            // addlati komandu var izmantot tikai testa serverī
+            if (command.title === 'AddLati' && guildId !== '875083366611955712') return
 
-          // addlati komandu var izmantot tikai testa serverī
-          if (command.title === 'AddLati' && guildId !== '875083366611955712') return
+            let { cooldowns } = await findUser(guildId, userId)
 
-          let { cooldowns } = await findUser(guildId, userId)
+            let cmdCooldown = command.cooldown
 
-          let cmdCooldown = command.cooldown
-
-          if (command.title === 'Bomžot'){
-            if (await checkStatus(guildId, userId, 'bomzis')) cmdCooldown /= 2
-          }
-
-          if (!cooldowns[command.title] ||
-            (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
-
-            if (await commandBase(client, message, cmd, command)) {
-              await addCooldown(guildId, userId, command.title)
+            if (command.title === 'Bomžot'){
+              if (await checkStatus(guildId, userId, 'bomzis')) cmdCooldown /= 2
             }
-          } else {
-            const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
-            const msg = await message.reply(
-              embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
-                ? timeToText(time, 1) : '1 sekundes'}`))
+            if (!cooldowns[command.title] ||
+              (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
 
-            setTimeout(() => msg.delete(), 10000)
+              if (await commandBase(client, message, cmd, command)) {
+                await addCooldown(guildId, userId, command.title)
+              }
+            } else {
+              const time = cmdCooldown - (Date.now() - cooldowns[command.title])
+
+              const msg = await message.reply(
+                embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
+                  ? timeToText(time, 1) : '1 sekundes'}`))
+
+              setTimeout(() => msg.delete(), 10000)
+            }
           }
-        }
+        })
       })
     })
   }

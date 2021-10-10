@@ -96,6 +96,19 @@ export const atbildes = {
     ],
   },
 
+  dibens: {
+    text: [
+      'dibens',
+      'dupsis',
+      'pupi',
+      'krutis'
+    ],
+    atb: [
+      'Vai esat kādreiz redzējuši dievīgu dibenu? Kratās jūsu sirdspukstu ritmā dibenu?  Dibens, kas kaunina visus pārējos dibenus?  Tik labs dibens, kas liek atcerēties visus bēdīgos sūdus, ko darījāt jaunībā, un liek aizdomāties, kad kļuvāt par tādu neveiksminieku?  Dibens, kas ir tik labs, ka tu aizmirsti kļūt uzbudināts, jo biji satriekts par šo dibenu?  Tikko redzēju vienu.  Un ļaujiet man jums pateikt, tas bija jauks dupsis.',
+      'Pupi, pupi, pupi ... tas ir viss, par ko puiši domā šajās dienās. Viņi ir idioti.  Parādiet man krūšu vīru, un es jums parādīšu bezsmadzeņu, bez klases pirkstu vilcēju, kurš neko nezina par daiļā dzimuma pārstāvi.  Es nesaprotu;  jūs nevarat izmērīt labu sievieti, vienkārši pamīcot krūtis ... ... Redziet, ja jūs esat apgaismots kā es, tad jūs zināt, ka īstais šovs ir zemāk: dibentiņš, mazulīt!  Tur tas ir!  Nekas nepārspēj aizmuguri, mans draugs.  Ikviens, kurš to neredz, ir akls vai muļķis.  Tāpēc es saku pietiek ar šo masu krūšu histēriju.  Ir pienācis laiks sakārtot lietas.  Ir pienācis laiks dot dupsim cieņu, ko tas ir pelnījis!',
+    ]
+  },
+
   piens: {
     text: [
       'piens',

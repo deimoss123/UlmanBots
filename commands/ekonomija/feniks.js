@@ -171,7 +171,6 @@ const sl = async (message, win, lati) => {
   slots()
 }
 
-// TODO pabeigt šito mēslu
 export default {
   title: 'Fēnikss',
   description: 'Griezt vienu no Ulmaņa naudas aparātiem',
@@ -184,10 +183,9 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    let likme = args[0]
-
     const likmes = ['50', '100', '200', '500', '1000', '2000', '5000']
     let reizinataji = ''
+
     Object.keys(laimesti).map(l => {
       if (laimesti[l].multiplier) {
         reizinataji += getEmoji([l]) + ` x${laimesti[l].multiplier}\n`
@@ -203,49 +201,52 @@ export default {
         `${reizinataji}`
       , imgLinks.fenikss))
       return 2
-    } else if (!likmes.includes(likme) && likme !== 'virve') {
+    }
+
+    const { lati } = await findUser(guildId, userId)
+    let likme = args[0]
+
+
+    if (likme === 'virve'){
+      if (lati < 50) {
+        message.reply(embedError(message, 'Fenikss',
+          `Lai grieztu pašnāvnieku aparātu tev vajag vismaz 50 latus\nTev ir **${
+          floorTwo(lati).toFixed(2)}** lati`))
+        return 2
+      }
+      else likme = Math.floor( Math.random() * (lati - 50) ) + 50
+    } else if (likme === 'viss') {
+      if (lati < 50) {
+        message.reply(embedError(message, 'Feniks',
+          `Tev vajag vismaz 50 latus lai grieztu aparātu\nTev ir **${
+            floorTwo(lati).toFixed(2)}** lati`))
+        return 2
+      } else likme = Math.floor(lati)
+    } else if (!likmes.includes(likme)) {
       message.reply(embedError(message, 'Fenikss', 'Tu neesi izvēlējies pareizu likmi\n' +
-        `Pieejamās likmes - **${likmes.join(', ')}** lati\n\n`
+        `Pieejamās likmes - **${likmes.join(', ')}** lati\n` +
+        'Griezt ar nejauši izvēlētu likmi - `.feniks virve`\n' +
+        'Griezt visu savu naudu - `.feniks viss`'
       ))
       return 2
     } else {
-      const { lati } = await findUser(guildId, userId)
-
-      if (likme === 'virve'){
-        if (lati < 50) {
-          message.reply(embedError(message, 'Fenikss',
-            `Lai grieztu pašnāvnieku aparātu tev vajag vismaz 50 latus\nTev ir **${
-            floorTwo(lati).toFixed(2)}** lati`))
-          return 2
-        }
-        likme = Math.floor( Math.random() * (lati - 50) ) + 50
-      } else if (lati < likme) {
+      if (lati < likme) {
         message.reply(embedError(message, 'Fenikss',
           `Tev nepietiek naudas lai grieztu aparātu ar **${likme}** latu likmi\nTev ir **${
             floorTwo(lati).toFixed(2)}** lati`))
         return 2
       }
-
-      /*
-      if (likme === 'max') {
-        if (lati < 50) {
-          message.reply(embedError(message, 'Feniks',
-            `Tev vajag vismaz 50 latus lai grieztu aparātu\nTev ir **${
-            floorTwo(lati).toFixed(2)}** lati`))
-          return 2
-        } else likme = lati
-      }
-      */
-      let win
-      if (userId === '222631002265092096') win = riggedRow(laimesti)
-      else win = generateRow(laimesti)
-      await sl(message, win, likme)
-
-      const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
-
-      await addLati(guildId, userId, resLati)
-      return 1
-
     }
+
+    let win
+    if (userId === '222631002265092096' && 0) win = riggedRow(laimesti)
+    else win = generateRow(laimesti)
+    await sl(message, win, likme)
+
+    const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
+
+    await addLati(guildId, process.env.ULMANISID, resLati * 0.1)
+    await addLati(guildId, userId, resLati)
+    return 1
   }
 }

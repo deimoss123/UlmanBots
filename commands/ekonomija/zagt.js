@@ -9,8 +9,8 @@ const zagtChange = {
     lose: { chance: 0.60 },
   },
   nazis: {
-    win: { chance: '*' }, // 0.50 },
-    lose: { chance: 0.40 },
+    win: { chance: '*' }, // 0.60 },
+    lose: { chance: 0.30 },
     win50: { chance: 0.05 },
     lose50: { chance: 0.05 },
   },
@@ -24,14 +24,29 @@ export default {
   commands: ['zagt', 'apzagt'],
   cooldown: 600000,
   expectedArgs: '<@lietotājs>',
-  minArgs: 1,
   maxArgs: 1,
   callback: async (message, args) => {
     const guildId = message.guildId
     const userId = message.author.id
 
+    if (!args[0]) {
+      message.reply(embedTemplate(message, 'Zagšana',
+        '`.zagt <@lietotājs>`\n\n' +
+        '**Procenti**\n40% nozagt\n60% pazaudēt naudu\n\n' +
+        '**Procenti zogot ar laupītāja statusu (nazis)**\n60% nozagt\n30% pazaudēt naudu\n5% nozagt pusi naudas\n5% pazaudēt pusi naudu\n\n' +
+        'Maksimālais nozagtais/pazaudētas latu daudzums ir atkarīgs no tā kuram ir vismazāk nauda\n\n' +
+        '**Piemērs:** Jānim ir 20 lati un viņš grib zagt no Igora, kam ir 100 lati, šajā gadījumā maksimālais ko Jānis varēs nozagt vai pazaudēt būs 20 lati'
+      ))
+      return 2
+    }
+
     let targetId = getUserId(args[0])
     if (!targetId) return 0
+
+    if (targetId === userId) {
+      message.reply(embedError(message, 'Zagšana', 'Tu nevari nozagt no sevis'))
+      return 2
+    }
 
     if (await checkStatus(guildId, targetId, 'aizsardziba')) {
       message.reply(embedTemplate(message, 'Zagšana', `Tu nevari zagt no <@${targetId}>, jo viņam ir aizsardzība`))

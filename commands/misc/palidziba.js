@@ -1,21 +1,34 @@
-import { embedSaraksts } from '../../embeds/embeds.js'
+import { embedSaraksts, ulmanversija } from '../../embeds/embeds.js'
 import { commands } from '../commandHandler.js'
 
 export default {
   title: 'Palīdzība',
   description: 'Apskatīt visas komandas serverī',
   commands: ['palidziba', 'help', 'paliga'],
-  cooldown: 10000,
-  callback: async message => {
-    const resultArr = []
+  cooldown: 0,
+  callback: message => {
+    let embedArr = []
 
-    commands.map(cmd => {
-      if (cmd.title !== 'AddLati') resultArr.push({
-        name: '`' + `.${cmd.commands[0]} ${cmd.expectedArgs ? cmd.expectedArgs : ''}` + '`',
-        value: `${cmd.description}`
+    Object.keys(commands).map(category => {
+      let resultArr = []
+      commands[category].map(cmd => {
+        if (cmd.title !== 'AddLati') resultArr.push({
+          name: '`' + `.${cmd.commands[0]} ${cmd.expectedArgs ? cmd.expectedArgs : ''}` + '`',
+          value: `${cmd.description}`
+        })
+      })
+      embedArr.push({
+        title: category,
+        description: '',
+        color: 0x9d2235,
+        fields: resultArr
       })
     })
 
-    message.reply(embedSaraksts(message, 'Palīdzība', 'Visas Ulmaņa komandas', resultArr))
+    embedArr[embedArr.length - 1].footer = {text: `UlmaņBots ${ulmanversija}`}
+
+    message.reply({ embeds: embedArr,  allowedMentions: { 'users': [] }})
+
+    return 1
   }
 }

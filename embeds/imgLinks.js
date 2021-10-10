@@ -2,6 +2,7 @@
 export const imgLinks = {
   ulmanis: 'https://i.postimg.cc/W3fvhpJp/Karlis-Ulmanis.jpg',
   rimi: 'https://i.postimg.cc/VkYzz6Lf/rimi.png',
+  kasjauns: 'https://i.postimg.cc/pTYFNHCd/kasjauns.png',
 
   kabacis: [
     'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
