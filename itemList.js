@@ -365,11 +365,12 @@ export const itemList = {
       url: imgLinks.zivis[11],
       use: async message => {
         let st = {}
-        const status = statusList[Object.keys(statusList)[Math.floor(Math.random() * 6)]]
-        st[status.name] = status.time / 2
+        const statusName = Object.keys(statusList)[Math.floor(Math.random() * 6)]
+        const status = statusList[statusName]
+        st[statusName] = status.time / 2
         const result = await addStatus(message.guildId, message.author.id, st)
         return `Tu apēdi dīvaino zivi un nejauši ieguvi "${status.name.toLowerCase()}" statusu\n` +
-          `Tu tagad esi ${status.name.toLowerCase()} **${timeToText(result[status.name]  - Date.now(), 2)}**`
+          `Tu tagad esi ${status.name.toLowerCase()} **${timeToText(result[statusName]  - Date.now(), 2)}**`
       }
     },
     juridiskazivs: {
