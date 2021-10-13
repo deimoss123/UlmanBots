@@ -106,6 +106,11 @@ export const atbildes = {
     atb: [
       'Vai esat kādreiz redzējuši dievīgu dibenu? Kratās jūsu sirdspukstu ritmā dibenu?  Dibens, kas kaunina visus pārējos dibenus?  Tik labs dibens, kas liek atcerēties visus bēdīgos sūdus, ko darījāt jaunībā, un liek aizdomāties, kad kļuvāt par tādu neveiksminieku?  Dibens, kas ir tik labs, ka tu aizmirsti kļūt uzbudināts, jo biji satriekts par šo dibenu?  Tikko redzēju vienu.  Un ļaujiet man jums pateikt, tas bija jauks dupsis.',
       'Pupi, pupi, pupi ... tas ir viss, par ko puiši domā šajās dienās. Viņi ir idioti.  Parādiet man krūšu vīru, un es jums parādīšu bezsmadzeņu, bez klases pirkstu vilcēju, kurš neko nezina par daiļā dzimuma pārstāvi.  Es nesaprotu;  jūs nevarat izmērīt labu sievieti, vienkārši pamīcot krūtis ... ... Redziet, ja jūs esat apgaismots kā es, tad jūs zināt, ka īstais šovs ir zemāk: dibentiņš, mazulīt!  Tur tas ir!  Nekas nepārspēj aizmuguri, mans draugs.  Ikviens, kurš to neredz, ir akls vai muļķis.  Tāpēc es saku pietiek ar šo masu krūšu histēriju.  Ir pienācis laiks sakārtot lietas.  Ir pienācis laiks dot dupsim cieņu, ko tas ir pelnījis!',
+      'Tās līdzības. Cilvēces attīstība. Krūšu un dibena līdzības.\n' +
+      'Kad mēs gājām četrrāpus, mūsu priekšā bija viena lieta, dibens. Tad no brīža, kad cilvēce sāka staigāt uz divām kājām, mēs pārstājām redzēt dibenu mūsu sejās. Un viņu vietā pupi parādījās tieši mūsu sejās. Sievietes palielināja krūtis, lai ieņemtu dibena vietu. ORIĢINĀLAIS DZĪVES AVOTS IR DIBENS! Krūtis ir tikai aizstājējs. Krūtis nav nekas cits kā bāla dibena imitācija! Ja jūs jautātu, vai man labāk būtu kopija vai oriģināls, es ņemtu oriģinālu! Gurni un dibens norāda uz auglību! Krūtis evolūcijas procesa dēļ izvirzās uz priekšu, turot dibenu tālāk uz aizmuguri paslēptu!\n' +
+      '\n' +
+      'TĀPĒC ES ESMU DIBENA VĪRIETIS!',
+
     ]
   },
 
