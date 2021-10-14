@@ -48,6 +48,10 @@ const blacklist = [
   '893518835808890880', // edzhas alts 1
   '893527734431678584', // edzhas alts 2
   '893457171478642728', // edzhas alts 3
+
+  '598597835960877067', // mm seifs
+  '893451569612341319', // pupinvecis
+  '814618658432483358' // penis
 ]
 
 export default (client, message) => {
