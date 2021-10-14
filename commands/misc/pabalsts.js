@@ -11,7 +11,7 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    const martinsonsId = '222631002265092096' //'517429149543956480'
+    const martinsonsId = '517429149543956480'
 
     const roles = {
       modRole: {
