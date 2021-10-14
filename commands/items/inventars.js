@@ -1,7 +1,8 @@
 import { findUser } from '../../ekonomija.js'
 import { getUserId, latsOrLati } from '../../helperFunctions.js'
-import { embedSaraksts } from '../../embeds/embeds.js'
+import { buttonEmbed, embedSaraksts } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
+import pardot from '../ekonomija/pardot.js'
 
 export default {
   title: 'Inventārs',
@@ -47,7 +48,53 @@ export default {
         })
         i++
       }
-      message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
+
+      const rand = Math.floor(Math.random() * 100000)
+      let buttons = [
+        {
+          label: 'Pārdot visu',
+          style: 1,
+          custom_id: `pardVisu ${rand}`
+        },
+      ]
+
+      for (const atkr in itemList.atkritumi) {
+        if (items[atkr] && !itemList.atkritumi[atkr].use) {
+          buttons.push({
+            label: 'Pārdot nelietojamos atkritumus',
+            style: 1,
+            custom_id: `pardAtkr ${rand}`
+          })
+          break
+        }
+      }
+
+      for (const zivs in itemList.zivis) {
+        if (items[zivs] && !itemList.zivis[zivs].use) {
+          buttons.push({
+            label: 'Pārdot nelietojamās zivis',
+            style: 1,
+            custom_id: `pardZivis ${rand}`
+          })
+          break
+        }
+      }
+
+      await buttonEmbed(message, 'Inventārs', `<@${targetId}>`, null, buttons, async i => {
+        if (i.customId === `pardVisu ${rand}`) {
+          await pardot.callback(message, ['visu'], null, null, i)
+          return {id: `pardVisu ${rand}`, all: 1}
+        }
+        else if (i.customId === `pardAtkr ${rand}`) {
+          await pardot.callback(message, ['a'], null, null, i)
+          return {id: `pardAtkr ${rand}`}
+        }
+        else if (i.customId === `pardZivis ${rand}`) {
+          await pardot.callback(message, ['z'], null, null, i)
+          return {id: `pardZivis ${rand}`}
+        }
+      }, embedFieldArr)
+      //message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
     } else { // inventārs tukšs
       message.reply(embedSaraksts(message, 'Inventārs',
         `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu `.bomžot`' }]))

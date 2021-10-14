@@ -1,7 +1,8 @@
 import { addItems, findUser, addLati } from '../../ekonomija.js'
-import { embedError, embedTemplate } from '../../embeds/embeds.js'
+import { buttonEmbed, embedError, embedTemplate } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
+import izmantot from '../items/izmantot.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
@@ -64,10 +65,33 @@ export default {
     }
 
     // veiksmīgs pirkums
-    message.reply(embedTemplate(message, 'Pirkt',
-      `Tu nopirki ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
-      (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
-      itemList.veikals[key].url))
+    if (itemList.veikals[Object.keys(item)[0]].use) {
+
+      const rand = Math.floor(Math.random() * 100000)
+      const butons = [{
+        label: 'Izmantot',
+        style: 1,
+        custom_id: `izman ${rand}`
+      }]
+
+      let count = amount
+
+      await buttonEmbed(message, 'Pirkt',
+        `Tu nopirki ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
+        (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
+        itemList.veikals[key].url, butons, async i => {
+          if (i.customId === `izman ${rand}`) {
+            await izmantot.callback(message, ['1'], null, null, i, Object.keys(item)[0])
+            count--
+            if (count <= 0) return { id: `izman ${rand}` }
+          }
+        })
+    } else {
+      message.reply(embedTemplate(message, 'Pirkt',
+        `Tu nopirki ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
+        (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
+        itemList.veikals[key].url))
+    }
 
     await addItems(guildId, userId, item, 1)
     await addLati(guildId, userId, total * -1)

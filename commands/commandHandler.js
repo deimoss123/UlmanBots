@@ -80,6 +80,9 @@ export default (client, message) => {
 
             let cmdCooldown = command.cooldown
 
+            // testa serveri 0 cooldown
+            if (guildId === '875083366611955712') cmdCooldown = 0
+
             if (command.title === 'Bomžot'){
               if (await checkStatus(guildId, userId, 'bomzis')) cmdCooldown /= 2
             }

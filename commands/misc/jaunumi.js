@@ -13,6 +13,9 @@ const jaun = {
     '- Pievienota `.pabalsts` komanda, pabalsta lielums atkarīgs no lomas, pieejams tikai lomām virs draudziņdauņiem\n' +
     '- 10% no feniksa naudas tagad aiziet valsts bankai\n' +
     '- `.palīdzība` uztaisīta pārskatāmāka',
+  '3.1.2':
+    '- `.pārdot visu` komanda lai pārdotu visas mantas inventārā\n' +
+    '- Pievienotas pogas komandām `.inv`, `.bomžot`, `.zvejot`, `.pirkt`'
 }
 
 export default {

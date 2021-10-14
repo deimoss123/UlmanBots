@@ -1,5 +1,6 @@
-import { embedError, embedTemplate } from '../../embeds/embeds.js'
+import { buttonEmbed, embedError, embedTemplate } from '../../embeds/embeds.js'
 import { addItems, addLati } from '../../ekonomija.js'
+import izmantot from '../items/izmantot.js'
 
 export default {
   title: 'Pabalsts',
@@ -10,7 +11,7 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    const martinsonsId = '517429149543956480'
+    const martinsonsId = '222631002265092096' //'517429149543956480'
 
     const roles = {
       modRole: {
@@ -51,8 +52,23 @@ export default {
     }
 
     if (userId === martinsonsId) {
-      message.reply(
-        embedTemplate(message, 'Pabalsts', 'Tu saņēmi martinsona pabalstu - 3 latloto biļetes'))
+
+      const rand = Math.floor(Math.random() * 100000)
+      const buttons = [{
+        label: 'Izmantot',
+        style: 1,
+        custom_id: `izman ${rand}`
+      }]
+
+      let count = 3
+
+      await buttonEmbed(message, 'Pabalsts', 'Tu saņēmi martinsona pabalstu - 3 latloto biļetes', null, buttons, async i => {
+        if (i.customId === `izman ${rand}`) {
+          await izmantot.callback(message, ['1'], null, null, i, 'latloto')
+          count--
+          if (count <= 0) return { id: `izman ${rand}` }
+        }
+      })
       await addItems(guildId, userId, { latloto: 3 })
       return 1
     } else {

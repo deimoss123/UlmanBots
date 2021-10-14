@@ -1,4 +1,4 @@
-import { embedSaraksts, ulmanversija } from '../../embeds/embeds.js'
+import { ulmanversija } from '../../embeds/embeds.js'
 import { commands } from '../commandHandler.js'
 
 export default {
