@@ -246,7 +246,7 @@ export default {
 
     const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
 
-    await addLati(guildId, process.env.ULMANISID, resLati * 0.1)
+    await addLati(guildId, process.env.ULMANISID, likme * 0.1)
     await addLati(guildId, userId, resLati)
     return 1
   }
