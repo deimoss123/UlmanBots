@@ -3,6 +3,7 @@ import { getUserId, latsOrLati } from '../../helperFunctions.js'
 import { buttonEmbed, embedSaraksts } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import pardot from '../ekonomija/pardot.js'
+import { getEmoji } from '../../reakcijas/atbildes.js'
 
 export default {
   title: 'Inventārs',
@@ -80,8 +81,15 @@ export default {
         }
       }
 
+      if (targetId !== message.author.id) {
+        message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
+        return 2
+      }
+
       await buttonEmbed(message, 'Inventārs', `<@${targetId}>`, null, buttons, async i => {
-        if (i.customId === `pardVisu ${rand}`) {
+        if (targetId !== i.user.id) {
+          await i.reply({ content: `Šī poga nav domāta tev dauni ${getEmoji(['nuja'])}`, ephemeral: true })
+        } else if (i.customId === `pardVisu ${rand}`) {
           await pardot.callback(message, ['visu'], null, null, i)
           return {id: `pardVisu ${rand}`, all: 1}
         }
@@ -94,7 +102,6 @@ export default {
           return {id: `pardZivis ${rand}`}
         }
       }, embedFieldArr)
-      //message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
     } else { // inventārs tukšs
       message.reply(embedSaraksts(message, 'Inventārs',
         `<@${targetId}>`, [{ name: 'Tukšs inventārs', value: 'izmanto komandu `.bomžot`' }]))
