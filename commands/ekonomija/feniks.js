@@ -215,7 +215,7 @@ export const feniks = {
   cooldown: 5000,
   maxArgs: 1,
   callback: async (message, args) => {
-    testChances(laimesti)
+    //testChances(laimesti)
 
     const guildId = message.guildId
     const userId = message.author.id
