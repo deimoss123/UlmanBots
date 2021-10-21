@@ -15,7 +15,17 @@ const jaun = {
     '- `.palīdzība` uztaisīta pārskatāmāka',
   '3.1.2':
     '- `.pārdot visu` komanda lai pārdotu visas mantas inventārā\n' +
-    '- Pievienotas pogas komandām `.inv`, `.bomžot`, `.zvejot`, `.pirkt`'
+    '- Pievienotas pogas komandām `.inv`, `.bomžot`, `.zvejot`, `.pirkt`',
+  '3.2':
+    `- Fenikam pievienota poga "Griezt vēlreiz" ${getEmoji(['bacha'])}\n` +
+    '- Tagad bomžošanai ir **nepieciešams** bomža statuss, odekolonu var dabūt tikai no ubagošanas, un tā vērtība tagad ir 0 lati\n' +
+    '- Pievienoti paskaidrojumi statusiem, izmanto komandu `.status info`\n' +
+    '- Strādāšanai un bomžošanai pievienotas izvēles pogas\n' +
+    `- Ieviests inventāra limits - 30 ${getEmoji(['1984'])} pagaidām nav palielināms ${getEmoji(['lenka'])}\n` +
+    '- Noņemta iespēja zagt kamēr tev ir aizsardzības statuss\n' +
+    `- Samazināti zagšanas procenti ${getEmoji(['kruts'])} \n` +
+    '- Palielināta naža cena uz 250, un rasena uz 150\n' +
+    `- Palielināti latloto un dižloto procenti ${getEmoji(['bacha'])} \n`,
 }
 
 export default {

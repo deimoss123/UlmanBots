@@ -28,14 +28,14 @@ export default {
     // pārbaudīt vai prece eksistē
     if (index >= Object.keys(itemList.veikals).length || index < 0) {
       message.reply(embedError(message, 'pirkt', 'Šāda prece neeksistē'))
-      return 1
+      return 2
     }
 
     // pārbaudīt vai ievadītais daudzums nav mazāks par 1
     if (amount < 1) {
       message.reply(
         embedError(message, 'pirkt', `Tu nevari nopirkt ${amount} preces, ļoti smieklīgi`))
-      return 1
+      return 2
     }
 
     // atrod veikalā preci un tai nosaka indeksu
@@ -54,14 +54,22 @@ export default {
     const total = itemList.veikals[key].price * 2 * amount
 
     // pārbaudīt vai pietiek nauda
-    const { lati } = await findUser(guildId, userId)
+    const { lati, itemCount, itemCap } = await findUser(guildId, userId)
 
     if (lati < total) {
-      message.reply(embedError(message, 'pirkt',
+      message.reply(embedError(message, 'Pirkt',
         `Tev nepietiek naudas lai nopirktu ${stringifyItems(item)}\nCena: **${total}** ${
           latsOrLati(total)}\nTev ir ${floorTwo(lati).toFixed(2)} ${latsOrLati(lati)}`,
         itemList.veikals[key].url))
-      return 1
+      return 2
+    }
+
+    if (itemCap - itemCount < amount) {
+      const vietas = itemCap - itemCount <= 0 ? 0 : itemCap - itemCount
+      message.reply(embedError(message, 'Pirkt',
+        `Tev inventārā nepietiek vietas lai nopirktu ${stringifyItems(item)}\n` +
+        `Tev inventarā ir **${vietas}** brīvas vietas `))
+      return 2
     }
 
     // veiksmīgs pirkums

@@ -24,7 +24,7 @@ import stradat from './misc/stradat.js'
 import kakts from './admin/kakts.js'
 import izkaktot from './admin/izkaktot.js'
 import palidziba from './misc/palidziba.js'
-import feniks from './ekonomija/feniks.js'
+import { feniks } from './ekonomija/feniks.js'
 import jaunumi from './misc/jaunumi.js'
 import pabalsts from './misc/pabalsts.js'
 
@@ -48,10 +48,7 @@ const blacklist = [
   '893518835808890880', // edzhas alts 1
   '893527734431678584', // edzhas alts 2
   '893457171478642728', // edzhas alts 3
-
-  '598597835960877067', // mm seifs
   '893451569612341319', // pupinvecis
-  '814618658432483358' // penis
 ]
 
 export default (client, message) => {
@@ -87,10 +84,6 @@ export default (client, message) => {
             // testa serveri 0 cooldown
             if (guildId === '875083366611955712') cmdCooldown = 0
 
-            if (command.title === 'Bomžot'){
-              if (await checkStatus(guildId, userId, 'bomzis')) cmdCooldown /= 2
-            }
-
             if (!cooldowns[command.title] ||
               (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
 
@@ -100,11 +93,11 @@ export default (client, message) => {
             } else {
               const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
-              const msg = await message.reply(
+              let msg = await message.reply(
                 embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
                   ? timeToText(time, 1) : '1 sekundes'}`))
 
-              setTimeout(() => msg.delete(), 10000)
+              setTimeout(async () => msg.delete(), 10000)
             }
           }
         })

@@ -10,8 +10,8 @@ export const latsOrLati = lati => {
 // lietām var būt svars, svars nav ja ir '*"
 export const chance = obj => {
 
-  // noapaļo līdz 0.01
-  const randNum = (Math.floor(Math.random() * 100) / 100).toFixed(2)
+  // noapaļo līdz 0.001
+  const randNum = (Math.floor(Math.random() * 1000) / 1000)
 
   let result
   let sumChance = 0

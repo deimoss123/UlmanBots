@@ -10,9 +10,9 @@ const zagtChange = {
   },
   nazis: {
     win: { chance: '*' }, // 0.60 },
-    lose: { chance: 0.30 },
-    win50: { chance: 0.05 },
-    lose50: { chance: 0.05 },
+    lose: { chance: 0.4 },
+    win50: { chance: 0.03 },
+    lose50: { chance: 0.03 },
   },
 }
 
@@ -29,11 +29,21 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
+    const winCh = 1 -
+      zagtChange.nazis.lose.chance -
+      zagtChange.nazis.win50.chance -
+      zagtChange.nazis.lose50.chance
+
     if (!args[0]) {
       message.reply(embedTemplate(message, 'Zagšana',
         '`.zagt <@lietotājs>`\n\n' +
         '**Procenti**\n40% nozagt\n60% pazaudēt naudu\n\n' +
-        '**Procenti zogot ar laupītāja statusu (nazis)**\n60% nozagt\n30% pazaudēt naudu\n5% nozagt pusi naudas\n5% pazaudēt pusi naudu\n\n' +
+        '**Procenti zogot ar laupītāja statusu (nazis)**\n' +
+        `${Math.round(winCh * 100)}% nozagt\n` +
+        `${zagtChange.nazis.lose.chance * 100}% pazaudēt naudu\n` +
+        `${zagtChange.nazis.win50.chance * 100}% nozagt pusi naudas\n` +
+        `${zagtChange.nazis.lose50.chance * 100}% pazaudēt pusi naudu\n\n` +
+
         'Maksimālais nozagtais/pazaudētas latu daudzums ir atkarīgs no tā kuram ir vismazāk nauda\n\n' +
         '**Piemērs:** Jānim ir 20 lati un viņš grib zagt no Igora, kam ir 100 lati, šajā gadījumā maksimālais ko Jānis varēs nozagt vai pazaudēt būs 20 lati'
       ))
@@ -42,6 +52,11 @@ export default {
 
     let targetId = getUserId(args[0])
     if (!targetId) return 0
+
+    if (await checkStatus(guildId, userId, 'aizsardziba')) {
+      message.reply(embedTemplate(message, 'Zagšana', 'Tu nevari zagt kamēr tev ir aizsardzība'))
+      return 2
+    }
 
     if (targetId === userId) {
       message.reply(embedError(message, 'Zagšana', 'Tu nevari nozagt no sevis'))

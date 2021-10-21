@@ -1,34 +1,63 @@
-import { itemList } from '../../itemList.js'
 import { chance, stringifyItems } from '../../helperFunctions.js'
-import { addItems, addLati } from '../../ekonomija.js'
-import { embedTemplate } from '../../embeds/embeds.js'
+import { addItems, addLati, findUser } from '../../ekonomija.js'
+import { buttonEmbed, embedError, embedTemplate } from '../../embeds/embeds.js'
+import izmantot from '../items/izmantot.js'
 
 export default {
   title: 'Ubagot',
   description: 'Ubagot uz ielas',
   commands: ['ubagot', 'ubags'],
   cooldown: 1800000,
-  callback: async (message) => {
+  callback: async message => {
     const guildId = message.guildId
     const userId = message.author.id
 
-    // 30% iespēja ka ubagojot ir iespēja dabūt 1 lietu no bomžošanas
-    const item = Math.random() <= 0.3 ? chance(itemList.atkritumi) : null
+    const { itemCount, itemCap } = await findUser(guildId, userId)
 
-    let itemObj = {}
-    itemObj[item] = 1
+    if (itemCap - itemCount < 1) {
+      const vietas = itemCap - itemCount <= 0 ? 0 : itemCap - itemCount
+      message.reply(embedError(message, 'Ubagot',
+        `Lai ubagotu tev vajag vismaz 1 brīvu vietu inventārā\n` +
+        `Tev inventārā ir **${vietas}** brīvas vietas`))
+      return 2
+    }
+
+    const itemObj = { oditiscitrus: 1 }
+
+    const ubagotChance = {
+      yesItem: { chance: 0.5 },
+      noItem: { chance: '*' }
+    }
+
+    const rand = Math.floor(Math.random() * 100000)
+    const buttons = [
+      {
+        label: 'Izmantot',
+        style: 1,
+        custom_id: `izm ${rand}`
+      }
+    ]
 
     // izvēlās cik naudu var dabūt no ubagošanas
     const lati = Math.floor(((Math.random() * 5) + 3) * 100) / 100
-
-    // rezultāts
-    message.reply(embedTemplate(message, 'Ubagot',
-      `Tu noubagoji **${lati.toFixed(2)}** latus${item ? ` un ${stringifyItems(itemObj)}` : ''}`,
-      'ubagot'))
-
-
     await addLati(guildId, userId, lati)
-    if (item) await addItems(guildId, userId, itemObj)
+
+    let text = `Tu noubagoji **${lati.toFixed(2)}** latus`
+
+    if (chance(ubagotChance) === 'noItem') {
+      message.reply(embedTemplate(message, 'Ubagot', text, 'ubagot'))
+      return 1
+    }
+
+    await addItems(guildId, userId, itemObj)
+
+    await buttonEmbed(message,
+      'Ubagot', text + ` un ${stringifyItems(itemObj)}`, 'ubagot', buttons, async i => {
+        if (i.customId === `izm ${rand}`) {
+          await izmantot.callback(message, ['1'], null, null, i, Object.keys(itemObj)[0])
+          return { id: `izm ${rand}` }
+        }
+      })
 
     return 1
   },

@@ -60,4 +60,10 @@ export const imgLinks = {
     'https://i.postimg.cc/Fz6nznWd/maks4.jpg',
     'https://i.postimg.cc/7PtRKfHH/maks5.jpg',
   ],
+
+  stradat: [
+    'https://i.postimg.cc/MTMH3nH4/darbinieks1.jpg',
+    'https://i.postimg.cc/NM3M3Qr0/darbinieks2.jpg',
+    'https://i.postimg.cc/PJ1xh0mQ/darbinieks3.jpg',
+  ]
 }

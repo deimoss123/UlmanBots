@@ -65,8 +65,8 @@ export default {
           total).toFixed(
           2)} ${latsOrLati(result.lati + total)}`, type === 'visu' ? null : type)
 
-        if (i) i.reply(reply)
-        else message.reply(reply)
+        //if (i) i.reply(reply)
+        message.reply(reply)
 
       } else {
         message.reply(embedTemplate(message, 'Pārdot', `Tev nav ${type} ko pārdot`,

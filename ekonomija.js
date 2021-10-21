@@ -26,6 +26,8 @@ export const findUser = async (guildId, userId) => {
             guildId,
             userId,
             lati: 0,
+            itemCap: 30,
+            itemCount: 0,
             items: {},
             cooldowns: {},
             status: {},
@@ -36,6 +38,17 @@ export const findUser = async (guildId, userId) => {
         if (!result.items) result.items = {}
         if (!result.cooldowns) result.cooldowns = {}
         if (!result.status) result.status = {}
+        if (!result.itemCap) result.itemCap = 30
+
+        if (!Object.keys(result.items).length) result.itemCount = 0
+        else {
+          result.itemCount = 0
+          Object.keys(result.items).map(item => {
+            result.itemCount += result.items[item]
+          })
+        }
+
+        console.log(result)
 
         console.log('findUser() result: ', result)
         userCache[`${guildId}-${userId}`] = result
@@ -92,7 +105,7 @@ export const addLati = async (guildId, userId, lati) => {
 // ja isAdd = 1 tad itemus pievienos, ja ir 0 tad tos itemus noņems
 export const addItems = async (guildId, userId, itemsToAdd) => {
   console.log('running addItems()')
-  let { items } = await findUser(guildId, userId)
+  let { items, itemCount } = await findUser(guildId, userId)
 
   return await mongo().then(async mongoose => {
     try {
@@ -105,16 +118,18 @@ export const addItems = async (guildId, userId, itemsToAdd) => {
         else items[item] += itemsToAdd[item]
       })
 
-      //console.log('new items:', items)
+      Object.keys(itemsToAdd).map(item => itemCount += itemsToAdd[item])
 
       // gala rezultāts
       const result2 = await profileSchema.findOneAndUpdate({
         guildId,
         userId,
-      }, { items }, {})
+      }, { items, itemCount }, {})
+
 
       // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].items = items
+      userCache[`${guildId}-${userId}`].itemCount = itemCount
       return result2
     } catch (e) {
       console.error(e)

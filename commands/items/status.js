@@ -15,10 +15,22 @@ export default {
     let targetId = message.author.id
 
     if (args[0]) {
-      const resultId = getUserId(args[0])
+      if (args[0] === 'info') {
+        let embedArr = []
+        Object.keys(statusList).map(key => {
+          embedArr.push({
+            name: statusList[key].name,
+            value: statusList[key].description
+          })
+        })
+        message.reply(embedSaraksts(message, 'Statusu saraksts', 'Statusu paskaidrojumi', embedArr))
+        return 2
+      } else {
+        const resultId = getUserId(args[0])
 
-      if (!resultId) return 0
-      else targetId = resultId
+        if (!resultId) return 0
+        else targetId = resultId
+      }
     }
 
     let resultArr = []
@@ -37,7 +49,7 @@ export default {
     console.log(resultArr)
     message.reply(
       embedSaraksts(message, 'Statusu saraksts',
-        `<@${targetId}>, Lai iegūtu statusu izmanto kādu lietu no inventāra`,
+        `<@${targetId}>` + ', statusu paskaidrojumi - `.status info`',
         resultArr, null))
     return 1
   },

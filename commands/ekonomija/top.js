@@ -1,4 +1,4 @@
-import { getTop } from '../../ekonomija.js'
+import { findUser, getTop } from '../../ekonomija.js'
 import { embedSaraksts } from '../../embeds/embeds.js'
 import { latsOrLati } from '../../helperFunctions.js'
 
@@ -7,19 +7,19 @@ const floorTwo = num => { return Math.floor(num * 100) / 100 }
 export default {
   title: 'Servera tops',
   description: 'Parāda bagātākos lietotājus serverī',
-  commands: ['top', 'oligarhi'],
-  cooldown: 60000,
+  commands: ['top', 'tops', 'oligarhi'],
+  cooldown: 10000,
   maxArgs: 0,
   callback: async (message, a, b, client) => {
     const guildId = message.guildId
+
+    await findUser(guildId, process.env.ulmanisid)
 
     const results = await getTop(guildId)
     let cirkulacija = 0
     let resultsArr = []
 
-    results.map(result => {
-      cirkulacija += result.lati
-    })
+    results.map(result => cirkulacija += result.lati)
 
     const banka = results.find(obj => obj['_id'] === `${guildId}-${process.env.ULMANISID}`)
     results.splice(results.indexOf(banka), 1)
@@ -44,8 +44,9 @@ export default {
     }
 
     message.reply(embedSaraksts(message, 'Servera tops',
-      `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(
-        cirkulacija)}\nValsts bankai ir ${floorTwo(banka.lati).toFixed(2)} ${latsOrLati(banka.lati)}`, resultsArr))
+      `Cirkulācijā ir ${cirkulacija.toFixed(2)} ${latsOrLati(cirkulacija)}\n` +
+      `Valsts bankai (UlmaņBotam) ir ${floorTwo(banka.lati).toFixed(2)} ${latsOrLati(banka.lati)}`,
+      resultsArr))
     return 1
   },
 }

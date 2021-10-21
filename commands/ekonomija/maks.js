@@ -8,7 +8,7 @@ const floorTwo = num => { return Math.floor(num * 100) / 100 }
 export default {
   title: 'Maks',
   description: 'Apskatīt savu, vai kāda cita lietotāja latu daudzumu',
-  commands: ['maks', 'm', 'makste'],
+  commands: ['maks', 'm', 'makste', 'maksts'],
   cooldown: 1000,
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
@@ -36,7 +36,17 @@ export default {
     if (lati >= 1000) img = 3
     if (lati >= 5000) img = 4
 
-    message.reply(embedTemplate(message, 'Maks', `<@${targetId}> ir **${floorTwo(lati).toFixed(2)}** ${latsOrLati(lati)}`, imgLinks.maks[img]))
+    let user, maksImg
+    if (targetId === process.env.ULMANISID) {
+      user = 'Valsts bankai'
+      maksImg = imgLinks.ulmanis
+    } else {
+      user = `<@${targetId}>`
+      maksImg = imgLinks.maks[img]
+    }
+
+    message.reply(embedTemplate(message, 'Maks',
+      ` ${user} ir **${floorTwo(lati).toFixed(2)}** ${latsOrLati(lati)}`, maksImg))
     return 1
   },
 }

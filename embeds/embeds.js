@@ -1,7 +1,7 @@
 import { imgLinks } from './imgLinks.js'
 import { getEmoji } from '../reakcijas/atbildes.js'
 
-export const ulmanversija = '3.1.2'
+export const ulmanversija = '3.2'
 
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {
@@ -27,13 +27,13 @@ export const reakcEmbeds = embedName => {
   }
 }
 
-export const embedTemplate = (message, title, description, imgUrls = null) => {
+export const embedTemplate = (message, title, description, imgUrls = null, color = 0x9d2235) => {
   let embed = {
     embeds: [
       {
         title,
         description,
-        color: 0x9d2235,
+        color,
         author: {
           name: message.member.displayName,
           icon_url: message.author.avatarURL(),
@@ -54,8 +54,8 @@ export const embedTemplate = (message, title, description, imgUrls = null) => {
   return embed
 }
 
-export const buttonEmbed = async (message, title, description, imgUrls = null, buttons, cb, fields = []) => {
-  const time = 10000
+export const buttonEmbed = async (message, title, description, imgUrls = null, buttons, cb, fields = [], color, isReply = 0, max = 999) => {
+  const time = 15000
 
   let embed
 
@@ -70,48 +70,46 @@ export const buttonEmbed = async (message, title, description, imgUrls = null, b
   }]
 
   embed.components = row
-  console.log(embed)
+
   let msg = await message.reply(embed)
 
-  const collector = message.channel.createMessageComponentCollector({ time })
+  const collector = message.channel.createMessageComponentCollector({ time, max })
 
   const disableAll = row => {
     row[0].components.map(btn => {
       btn.disabled = true
-      if(btn.style === 1){
-        btn.style = 2
-      }
+      if(btn.style === 1) btn.style = 2
     })
     embed.components = row
-    msg.edit(embed)
+    clearTimeout(timeoutId)
   }
 
-  setTimeout(_ => {
+  const timeoutId = setTimeout(_ => {
     disableAll(row)
+    msg.edit(embed)
   }, time)
 
   collector.on('collect', async i => {
-    if (message.author.id !== i.user.id) {
-      await i.reply({ content: `Šī poga nav domāta tev dauni ${getEmoji(['nuja'])}`, ephemeral: true })
-    }
-    else {
+    if (message.author.id === i.user.id) {
       const result = await cb(i)
       if (result) {
-        row[0].components.map(btn => {
-          console.log(btn.custom_id, result)
+        row[0].components.map(async btn => {
           if (btn.custom_id === result.id) {
-            btn.disabled = true
+            btn.disabled = result?.disable ? result.disable : true
             btn.style = 3
             embed.components = row
-            msg.edit(embed)
+
+            if (result?.edit) embed.embeds[0].description = result.edit
+            if (result?.value) btn.label = result.value
+
+            if (result?.all) disableAll(row)
+
+            await i.update(embed)
           }
         })
       }
-      if (result?.all) disableAll(row)
     }
-
   })
-  console.log(embed, 'embed')
 }
 
 export const embedError = (message, name, description) => {

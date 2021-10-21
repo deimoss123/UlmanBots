@@ -39,7 +39,7 @@ export const itemList = {
       nameAkuVsk: 'mullermilch',
       nameAkuDsk: 'mullermilch',
       price: 450,
-      chance: 0,
+      chance: 0.01,
       url: 'https://i.postimg.cc/QtJ3QLXq/mullermilch.jpg',
       use: async (message) => {
         const result = await addStatus(message.guildId, message.author.id,
@@ -80,17 +80,17 @@ export const itemList = {
           },
           big: {
             name: 'lielo',
-            chance: 0.08,
+            chance: 0.1,
             reward: 800
           },
           mid: {
             name: 'vidējo',
-            chance: 0.15,
+            chance: 0.2,
             reward: 400
           },
           small: {
             name: 'mazo',
-            chance: 0.3,
+            chance: 0.45,
             reward: 175
           },
           nothing: {
@@ -114,8 +114,8 @@ export const itemList = {
       nameNomDsk: 'naži',
       nameAkuVsk: 'nazi',
       nameAkuDsk: 'nažus',
-      price: 100,
-      chance: 0,
+      price: 125,
+      chance: 0.05,
       url: 'https://i.postimg.cc/3NrH9LNQ/nazis.jpg',
       use: async message => {
         const result = await addStatus(message.guildId, message.author.id,
@@ -129,8 +129,8 @@ export const itemList = {
       nameNomDsk: 'zemeņu Rāsēni',
       nameAkuVsk: 'zemeņu Rāsēnu',
       nameAkuDsk: 'zemeņu Rāsēnus',
-      price: 55,
-      chance: 0,
+      price: 75,
+      chance: '*',
       url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg',
       use: async message => {
         const result = await addStatus(message.guildId, message.author.id,
@@ -145,7 +145,7 @@ export const itemList = {
       nameAkuVsk: 'latloto biļeti',
       nameAkuDsk: 'latloto biļetes',
       price: 50,
-      chance: 0,
+      chance: '*',
       url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
       use: async message => {
         const laimesti = {
@@ -156,17 +156,17 @@ export const itemList = {
           },
           big: {
             name: 'lielo',
-            chance: 0.08,
+            chance: 0.1,
             reward: 250
           },
           mid: {
             name: 'vidējo',
-            chance: 0.15,
+            chance: 0.25,
             reward: 120
           },
           small: {
             name: 'mazo',
-            chance: 0.3,
+            chance: 0.5,
             reward: 50
           },
           nothing: {
@@ -191,7 +191,7 @@ export const itemList = {
       nameAkuVsk: 'virvi',
       nameAkuDsk: 'virves',
       price: 10,
-      chance: 0,
+      chance: '*',
       url: 'https://i.postimg.cc/zvdYQnHb/virve.jpg',
       use: async message => {
         const { lati } = await findUser(message.guildId, message.author.id)
@@ -203,12 +203,20 @@ export const itemList = {
 
   // atkritumi, iegūstami no bomžošanas
   atkritumi: {
+    etalons: {
+      nameNomVsk: 'e-talons',
+      nameNomDsk: 'e-taloni',
+      nameAkuVsk: 'e-talonu',
+      nameAkuDsk: 'e-talonus',
+      price: 10,
+      chance: '*',
+    },
     zabaks: {
       nameNomVsk: 'lietots zābaks',
       nameNomDsk: 'lietoti zābaki',
       nameAkuVsk: 'lietotu zābaku',
       nameAkuDsk: 'lietotus zābakus',
-      price: 10,
+      price: 5,
       chance: '*',
     },
     stiklapudele: {
@@ -240,7 +248,7 @@ export const itemList = {
       nameNomDsk: 'kartona kastes',
       nameAkuVsk: 'kartona kasti',
       nameAkuDsk: 'kartona kastes',
-      price: 0.5,
+      price: 2,
       chance: '*',
     },
     stiklaburka: {
@@ -256,7 +264,7 @@ export const itemList = {
       nameNomDsk: 'tukšas konservu bundžas',
       nameAkuVsk: 'tukšu konservu bundžu',
       nameAkuDsk: 'tukšas konservu bundžas',
-      price: 2,
+      price: 3,
       chance: '*',
     },
     plastdaksa: {
@@ -264,7 +272,7 @@ export const itemList = {
       nameNomDsk: 'plastmasas dakšiņas',
       nameAkuVsk: 'plastmasas dakšiņu',
       nameAkuDsk: 'plastmasas dakšiņas',
-      price: 0.5,
+      price: 2,
       chance: '*',
     },
     avize: {
@@ -280,12 +288,12 @@ export const itemList = {
       nameNomDsk: 'odekoloni "Citrus"',
       nameAkuVsk: 'odekolonu "Citrus"',
       nameAkuDsk: 'odekolonus "Citrus"',
-      price: 10,
+      price: 0,
       chance: 0.05,
       use: async message => {
         const result = await addStatus(message.guildId, message.author.id,
           { bomzis: statusList.bomzis.time })
-        return `Tu izpisi odīti un sāki smirdēt\nTu vari biežāk nodarboties ar bomžošanu **${timeToText(
+        return `Tu izpisi odīti un sāki smirdēt\nTu tagad vari nodarboties ar bomžošanu **${timeToText(
           result.bomzis - Date.now(), 2)}**`
       },
     },
@@ -396,26 +404,42 @@ export const itemList = {
 export const statusList = {
   aizsardziba: {
     name: 'Aizsargāts',
+    description: 'Aizsardzība pret zagšanu. ' +
+      'Statusu iespējams iegūt no Mullermilch - **24h** un zemeņu rāsēna - **1h**. ' +
+      'Abus var nopirkt veikalā (`.veikals`)',
     time: 86400000,// 24h 86400000
   },
   bomzis: {
     name: 'Bomzis',
+    description: 'Dod iespēju bomžot (`.bomžot`). ' +
+      'Statusu var iegūt no odekolona "Citrus" - **4h**, ' +
+      'kuru var iegūt no ubagošanas (`.ubagot`)',
     time: 14400000, // 4h 14400000
   },
   laupitajs: {
     name: 'Laupītājs',
+    description: 'Palielināti zagšanas procenti. ' +
+      'Statusu var iegūt no naža - **1h**, kas nopērkams veikalā (`.veikals`). ' +
+      'Zagšanas procentus var apskatīt ar komandu `.zagt`',
     time: 3600000, // 1h 3600000
   },
   vakcinets: {
     name: 'Vakcinēts',
+    description: 'Ļauj strādāt veikalā (`.strādāt`). ' +
+      'Statusu iegūst no "Sputnik V" vakcīnas - **12h** un Covid-19 sertifikāta - **6h** ' +
+      'Abus var iegūt no bomžošanas',
     time: 43200000, // 12h 43200000
   },
   zvejotajs: {
     name: 'Zvejnieks',
+    description: 'Zvejošanas atļauja (`.zvejot`). ' +
+      'Iegūst no zvejošanas licences - **24h**, kas nopērkama veikalā (`.veikals`)',
     time: 86400000, // 24h 86400000
   },
   juridisks: {
     name: 'Juridiska persona',
+    description: 'Kļūsti par juridisku personu un nemaksā naudas pārskaitīšanas nodokli. ' +
+      'Statusu iegūst no juridiskās zivs - **72h**, kuru var nozvejot (`.zvejot`)',
     time: 259200000, // 72h 259200000
   },
 }

@@ -13,6 +13,8 @@ const profileSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  itemCap: { type: Number },
+  itemCount: { type: Number },
   items: { type: Object, },
   status: { type: Object, },
   cooldowns: { type: Object, },

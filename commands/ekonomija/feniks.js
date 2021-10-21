@@ -4,7 +4,7 @@ import { embedError, embedTemplate, ulmanversija } from '../../embeds/embeds.js'
 import { addLati, findUser } from '../../ekonomija.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
 
-// ~ 93% vidējais atgriezums
+// ~ 90% vidējais atgriezums
 const laimesti = {
   varde: {
     chance: '*',
@@ -36,7 +36,7 @@ const laimesti = {
     multiplier: 1
   },
   kabacis: {
-    chance: 0.02,
+    chance: 0.018,
     multiplier: 3
   },
   ulmanis: {
@@ -79,7 +79,7 @@ const riggedRow = laim => {
 
 const testChances = (laim) => {
   let m = 0
-  for (let j = 0; j < 10000; j++) {
+  for (let j = 0; j < 1000000; j++) {
     let totalMultiplier = 0
     let resArr = []
 
@@ -89,7 +89,7 @@ const testChances = (laim) => {
     }
     m += totalMultiplier
   }
-  console.log(m / 10000)
+  console.log(m / 1000000)
 }
 
 // EJ NAHUJ ŠITO HUIŅU
@@ -139,22 +139,23 @@ const slotsEmbed = (message, emojis, won, multiplier, lati) => {
   }
 }
 
-const sl = async (message, win, lati) => {
+const sl = async (message, win, lati, args) => {
   let emojis = [ [], [], [], [], [] ]
 
   // ģenerēt pirmās līnijas
   emojis.map((_, i) => emojis[i] = generateRow(laimesti).row)
 
-  const msg = await message.reply(slotsEmbed(message, emojis, undefined, undefined, lati))
+  let msg = await message.reply(slotsEmbed(message, emojis, undefined, undefined, lati))
 
-  let i = 0
+  let j = 0
   emojis.pop()
   emojis.unshift(win.row)
 
   const slots = () => {
 
-    if (i < 2) setTimeout(_ => {
-      i++
+    if (j < 2) setTimeout(async _ => {
+      j++
+
       msg.edit(slotsEmbed(message, emojis, undefined, undefined, lati))
 
       emojis.pop()
@@ -164,21 +165,57 @@ const sl = async (message, win, lati) => {
     }, 1000)
 
     else setTimeout(_ => {
-      msg.edit(slotsEmbed(message, emojis, lati * win.totalMultiplier, win.totalMultiplier, lati))
+      let winEmbed = slotsEmbed(message, emojis, lati * win.totalMultiplier, win.totalMultiplier, lati)
+
+      let rand = Math.floor(Math.random() * 100000)
+      winEmbed.components = [{
+        type: 1,
+        components: [{
+          type: 2,
+          label: 'Griezt vēlreiz',
+          style: 1,
+          custom_id: `griezt ${rand}`
+        }]
+      }]
+
+      msg.edit(winEmbed)
+
+      const btn = winEmbed.components[0].components[0]
+
+      const time = 5000
+      const collector = message.channel.createMessageComponentCollector({ time })
+
+      setTimeout(_ => {
+        btn.disabled = true
+        if (btn.style === 1) btn.style = 2
+        msg.edit(winEmbed)
+      }, time)
+
+      collector.on('collect', async i => {
+        if (i.customId === `griezt ${rand}` && message.author.id === i.user.id) {
+
+          const res = await feniks.callback(message, [args])
+
+          btn.disabled = true
+          btn.style = res === 1 ? 3 : 4
+
+          await i.update(winEmbed)
+        }
+      })
     }, 1000)
   }
 
   slots()
 }
 
-export default {
+export const feniks = {
   title: 'Fēnikss',
   description: 'Griezt vienu no Ulmaņa naudas aparātiem',
   commands: ['feniks', 'fenikss', 'fenka', 'aparats'],
-  cooldown: 0,
+  cooldown: 5000,
   maxArgs: 1,
   callback: async (message, args) => {
-    //testChances(laimesti)
+    testChances(laimesti)
 
     const guildId = message.guildId
     const userId = message.author.id
@@ -242,7 +279,7 @@ export default {
     let win
     if (userId === '222631002265092096' && 0) win = riggedRow(laimesti)
     else win = generateRow(laimesti)
-    await sl(message, win, likme)
+    await sl(message, win, likme, args[0])
 
     const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
 

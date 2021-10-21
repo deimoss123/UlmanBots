@@ -10,7 +10,9 @@ export default {
   expectedArgs: '<lietas numurs>',
   maxArgs: 2,
   minArgs: 1,
-  callback: async (message, args, _, _1, i = 0, itemToUse) => {
+  callback: async (message, args, _, _1, i, itemToUse = undefined, isReply = 1) => {
+
+    console.log(itemToUse)
     const guildId = message.guildId
     const userId = message.author.id
 
@@ -24,9 +26,8 @@ export default {
       return 2
     }
 
-    let selectedItem
+    let selectedItem = itemToUse
     if (!itemToUse) selectedItem = Object.keys(result.items)[args[0] - 1]
-    else selectedItem = itemToUse
 
     for (const key in itemList) {
       if (itemList[key][selectedItem]) {
@@ -44,8 +45,7 @@ export default {
           const reply = embedTemplate(message, `Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text,
             itemList[key][selectedItem].url)
 
-          if (i) i.reply(reply)
-          else message.reply(reply)
+          if (isReply) message.reply(reply)
 
           await addItems(guildId, userId, item)
           return 1

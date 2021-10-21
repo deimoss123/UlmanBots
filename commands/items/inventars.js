@@ -23,7 +23,7 @@ export default {
       else return 0
     }
 
-    const { items } = await findUser(guildId, targetId)
+    const { items, itemCap, itemCount } = await findUser(guildId, targetId)
 
     // pārbauda vai inventārs nav tukšs
     if (Object.keys(items).length) {
@@ -80,19 +80,30 @@ export default {
         }
       }
 
-      await buttonEmbed(message, 'Inventārs', `<@${targetId}>`, null, buttons, async i => {
-        if (i.customId === `pardVisu ${rand}`) {
-          await pardot.callback(message, ['visu'], null, null, i)
-          return {id: `pardVisu ${rand}`, all: 1}
-        }
-        else if (i.customId === `pardAtkr ${rand}`) {
-          await pardot.callback(message, ['a'], null, null, i)
-          return {id: `pardAtkr ${rand}`}
-        }
-        else if (i.customId === `pardZivis ${rand}`) {
-          await pardot.callback(message, ['z'], null, null, i)
-          return {id: `pardZivis ${rand}`}
-        }
+      let invValue = 0
+      Object.keys(items).map(invItem => {
+        Object.keys(itemList).map(category => {
+          if (itemList[category][invItem]) {
+            invValue += itemList[category][invItem].price * items[invItem]
+          }
+        })
+      })
+
+      await buttonEmbed(message, `Inventārs (${itemCount}/${itemCap})`,
+        `<@${targetId}> inventāra vērtība - **${invValue}** ${latsOrLati(invValue)}`, null, buttons,
+        async i => {
+          if (i.customId === `pardVisu ${rand}`) {
+            await pardot.callback(message, ['visu'], null, null, i)
+            return {id: `pardVisu ${rand}`, all: 1}
+          }
+          else if (i.customId === `pardAtkr ${rand}`) {
+            await pardot.callback(message, ['a'], null, null, i)
+            return {id: `pardAtkr ${rand}`}
+          }
+          else if (i.customId === `pardZivis ${rand}`) {
+            await pardot.callback(message, ['z'], null, null, i)
+            return {id: `pardZivis ${rand}`}
+          }
       }, embedFieldArr)
       //message.reply(embedSaraksts(message, 'Inventārs', `<@${targetId}>`, embedFieldArr))
     } else { // inventārs tukšs
