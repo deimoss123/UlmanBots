@@ -53,7 +53,7 @@ export default {
     let targetId = getUserId(args[0])
     if (!targetId) return 0
 
-    if (await checkStatus(guildId, userId, 'aizsardziba')) {
+    if (await checkStatus(guildId, userId, 'aizsardziba') && targetId !== process.env.ULMANISID) {
       message.reply(embedTemplate(message, 'Zagšana', 'Tu nevari zagt kamēr tev ir aizsardzība'))
       return 2
     }
@@ -63,7 +63,7 @@ export default {
       return 2
     }
 
-    if (await checkStatus(guildId, targetId, 'aizsardziba')) {
+    if (await checkStatus(guildId, targetId, 'aizsardziba') && targetId !== process.env.ULMANISID) {
       message.reply(embedTemplate(message, 'Zagšana', `Tu nevari zagt no <@${targetId}>, jo viņam ir aizsardzība`))
       return 2
     }
