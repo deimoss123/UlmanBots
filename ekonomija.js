@@ -26,7 +26,7 @@ export const findUser = async (guildId, userId) => {
             guildId,
             userId,
             lati: 0,
-            itemCap: 30,
+            itemCap: 100,
             itemCount: 0,
             items: {},
             cooldowns: {},
@@ -38,7 +38,7 @@ export const findUser = async (guildId, userId) => {
         if (!result.items) result.items = {}
         if (!result.cooldowns) result.cooldowns = {}
         if (!result.status) result.status = {}
-        if (!result.itemCap) result.itemCap = 30
+        result.itemCap = 100
 
         if (!Object.keys(result.items).length) result.itemCount = 0
         else {

@@ -21,7 +21,7 @@ const jaun = {
     '- Tagad bomžošanai ir **nepieciešams** bomža statuss, odekolonu var dabūt tikai no ubagošanas, un tā vērtība tagad ir 0 lati\n' +
     '- Pievienoti paskaidrojumi statusiem, izmanto komandu `.status info`\n' +
     '- Strādāšanai un bomžošanai pievienotas izvēles pogas\n' +
-    `- Ieviests inventāra limits - 30 ${getEmoji(['1984'])} pagaidām nav palielināms ${getEmoji(['lenka'])}\n` +
+    `- Ieviests inventāra limits - 100 ${getEmoji(['1984'])} pagaidām nav palielināms ${getEmoji(['lenka'])}\n` +
     '- Noņemta iespēja zagt kamēr tev ir aizsardzības statuss\n' +
     `- Samazināti zagšanas procenti ${getEmoji(['kruts'])} \n` +
     '- Palielināta naža cena uz 250, un rasena uz 150\n' +
