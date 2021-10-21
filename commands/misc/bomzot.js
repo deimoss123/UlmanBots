@@ -128,7 +128,7 @@ export default {
           text: 'Tu nevarēji atturēties un odekolonu izdzēri'
         },
         pardevi: {
-          chance: 0.5,
+          chance: 0.6,
           text: 'Tu notirgoji odekolonu par '
         }
       }
@@ -146,7 +146,7 @@ export default {
               await izmantot.callback(message, ['1'], null, null, i, 'oditiscitrus', 0)
           } break
           case 'pardevi': {
-            const lati = Math.floor(((Math.random() * 15) + 5) * 100) / 100
+            const lati = Math.floor(((Math.random() * 20) + 10) * 100) / 100
             await addItems(guildId, userId, { oditiscitrus: -1 })
             await addLati(guildId, userId, lati)
             txt += `${lati} latiem`
