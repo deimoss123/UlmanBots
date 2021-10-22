@@ -1,7 +1,7 @@
 import { imgLinks } from './imgLinks.js'
 import { getEmoji } from '../reakcijas/atbildes.js'
 
-export const ulmanversija = '3.2'
+export const ulmanversija = '3.2.1'
 
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {

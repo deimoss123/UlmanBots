@@ -26,6 +26,8 @@ const jaun = {
     `- Samazināti zagšanas procenti ${getEmoji(['kruts'])} \n` +
     '- Palielināta naža cena uz 250, un rasena uz 150\n' +
     `- Palielināti latloto un dižloto procenti ${getEmoji(['bacha'])} \n`,
+  '3.2.1':
+    '- Jauni servera topi (`.top feniks` ' + `${getEmoji(['kruts'])}` + '), tos var apskatīt ar komandu `.top`',
 }
 
 export default {

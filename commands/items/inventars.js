@@ -4,6 +4,18 @@ import { buttonEmbed, embedSaraksts } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import pardot from '../ekonomija/pardot.js'
 
+export const calcInvValue = items => {
+  let invValue = 0
+  Object.keys(items).map(invItem => {
+    Object.keys(itemList).map(category => {
+      if (itemList[category][invItem]) {
+        invValue += itemList[category][invItem].price * items[invItem]
+      }
+    })
+  })
+  return invValue
+}
+
 export default {
   title: 'Inventārs',
   description: 'Apskatīt savu, vai kāda cita lietotāja inventāru',
@@ -80,14 +92,7 @@ export default {
         }
       }
 
-      let invValue = 0
-      Object.keys(items).map(invItem => {
-        Object.keys(itemList).map(category => {
-          if (itemList[category][invItem]) {
-            invValue += itemList[category][invItem].price * items[invItem]
-          }
-        })
-      })
+      const invValue = calcInvValue(items)
 
       const title = `Inventārs (${itemCount}/${itemCap})`
       const description = `<@${targetId}> inventāra vērtība - **${invValue}** ${latsOrLati(

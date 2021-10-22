@@ -76,7 +76,7 @@ export const getTop = async (guildId, type = 'lati') => {
   console.log('running getTop()')
   return await mongo().then(async mongoose => {
     try {
-      const result = await profileSchema.find().select({ lati: 1, userId: 1, guildId: 1, data: 1 })
+      const result = await profileSchema.find().select({ lati: 1, userId: 1, guildId: 1, data: 1, items: 1 })
       return result.filter(r => r['guildId'] === guildId)
     } catch (e) {
       console.error(e)

@@ -4,6 +4,11 @@ export const imgLinks = {
   rimi: 'https://i.postimg.cc/VkYzz6Lf/rimi.png',
   kasjauns: 'https://i.postimg.cc/pTYFNHCd/kasjauns.png',
 
+  feniksTop: 'https://i.postimg.cc/vHXk9sGq/feniks-1.jpg',
+  oligarhs: 'https://i.postimg.cc/DwZDPMZ2/oligarhs-1.jpg',
+  top: 'https://i.postimg.cc/9Qnk8YRy/top.png',
+
+
   kabacis: [
     'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
     'https://i.postimg.cc/G2Vf76p2/kabacis2.jpg'
