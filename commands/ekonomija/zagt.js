@@ -1,5 +1,5 @@
 import { chance, getUserId } from '../../helperFunctions.js'
-import { addLati, addStatus, checkStatus, findUser } from '../../ekonomija.js'
+import { addData, addLati, addStatus, checkStatus, findUser } from '../../ekonomija.js'
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 import { statusList } from '../../itemList.js'
 
@@ -130,6 +130,25 @@ export default {
     message.reply(embedTemplate(message, 'Zagšana', resultText))
     await addLati(guildId, userId, stolen)
     await addLati(guildId, targetId, stolen * -1)
+
+    let dataUser = {}
+    let dataTarget = {}
+
+    if (stolen < 0) {
+      // lati ko ir pazaudējis lietotājs zogot no kāda
+      dataUser.lostLatiUser = stolen * -1
+      // lati ko ir ieguvis otrs lietotājs, kad no viņa zogot komandas lietotājs ir zaudējis naudu
+      dataTarget.gainedLatiTarget = stolen * -1
+    }
+    else {
+      // lati ko ir ieguvis lietotājs zogot no kāda
+      dataUser.gainedLatiUser = stolen
+      // lati ko ir zaudējis otrs lietotājs, kad no viņa zogot komandas lietotājs ir nozadzis naudu
+      dataTarget.lostLatiTarget = stolen
+    }
+
+    await addData(guildId, userId, dataUser)
+    await addData(guildId, targetId, dataTarget)
     return 1
   }
 }

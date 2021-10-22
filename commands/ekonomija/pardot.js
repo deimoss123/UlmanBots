@@ -1,5 +1,5 @@
 import { itemList } from '../../itemList.js'
-import { addItems, findUser, addLati } from '../../ekonomija.js'
+import { addItems, findUser, addLati, addData } from '../../ekonomija.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
@@ -127,7 +127,11 @@ export default {
     Object.keys(items).map(item => items[item] *= -1)
 
     await addLati(guildId, userId, total)
+    await addLati(guildId, process.env.ULMANISID, total * 0.1)
+
     await addItems(guildId, userId, items)
+
+    await addData(guildId, userId, { soldAmount: total, taxPaid: total * 0.1 })
     return 1
   },
 }

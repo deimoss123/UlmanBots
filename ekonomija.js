@@ -10,7 +10,10 @@ let kaktsCache = { test: 'test' }
 export const findUser = async (guildId, userId) => {
   // meklē lietotāju cache, ja neatrod tad pieprasa datubāzei
   if (userCache[`${guildId}-${userId}`]) {
-    return userCache[`${guildId}-${userId}`]
+    const result = userCache[`${guildId}-${userId}`]
+    if (result.lati > result.data.maxMaksLati) result.data.maxMaksLati = result.lati
+
+    return result
   } else {
     return await mongo().then(async mongoose => {
       try {
@@ -31,6 +34,7 @@ export const findUser = async (guildId, userId) => {
             items: {},
             cooldowns: {},
             status: {},
+            data: {}
           }
           await new profileSchema(newSchema).save()
           result = newSchema
@@ -38,6 +42,13 @@ export const findUser = async (guildId, userId) => {
         if (!result.items) result.items = {}
         if (!result.cooldowns) result.cooldowns = {}
         if (!result.status) result.status = {}
+        if (!result.data) result.data = {}
+
+        result.data.maxFeniksWin ||= 0
+        result.data.maxFeniksLikme ||= 0
+
+        if (!result.data?.maxMaksLati) result.data.maxMaksLati = result.lati
+
         result.itemCap = 100
 
         if (!Object.keys(result.items).length) result.itemCount = 0
@@ -61,19 +72,43 @@ export const findUser = async (guildId, userId) => {
 }
 
 // atrod bagātākos lietotājus serverī, kā arī nosaka kopējo naudas cirkulāciju
-export const getTop = async (guildId) => {
+export const getTop = async (guildId, type = 'lati') => {
   console.log('running getTop()')
   return await mongo().then(async mongoose => {
     try {
-      const result = await profileSchema.find().
-        sort({ 'lati': -1 }).
-        select({ lati: 1, userId: 1, guildId: 1 })
-
+      const result = await profileSchema.find().select({ lati: 1, userId: 1, guildId: 1, data: 1 })
       return result.filter(r => r['guildId'] === guildId)
     } catch (e) {
       console.error(e)
     }
   })
+}
+
+export const addData = async (guildId, userId, newData) => {
+  console.log('running addData()')
+  let { data } = await findUser(guildId, userId)
+
+  return await mongo().then(async mongoose => {
+    try {
+      Object.keys(newData).map(key => {
+        console.log(newData[key])
+        if (isNaN(newData[key]) && newData[key].startsWith('='))
+          data[key] = parseInt(newData[key].slice(1))
+        else data[key] = data[key] ? data[key] + newData[key] : newData[key]
+      })
+
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+      }, { data }, {})
+
+      console.log(data, newData)
+      userCache[`${guildId}-${userId}`].data = data
+    } catch (e) {
+      console.error(e)
+    }
+  })
+
 }
 
 // pievieno latus lietotājam

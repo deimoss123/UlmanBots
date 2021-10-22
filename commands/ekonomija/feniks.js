@@ -1,7 +1,7 @@
 import { getEmoji } from '../../reakcijas/atbildes.js'
 import { chance } from '../../helperFunctions.js'
 import { embedError, embedTemplate, ulmanversija } from '../../embeds/embeds.js'
-import { addLati, findUser } from '../../ekonomija.js'
+import { addLati, findUser, addData } from '../../ekonomija.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
 
 // ~ 90% vidējais atgriezums
@@ -281,10 +281,19 @@ export const feniks = {
     else win = generateRow(laimesti)
     await sl(message, win, likme, args[0])
 
+
     const resLati = (likme * -1) + Math.round(likme * win.totalMultiplier)
 
     await addLati(guildId, process.env.ULMANISID, likme * 0.1)
     await addLati(guildId, userId, resLati)
+
+    let dataUser = { feniksSpend: parseInt(likme), feniksWin: parseInt(likme) + resLati, feniksCount: 1 }
+    const { data } = await findUser(guildId, userId)
+    if (data.maxFeniksWin <= parseInt(likme) + resLati)
+      dataUser.maxFeniksWin = `=${parseInt(likme) + resLati}`
+    if (data.maxFeniksLikme <= likme) dataUser.maxFeniksLikme = `=${likme}`
+
+    await addData(guildId, userId, dataUser)
     return 1
   }
 }

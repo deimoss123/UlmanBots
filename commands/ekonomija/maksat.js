@@ -1,5 +1,5 @@
 import { getUserId, latsOrLati } from '../../helperFunctions.js'
-import { addLati, checkStatus, findUser } from '../../ekonomija.js'
+import { addData, addLati, checkStatus, findUser } from '../../ekonomija.js'
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
@@ -59,7 +59,15 @@ export default {
       // pievieno naudu mērķim
       await addLati(guildId, targetId, latiAmount)
       // pievieno nodokli valsts bankai
-      if (nodoklis !== 1) await addLati(guildId, process.env.ULMANISID, nodoklisLati)
+
+      let dataUsr = { sentMoney: latiAmount }
+      if (nodoklis !== 1) {
+        await addLati(guildId, process.env.ULMANISID, nodoklisLati)
+        dataUsr.taxPaid = nodoklisLati
+      }
+
+      await addData(guildId, userId, dataUsr)
+      await addData(guildId, targetId, { receivedMoney: latiAmount })
       
       return 1
     }

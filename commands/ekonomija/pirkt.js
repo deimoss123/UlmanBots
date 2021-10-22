@@ -1,4 +1,4 @@
-import { addItems, findUser, addLati } from '../../ekonomija.js'
+import { addItems, findUser, addLati, addData } from '../../ekonomija.js'
 import { buttonEmbed, embedError, embedTemplate } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
@@ -104,8 +104,9 @@ export default {
     await addItems(guildId, userId, item, 1)
     await addLati(guildId, userId, total * -1)
     // pvn valsts bankai
-    await addLati(guildId, process.env.ULMANISID, total * 0.21)
+    await addLati(guildId, process.env.ULMANISID, total * 0.1)
 
+    await addData(guildId, userId, { spentShop: total, taxPaid: total * 0.1 })
     return 1
   },
 }
