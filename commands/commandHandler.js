@@ -7,7 +7,8 @@ import { embedError } from '../embeds/embeds.js'
 
 // visu komandu importi
 import maks from './ekonomija/maks.js'
-import addLati from './ekonomija/addLati.js'
+import addLati from './admin/addLati.js'
+import addItem from './admin/addItem.js'
 import bomzot from './misc/bomzot.js'
 import ubagot from './misc/ubagot.js'
 import inventars from './items/inventars.js'
@@ -39,7 +40,7 @@ export const commands = {
     veikals, pirkt, pardot, izmantot,  maksat, zagt,
   ],
   'Moderātoriem': [
-    kakts, izkaktot, addLati
+    kakts, izkaktot, addLati, addItem
   ]
 }
 
@@ -74,8 +75,9 @@ export default (client, message) => {
             // neļauj cilvēkiem melnajā sarakstā lietot komandas
             if (blacklist.includes(userId)) return
 
-            // addlati komandu var izmantot tikai testa serverī
+            // komandas var izmantot tikai testa serverī
             if (command.title === 'AddLati' && guildId !== '875083366611955712') return
+            if (command.title === 'AddItem' && guildId !== '875083366611955712') return
 
             let { cooldowns } = await findUser(guildId, userId)
 
