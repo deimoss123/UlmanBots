@@ -55,15 +55,23 @@ client.on('ready', async () => {
     setTimeout(async () => {
       await mongo().then(async mongoose => {
         try {
-          let kakti = await mutesSchema.find()
+          let kakti = await mutesSchema.find({ guildId: "836650380095914035" })
+
+          //console.log(kakti, 'kakti')
 
           kakti = kakti.filter(kakts => {
+            //console.log(kakts.userId, 'id')
+            //console.log(kakts.current)
+            //console.log(kakts.expires > 0)
+            //console.log(kakts.expires <= Date.now())
             return kakts.current && kakts.expires > 0 && kakts.expires <= Date.now()
           })
 
+          //console.log(kakti, 'kakti')
+
           if (kakti.length) {
             for (const kakts of kakti) {
-              console.log(kakts)
+              console.log(kakts, 'kakts')
               await kaktsRole(kakts.guildId, kakts.userId, 1)
 
               await mutesSchema.findOneAndUpdate({
