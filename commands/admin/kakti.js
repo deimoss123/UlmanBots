@@ -14,7 +14,7 @@ export default {
     const guildId = message.guildId
     let resultArr = []
 
-    if (!settingsCache[guildId].kaktsRole) {
+    if (!settingsCache[guildId]?.kaktsRole) {
       message.reply(embedError(message, 'Kakts', 'Šajā serverī nevar izmantot kaktu, jo nav iestatīta kakta loma\n' +
         'Kakta lomu var noteikt servera istatījumos ar komandu `.iestatījumi`'))
       return 2
