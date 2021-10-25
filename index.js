@@ -55,7 +55,7 @@ client.on('ready', async () => {
     setTimeout(async () => {
       await mongo().then(async mongoose => {
         try {
-          let kakti = await mutesSchema.find({ guildId: "836650380095914035" })
+          let kakti = await mutesSchema.find()
 
           //console.log(kakti, 'kakti')
 
@@ -99,7 +99,6 @@ client.on('ready', async () => {
         guildId: guild.id,
         current: true
       })
-
       if (currentMute) await kaktsRole(guild.id, id)
     })
 
