@@ -123,7 +123,7 @@ client.on('ready', async () => {
 
         try {
           const newSchema = {
-            _id: guildId,
+            _id: message.guildId,
             kaktsRole: '',
             modRoles: [],
             spamChannels: [],
