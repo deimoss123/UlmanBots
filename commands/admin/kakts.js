@@ -12,7 +12,7 @@ export default {
   description: 'Ielikt kādu kaktā\n(tikai moderātoriem)',
   commands: ['kakts', 'kaktot'],
   cooldown: 0,
-  expectedArgs: '<@lietotājs> <laiks> <m/h/d/mūžība>',
+  expectedArgs: '<@lietotājs> <laiks> <s/m/h/d/mūžība>',
   minArgs: 3,
   maxArgs: 3,
   modCommand: 1,
@@ -30,6 +30,7 @@ export default {
 
 
     const time = {
+      s: 1000,
       m: 60000,
       h: 3600000,
       d: 86400000,

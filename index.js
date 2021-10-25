@@ -11,16 +11,9 @@ import { antispam } from './antispam.js'
 import settingsSchema from './schemas/settings-schema.js'
 import mutesSchema from './schemas/mutes-schema.js'
 import { settingsCache } from './commands/admin/iestatijumi.js'
+import settingSchema from './schemas/settings-schema.js'
 
 dotenv.config()
-
-// kanāli kuros ziņas izdzēšas pēc noteikta laika
-const channels = [
-  '898550678417457163', // klacukanals
-  '797587282672484392', // sudpublicesana
-  '890662723648647249', // politika
-  '875083366611955715'  // test kanals
-]
 
 // definē DiscordJS klientu
 const client = new Client({
@@ -45,8 +38,8 @@ client.on('ready', async () => {
       settings.map(setting => {
         settingsCache[setting._id] = setting
       })
-    } finally {
-      await mongoose.connection.close()
+    } catch (e) {
+      console.error(e)
     }
   })
 
@@ -69,21 +62,22 @@ client.on('ready', async () => {
           })
 
           if (kakti.length) {
-            kakti.map(async kakts => {
+            for (const kakts of kakti) {
+              console.log(kakts)
               await kaktsRole(kakts.guildId, kakts.userId, 1)
 
               await mutesSchema.findOneAndUpdate({
                 userId: kakts.userId,
                 guildId: kakts.guildId
               }, { current: false }, {})
-            })
+            }
           }
         } catch (e) {
           console.error(e)
         }
       })
       await kaktsLoop()
-    }, 10000)
+    }, 5000)
   }
   await kaktsLoop()
 
@@ -115,6 +109,29 @@ client.on('ready', async () => {
   const timeout = 20000
 
   client.on('messageCreate', async message => {
+
+    if (!settingsCache[message.guildId]) {
+      await mongo().then(async mongoose => {
+
+        try {
+          const newSchema = {
+            _id: guildId,
+            kaktsRole: '',
+            modRoles: [],
+            spamChannels: [],
+            autoDeleteChannels: [],
+            autoRoles: [],
+          }
+
+          settingSchema[newSchema._id] = newSchema
+          await new settingSchema(newSchema).save()
+        } catch (e) {
+          console.error(e)
+        }
+
+      })
+    }
+
     // pārbauda vai ziņa nav no bota
     if (message.author.id === process.env.ULMANISID) {
       if (settingsCache[message.guildId]?.autoDeleteChannels?.length) {
