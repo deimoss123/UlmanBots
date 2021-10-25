@@ -28,6 +28,10 @@ const jaun = {
     `- Palielināti latloto un dižloto procenti ${getEmoji(['bacha'])} \n`,
   '3.2.1':
     '- Jauni servera topi (`.top feniks` ' + `${getEmoji(['kruts'])}` + '), tos var apskatīt ar komandu `.top`',
+  '3.2.2':
+    `- Salabots kakts (beidzot) ${getEmoji(['kruts'])}\n` +
+    `- Automātiskā lomu došana (beidzot) ${getEmoji(['izbrinits'])}\n` +
+    '- Serveriem tagad pieejami iestatījumi ar komandu `.iestatījumi`',
 }
 
 export default {

@@ -2,7 +2,7 @@ import commandBase from './commandBase.js'
 
 import { latToEng, timeToText } from '../helperFunctions.js'
 
-import { addCooldown, findUser, checkStatus } from '../ekonomija.js'
+import { addCooldown, findUser } from '../ekonomija.js'
 import { embedError } from '../embeds/embeds.js'
 
 // visu komandu importi
@@ -28,6 +28,8 @@ import palidziba from './misc/palidziba.js'
 import { feniks } from './ekonomija/feniks.js'
 import jaunumi from './misc/jaunumi.js'
 import pabalsts from './misc/pabalsts.js'
+import kakti from './admin/kakti.js'
+import iestatijumi, { settingsCache } from './admin/iestatijumi.js'
 
 export const commands = {
   'Informācija': [
@@ -40,7 +42,7 @@ export const commands = {
     veikals, pirkt, pardot, izmantot,  maksat, zagt,
   ],
   'Moderātoriem': [
-    kakts, izkaktot, addLati, addItem
+    iestatijumi, kakts, izkaktot, kakti, addLati, addItem
   ]
 }
 

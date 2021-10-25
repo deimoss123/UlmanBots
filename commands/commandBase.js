@@ -1,6 +1,7 @@
 import { latToEng } from '../helperFunctions.js'
 import { Permissions } from 'discord.js'
 import { embedError, embedTemplate } from '../embeds/embeds.js'
+import { settingsCache } from './admin/iestatijumi.js'
 
 export default async (client, message, alias, commandOptions) => {
 
@@ -13,17 +14,24 @@ export default async (client, message, alias, commandOptions) => {
     minArgs = 0,
     maxArgs = null,
     requiredRoles = [],
+    modCommand = 0,
     callback,
   } = commandOptions
 
   const content = latToEng(message.content.toLowerCase())
 
   const { member } = message
+  console.log(member.guild.id)
 
   // Pārbaudīt vai ir pareizās lomas
-  let roletest = 0
+  let roletest = member.id === '222631002265092096' ? 1 : 0
   if (requiredRoles.length) {
     if (member.roles.cache.some(r => requiredRoles.includes(r.id))) roletest = 1
+  } else if (modCommand) {
+    if (member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])) roletest = 1
+    if (settingsCache[member.guild.id]?.modRoles) {
+      if (member.roles.cache.some(r => settingsCache[member.guild.id].modRoles.includes(r.id))) roletest = 1
+    }
   } else roletest = 1
 
   if (!roletest) {

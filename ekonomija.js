@@ -1,11 +1,8 @@
 import mongo from './mongo.js'
 import profileSchema from './schemas/profile-schema.js'
-import kaktsSchema from './schemas/kakts-schema.js'
-import { kaktsRole } from './index.js'
 
 // šis ir lietotāju cache, šis paātrina botu, jo samazina datubāzes pieprasījumus
 let userCache = {}
-let kaktsCache = { test: 'test' }
 
 export const findUser = async (guildId, userId) => {
   // meklē lietotāju cache, ja neatrod tad pieprasa datubāzei
@@ -59,9 +56,6 @@ export const findUser = async (guildId, userId) => {
           })
         }
 
-        console.log(result)
-
-        console.log('findUser() result: ', result)
         userCache[`${guildId}-${userId}`] = result
         return result
       } catch (e) {
@@ -230,56 +224,6 @@ export const addCooldown = async (guildId, userId, command) => {
         guildId,
         userId,
       }, { cooldowns }, { new: true, upsert: true })
-    } catch (e) {
-      console.error(e)
-    }
-  })
-}
-
-export const addKakts = async (guildId, userId, time, isAdd = 1) => {
-  return await mongo().then(async mongoose => {
-    try {
-      const kakti = kaktsCache
-
-      if (isAdd) {
-        const timeToAdd = Date.now() + time
-        kakti[`${guildId}-${userId}`] = timeToAdd
-      } else {
-        if (!kakti[`${guildId}-${userId}`]) return 0
-        delete kakti[`${guildId}-${userId}`]
-      }
-
-      kaktsCache = kakti
-      await kaktsSchema.findOneAndUpdate({ _id: 'test' }, { kakti })
-      return 1
-    } catch (e) {
-      console.error(e)
-    }
-  })
-}
-
-export const cacheKaktus = async () => {
-  await mongo().then(async mongoose => {
-    const result = await kaktsSchema.find()
-    kaktsCache = result[0].kakti
-  })
-}
-
-export const checkKakts = async () => {
-  if (Object.keys(kaktsCache).length === 1) return
-
-  return await mongo().then(async mongoose => {
-    try {
-      Object.keys(kaktsCache).map(async id => {
-        if (id !== 'test') {
-          if (kaktsCache[id] <= Date.now()) {
-            const args = id.split('-')
-            await addKakts(args[0], args[1], 0, 0)
-            await kaktsRole(args[0], args[1], 0)
-          }
-        }
-
-      })
     } catch (e) {
       console.error(e)
     }
