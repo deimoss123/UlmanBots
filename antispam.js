@@ -15,11 +15,8 @@ const msgCache = {}
 export const antispam = async message => {
   const guildId = message.guildId
   const userId = message.author.id
-  console.log('antisp')
   if (settingsCache[guildId]?.spamChannels?.length) {
-    console.log(1)
     if (settingsCache[guildId].spamChannels.includes(message.channelId)) {
-      console.log(2)
       return
     }
   }

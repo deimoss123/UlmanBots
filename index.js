@@ -77,7 +77,7 @@ client.on('ready', async () => {
               await mutesSchema.findOneAndUpdate({
                 userId: kakts.userId,
                 guildId: kakts.guildId
-              }, { current: false }, {})
+              }, { current: false }, { new: true, upsert: true })
             }
           }
         } catch (e) {
