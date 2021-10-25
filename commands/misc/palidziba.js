@@ -12,7 +12,7 @@ export default {
     Object.keys(commands).map(category => {
       let resultArr = []
       commands[category].map(cmd => {
-        if (cmd.title !== 'AddLati') resultArr.push({
+        if (cmd.title !== 'AddLati' && cmd.title !== 'AddItem') resultArr.push({
           name: '`' + `.${cmd.commands[0]} ${cmd.expectedArgs ? cmd.expectedArgs : ''}` + '`',
           value: `${cmd.description}`
         })
