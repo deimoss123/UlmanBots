@@ -28,10 +28,15 @@ export default {
     if (kaktidb.length) {
       for (const mutedUser of kaktidb) {
         const user = await client.users.fetch(mutedUser.userId)
+
+        let remainTime = timeToText(mutedUser.expires - Date.now())
+        if (mutedUser.expires < 0) remainTime = '∞'
+        else if (mutedUser.expires - Date.now() <= 1000) remainTime = '1 sekunde'
+
         resultArr.push({
           name: `${user.username}#${user.discriminator}`,
           value: `Kaktotājs - <@${mutedUser.adminId}>\n` +
-            `Atlikušais laiks ${timeToText(mutedUser.expires - Date.now())}`,
+            `Atlikušais laiks - ${remainTime}`,
         })
       }
     }

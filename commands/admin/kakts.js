@@ -73,7 +73,7 @@ export default {
     }
 
     message.reply(embedTemplate(message, 'Kakts',
-      `<@${targetId}> tika ielikts kaktā uz ` +
+      `<@${targetId}> tika ielikts kaktā ` +
       `${kaktsTime < 0 ? 'mūžību' : timeToText(kaktsTime, 2)}`, imgLinks.kakts))
 
     return 1
