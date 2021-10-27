@@ -96,7 +96,7 @@ export default {
       if (items?.virve) {
         buttons.push({
           label: 'Pakārties',
-          style: 4,
+          style: 2,
           custom_id: `pakarties ${rand}`
         })
       }
