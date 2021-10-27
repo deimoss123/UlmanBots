@@ -3,6 +3,7 @@ import { getUserId, latsOrLati } from '../../helperFunctions.js'
 import { buttonEmbed, embedSaraksts } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import pardot from '../ekonomija/pardot.js'
+import izmantot from './izmantot.js'
 
 export const calcInvValue = items => {
   let invValue = 0
@@ -92,6 +93,14 @@ export default {
         }
       }
 
+      if (items?.virve) {
+        buttons.push({
+          label: 'Pakārties',
+          style: 4,
+          custom_id: `pakarties ${rand}`
+        })
+      }
+
       const invValue = calcInvValue(items)
 
       const title = `Inventārs (${itemCount}/${itemCap})`
@@ -113,6 +122,9 @@ export default {
         } else if (i.customId === `pardZivis ${rand}`) {
           await pardot.callback(message, ['z'], null, null, i)
           return { id: `pardZivis ${rand}` }
+        } else if (i.customId === `pakarties ${rand}`) {
+          await izmantot.callback(message, ['1'], null, null, i, 'virve')
+          return { id: `pakarties ${rand}` }
         }
       }, embedFieldArr)
 
