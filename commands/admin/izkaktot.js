@@ -5,6 +5,7 @@ import mutesSchema from '../../schemas/mutes-schema.js'
 import { kaktsRole } from '../../index.js'
 import { settingsCache } from './iestatijumi.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
+import { Permissions } from 'discord.js'
 
 export default {
   title: 'Izkaktot',
@@ -16,7 +17,7 @@ export default {
   maxArgs: 1,
   modCommand: 1,
   callback: async (message, args) => {
-    const guildId = message.guildId
+    const { guildId } = message
     const targetId = getUserId(args[0])
 
     if (!settingsCache[guildId]?.kaktsRole) {
@@ -41,7 +42,11 @@ export default {
         }
 
         if (hasRole) {
-          await kaktsRole(guildId, targetId, 1)
+          if (!await kaktsRole(guildId, targetId, 1)) {
+            message.reply(embedError(message, 'Kakts',
+              'Šajā serverī nevar izmantot kaktu, jo UlmaņBotam nav atļaujas mainīt lomas'))
+            return 2
+          }
         }
 
         if (previousMutes) {

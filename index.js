@@ -1,4 +1,4 @@
-import { Intents, Client } from 'discord.js'
+import { Intents, Client, Permissions } from 'discord.js'
 
 import dotenv from 'dotenv'
 import mongo from './mongo.js'
@@ -162,12 +162,17 @@ export const kaktsRole = async (guildId, userId, isRemove = 0) => {
   const guild = await client.guilds.cache.get(guildId)
   const member = await guild.members.fetch(userId)
 
+  const bot = await guild.members.fetch(process.env.ULMANISID)
+
+  if (!bot.permissions.has([Permissions.FLAGS.MANAGE_ROLES])) return 0
+
   const kaktsRole = await guild.roles.cache.find(role => {
     return role.id === settingsCache[guildId].kaktsRole
   })
 
   if (isRemove) await member.roles.remove(kaktsRole)
   else await member.roles.add(kaktsRole)
+  return 1
 }
 
 // bots ieloggojas discorda

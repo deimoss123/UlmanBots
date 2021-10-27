@@ -1,5 +1,6 @@
 import { embedError, embedTemplate } from '../../embeds/embeds.js'
 import { timeToText, getUserId } from '../../helperFunctions.js'
+import { Permissions } from 'discord.js'
 
 import mutesSchema from '../../schemas/mutes-schema.js'
 import mongo from '../../mongo.js'
@@ -18,7 +19,7 @@ export default {
   modCommand: 1,
   callback: async (message, args) => {
 
-    const guildId = message.guildId
+    const { guildId } = message
     const userId = message.author.id
     const targetId = getUserId(args[0])
 
@@ -48,6 +49,12 @@ export default {
       return 2
     }
 
+    if (!await kaktsRole(guildId, targetId)) {
+      message.reply(embedError(message, 'Kakts',
+        'Šajā serverī nevar izmantot kaktu, jo UlmaņBotam nav atļaujas mainīt lomas'))
+      return 2
+    }
+
     if (!Object.keys(time).includes(args[2])) return 0
 
     const kaktsTime = Math.floor(args[1]) * time[args[2]]
@@ -55,7 +62,7 @@ export default {
 
     const previousMutes = await mutesSchema.find({ userId: targetId })
     console.log(previousMutes)
-    await kaktsRole(guildId, targetId)
+
 
     const kaktsObj = {
       _id: `${guildId}-${targetId}`,
