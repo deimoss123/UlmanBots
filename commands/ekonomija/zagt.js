@@ -70,6 +70,13 @@ export default {
 
     const user = await findUser(guildId, userId)
     const target = await findUser(guildId, targetId)
+
+
+    // parastā zagšana
+    if (user.lati <= 30 || target.lati <= 30) {
+      message.reply(embedError(message, 'Zagt', `Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
+      return 2
+    }
     
     // zagšana no valsts bankas
     if (targetId === process.env.ULMANISID) {
@@ -83,7 +90,7 @@ export default {
 
       const lati = target.lati * ( (Math.random() * 0.3) + 0.3 )
       message.reply(embedTemplate(message, 'Zagt',
-      `Tu nozagi ${floorTwo(lati).toFixed(2)} latus no valsts bankas un pazaudēji visus statusus`))
+      `Tu nozagi **${floorTwo(lati).toFixed(2)}** latus no valsts bankas un pazaudēji visus statusus`))
       
       const status = {}
       Object.keys(statusList).map(key => status[key] = -10000000000)
@@ -92,12 +99,6 @@ export default {
       await addLati(guildId, userId, lati)
       await addLati(guildId, targetId, lati * -1)
       return 1
-    }
-    
-    // parastā zagšana
-    if (user.lati <= 30 || target.lati <= 30) {
-      message.reply(embedError(message, 'Zagt', `Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
-      return 2
     }
 
     const maxSteal = target.lati > user.lati ? user.lati : target.lati

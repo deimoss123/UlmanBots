@@ -211,7 +211,7 @@ const sl = async (message, win, lati, args) => {
 export const feniks = {
   title: 'Fēnikss',
   description: 'Griezt vienu no Ulmaņa naudas aparātiem',
-  commands: ['feniks', 'fenikss', 'fenka', 'aparats'],
+  commands: ['feniks', 'fenikss', 'fenka', 'aparats', 'griezt'],
   cooldown: 5000,
   maxArgs: 1,
   callback: async (message, args) => {
