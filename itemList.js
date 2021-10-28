@@ -30,6 +30,8 @@ name: {
 
 // es ienīstu latviešu valodu
 
+const floorTwo = num => { return Math.floor(num * 100) / 100 }
+
 export const itemList = {
   // preces kas nopērkamas veikalā
   veikals: {
@@ -195,6 +197,7 @@ export const itemList = {
       url: 'https://i.postimg.cc/zvdYQnHb/virve.jpg',
       use: async message => {
         const { lati } = await findUser(message.guildId, message.author.id)
+        if (lati < 0) return `Tu nevari pakārties, tev ir nesamaksāts parāds ${floorTwo(lati * -1).toFixed(2)} latu apmērā`
         await addLati(message.guildId, message.author.id, lati * -1)
         return `Tu pakāries un pazaudēji visu savu naudu`
       },
