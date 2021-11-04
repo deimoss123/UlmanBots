@@ -32,6 +32,9 @@ const jaun = {
     `- Salabots kakts (beidzot) ${getEmoji(['kruts'])}\n` +
     `- Automātiskā lomu došana (beidzot) ${getEmoji(['izbrinits'])}\n` +
     '- Serveriem tagad pieejami iestatījumi ar komandu `.iestatījumi`',
+  '3.2.3':
+    `- Ieviestas nejaušas atlaides veikalā ${getEmoji(['uldons'])}, restartējas katru dienu plkst. 00.00\n` +
+    '- Veikalā tagad ir iespējams pa taisno nopirkt preces',
 }
 
 export default {

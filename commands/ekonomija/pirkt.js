@@ -3,6 +3,7 @@ import { buttonEmbed, embedError, embedTemplate } from '../../embeds/embeds.js'
 import { itemList } from '../../itemList.js'
 import { stringifyItems, latsOrLati } from '../../helperFunctions.js'
 import izmantot from '../items/izmantot.js'
+import { getDiscounts } from '../items/veikals.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
@@ -14,8 +15,8 @@ export default {
   expectedArgs: '<preces numurs> <daudzums>',
   minArgs: 1,
   maxArgs: 2,
-  callback: async (message, args) => {
-    const guildId = message.guildId
+  callback: async (message, args, _, _1, item = {}) => {
+    const { guildId } = message
     const userId = message.author.id
 
     // pārbaudīt sintaksi
@@ -38,20 +39,29 @@ export default {
       return 2
     }
 
-    // atrod veikalā preci un tai nosaka indeksu
-    let i = 0
-    let item = {}
     let key
-    for (key in itemList.veikals) {
-      if (index == i) {
-        item[key] = amount
-        break
+
+    // atrod veikalā preci un tai nosaka indeksu
+    if (!Object.keys(item).length) {
+      let i = 0
+
+      for (key in itemList.veikals) {
+        if (index == i) {
+          item[key] = amount
+          break
+        }
+        i++
       }
-      i++
+    } else {
+      key = Object.keys(item)[0]
     }
 
     // totālā cena
-    const total = itemList.veikals[key].price * 2 * amount
+    let total = itemList.veikals[key].price * 2 * amount
+
+    // pārbauda vai ir atlaide
+    const discounts = await getDiscounts()
+    if (discounts) if (discounts[key]) total *= discounts[key]
 
     // pārbaudīt vai pietiek nauda
     const { lati, itemCount, itemCap } = await findUser(guildId, userId)
@@ -76,10 +86,14 @@ export default {
     if (itemList.veikals[Object.keys(item)[0]].use) {
 
       const rand = Math.floor(Math.random() * 100000)
-      const butons = [{
-        label: 'Izmantot',
-        style: 1,
-        custom_id: `izman ${rand}`
+      const row = [{
+        type: 1,
+        components: [{
+          type: 2,
+          label: 'Izmantot',
+          style: 1,
+          custom_id: `izman ${rand}`
+        }]
       }]
 
       let count = amount
@@ -87,7 +101,7 @@ export default {
       await buttonEmbed(message, 'Pirkt',
         `Tu nopirki ${stringifyItems(item)} par ${total} latiem\nTev palika ${floorTwo
         (lati - total).toFixed(2)} ${latsOrLati(lati - total)}`,
-        itemList.veikals[key].url, butons, async i => {
+        itemList.veikals[key].url, row, async i => {
           if (i.customId === `izman ${rand}`) {
             await izmantot.callback(message, ['1'], null, null, i, Object.keys(item)[0])
             count--

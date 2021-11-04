@@ -12,6 +12,9 @@ import settingsSchema from './schemas/settings-schema.js'
 import mutesSchema from './schemas/mutes-schema.js'
 import { settingsCache } from './commands/admin/iestatijumi.js'
 import settingSchema from './schemas/settings-schema.js'
+import redis from './redis.js'
+import { stringifyItems, timeToText } from './helperFunctions.js'
+import { calculateDiscounts } from './commands/items/veikals.js'
 
 dotenv.config()
 
@@ -23,6 +26,16 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
   ],
 })
+
+const getDayOfMonth = async () => {
+  const redisClient = await redis()
+  return new Promise((res, rej) => {
+    redisClient.get('dayofmonth', (err, r) => {
+      if (err) return rej(err)
+      return res(r)
+    })
+  })
+}
 
 // galvenais kods
 client.on('ready', async () => {
@@ -53,17 +66,25 @@ client.on('ready', async () => {
 
   const kaktsLoop = async () => {
     setTimeout(async () => {
+
+      // parbauda kura diena menesi ir prieks veikala atlaidem
+      let date = new Date()
+
+      const currDay = await getDayOfMonth()
+
+      if (currDay !== `${date.getDay()}`) {
+        await calculateDiscounts()
+        const redisClient = await redis()
+        redisClient.set('dayofmonth', `${date.getDay()}`)
+        console.log('discounts reset')
+      }
+
+      // kakti
       await mongo().then(async mongoose => {
         try {
           let kakti = await mutesSchema.find()
 
-          //console.log(kakti, 'kakti')
-
           kakti = kakti.filter(kakts => {
-            //console.log(kakts.userId, 'id')
-            //console.log(kakts.current)
-            //console.log(kakts.expires > 0)
-            //console.log(kakts.expires <= Date.now())
             return kakts.current && kakts.expires > 0 && kakts.expires <= Date.now()
           })
 

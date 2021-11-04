@@ -32,27 +32,30 @@ export default {
 
 
     const rand = Math.floor(Math.random() * 100000)
-    const buttons = [
-      {
-        label: 'Meklēt atkritumus',
-        style: 1,
-        custom_id: `atkr ${rand}`
-      },
-      {
-        label: 'Gulēt tramvajā',
-        style: 1,
-        custom_id: `tramv ${rand}`,
-      },
-      {
-        label: 'Zagt',
-        style: 1,
-        custom_id: `apzagt ${rand}`
-      },
-    ]
+    const row = [{
+      type: 1,
+      components: [{
+          type: 2,
+          label: 'Meklēt atkritumus',
+          style: 1,
+          custom_id: `atkr ${rand}`
+        }, {
+          type: 2,
+          label: 'Gulēt tramvajā',
+          style: 1,
+          custom_id: `tramv ${rand}`,
+        }, {
+          type: 2,
+          label: 'Zagt',
+          style: 1,
+          custom_id: `apzagt ${rand}`
+        }]
+    }]
 
     const { items } = await findUser(guildId, userId)
     if (items?.oditiscitrus) {
-      buttons.push({
+      row[0].components.push({
+        type: 2,
         label: 'Tirgot odekolonu',
         style: 1,
         custom_id: `tirgotCitrus ${rand}`
@@ -134,7 +137,7 @@ export default {
       }
     }
 
-    await buttonEmbed(message, 'Bomžot', 'Ko tu vēlies darīt?', null, buttons, async i => {
+    await buttonEmbed(message, 'Bomžot', 'Ko tu vēlies darīt?', null, row, async i => {
       if (i.customId === `tirgotCitrus ${rand}`) {
         const res = chance(bomzChance.tirgotCitrus)
         let txt = bomzChance.tirgotCitrus[res].text
@@ -156,7 +159,7 @@ export default {
         return { id: `tirgotCitrus ${rand}`, all: 1 }
       }
 
-      if (buttons.find(b => b.custom_id === i.customId)) {
+      if (row[0].components.find(b => b.custom_id === i.customId)) {
         const id = i.customId.replace(/ .*/,'')
         await bomzot(bomzChance[id][chance(bomzChance[id])])
         return { id: i.customId, all: 1 }
@@ -182,17 +185,22 @@ export default {
       }
 
       const rand = Math.floor(Math.random() * 100000)
-      let buttons = [{
-        label: 'Pārdot visus nelietojamos atkritumus',
-        style: 1,
-        custom_id: `pardAtkr ${rand}`
+      let row = [{
+        type: 1,
+        components: [{
+          type: 2,
+          label: 'Pārdot visus nelietojamos atkritumus',
+          style: 1,
+          custom_id: `pardAtkr ${rand}`
+        }]
       }]
 
       let counts = {}
       Object.keys(items).map(item => {
         if (itemList.atkritumi[item]?.use) {
           counts[item] = items[item]
-          buttons.push({
+          row[0].components.push({
+            type: 2,
             label: `Izmantot ${itemList.atkritumi[item].nameAkuVsk} (${counts[item]})`,
             style: 2,
             custom_id: `izmantot ${item} ${rand}`
@@ -200,7 +208,7 @@ export default {
         }
       })
 
-      await buttonEmbed(message, 'Bomžot', `${res.text} ${stringifyItems(items)}`, 'atkritumi', buttons,
+      await buttonEmbed(message, 'Bomžot', `${res.text} ${stringifyItems(items)}`, 'atkritumi', row,
         async i => {
           if (i.customId === `pardAtkr ${rand}`) {
             await pardot.callback(message, ['a'], null, null, i)
@@ -222,7 +230,6 @@ export default {
 
       await addItems(guildId, userId, items)
     }
-
     return 1
   },
 }

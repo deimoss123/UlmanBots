@@ -63,17 +63,20 @@ export default {
       }
 
       const rand = Math.floor(Math.random() * 100000)
-      let buttons = [
-        {
+      let row = [{
+        type: 1,
+        components: [{
+          type: 2,
           label: 'Pārdot visu',
           style: 1,
           custom_id: `pardVisu ${rand}`,
-        },
-      ]
+        },]
+      }]
 
       for (const atkr in itemList.atkritumi) {
         if (items[atkr] && !itemList.atkritumi[atkr].use) {
-          buttons.push({
+          row[0].components.push({
+            type: 2,
             label: 'Pārdot nelietojamos atkritumus',
             style: 1,
             custom_id: `pardAtkr ${rand}`,
@@ -84,7 +87,8 @@ export default {
 
       for (const zivs in itemList.zivis) {
         if (items[zivs] && !itemList.zivis[zivs].use) {
-          buttons.push({
+          row[0].components.push({
+            type: 2,
             label: 'Pārdot nelietojamās zivis',
             style: 1,
             custom_id: `pardZivis ${rand}`,
@@ -94,7 +98,8 @@ export default {
       }
 
       if (items?.virve) {
-        buttons.push({
+        row[0].components.push({
+          type: 2,
           label: 'Pakārties',
           style: 2,
           custom_id: `pakarties ${rand}`
@@ -112,7 +117,7 @@ export default {
         return 1
       }
 
-      await buttonEmbed(message, title, description, null, buttons, async i => {
+      await buttonEmbed(message, title, description, null, row, async i => {
         if (i.customId === `pardVisu ${rand}`) {
           await pardot.callback(message, ['visu'], null, null, i)
           return { id: `pardVisu ${rand}`, all: 1 }

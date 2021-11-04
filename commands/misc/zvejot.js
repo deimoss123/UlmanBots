@@ -34,28 +34,32 @@ export default {
     let item = {}
     const rand = Math.floor(Math.random() * 100000)
 
-    let buttons
+    let row = [{
+      type: 1,
+      components: [{
+        type: 2,
+        label: 'Pārdot visas nelietojamās zivis',
+        style: 1,
+        custom_id: `pardZivis ${rand}`,
+      }]
+    }]
 
     item[chance(itemList.zivis)] = 1
 
     if (itemList.zivis[Object.keys(item)[0]].use) {
-      buttons = [
-        {
+      row = [{
+        type: 1,
+        components: [{
+          type: 2,
           label: 'Izmantot',
           style: 1,
           custom_id: `izman ${rand}`,
         }]
-    } else {
-      buttons = [
-        {
-          label: 'Pārdot visas nelietojamās zivis',
-          style: 1,
-          custom_id: `pardZivis ${rand}`,
-        }]
+      }]
     }
 
     await buttonEmbed(message, 'Zvejošana', `Tu nozvejoji ${stringifyItems(item)}`,
-      imgLinks.zivis[11], buttons, async i => {
+      imgLinks.zivis[11], row, async i => {
         if (i.customId === `pardZivis ${rand}`) {
           await pardot.callback(message, ['z'], null, null, i)
           return { id: `pardZivis ${rand}` }

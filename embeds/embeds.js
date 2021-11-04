@@ -1,7 +1,7 @@
 import { imgLinks } from './imgLinks.js'
 import { getEmoji } from '../reakcijas/atbildes.js'
 
-export const ulmanversija = '3.2.2'
+export const ulmanversija = '3.2.3'
 
 // saraksts ar reakciju embediem
 export const reakcEmbeds = embedName => {
@@ -54,20 +54,13 @@ export const embedTemplate = (message, title, description, imgUrls = null, color
   return embed
 }
 
-export const buttonEmbed = async (message, title, description, imgUrls = null, buttons, cb, fields = [], color, isReply = 0, max = 999) => {
+export const buttonEmbed = async (message, title, description, imgUrls = null, row, cb, fields = [], color, isReply = 0, max = 999) => {
   const time = 15000
 
   let embed
 
   if (fields.length) embed = embedSaraksts(message, title, description, fields, imgUrls)
   else embed = embedTemplate(message, title, description, imgUrls)
-
-  buttons.map(btn => btn.type = 2)
-
-  let row = [{
-    type: 1,
-    components: buttons
-  }]
 
   embed.components = row
 
@@ -76,9 +69,11 @@ export const buttonEmbed = async (message, title, description, imgUrls = null, b
   const collector = message.channel.createMessageComponentCollector({ time, max })
 
   const disableAll = row => {
-    row[0].components.map(btn => {
-      btn.disabled = true
-      if(btn.style === 1) btn.style = 2
+    row.map(item => {
+      item.components.map(btn => {
+        btn.disabled = true
+        if(btn.type === 2 && btn.style === 1) btn.style = 2
+      })
     })
     embed.components = row
     clearTimeout(timeoutId)
@@ -93,19 +88,27 @@ export const buttonEmbed = async (message, title, description, imgUrls = null, b
     if (message.author.id === i.user.id) {
       const result = await cb(i)
       if (result) {
-        row[0].components.map(async btn => {
-          if (btn.custom_id === result.id) {
-            btn.disabled = result?.disable ? result.disable : true
-            btn.style = 3
-            embed.components = row
+        row.map(key => {
+          key.components.map(async btn => {
+            if (btn.custom_id === result.id) {
+              embed.components = row
 
-            if (result?.edit) embed.embeds[0].description = result.edit
-            if (result?.value) btn.label = result.value
+              if (result?.edit) embed.embeds[0].description = result.edit
+              if (result?.editComponents) embed.components = result.editComponents
 
-            if (result?.all) disableAll(row)
+              if (result?.all) disableAll(row)
 
-            await i.update(embed)
-          }
+              if (!i.isSelectMenu()) {
+                if (result?.value) btn.label = result.value
+                btn.disabled = result?.disable ? result.disable : true
+                btn.style = 3
+              } else {
+                btn.placeholder = result?.value
+              }
+
+              await i.update(embed)
+            }
+          })
         })
       }
     }

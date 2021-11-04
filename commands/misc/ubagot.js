@@ -30,13 +30,15 @@ export default {
     }
 
     const rand = Math.floor(Math.random() * 100000)
-    const buttons = [
-      {
+    const row = [{
+      type: 1,
+      components: [{
+        type: 2,
         label: 'Izmantot',
         style: 1,
         custom_id: `izm ${rand}`
-      }
-    ]
+      }]
+    }]
 
     // izvēlās cik naudu var dabūt no ubagošanas
     const lati = Math.floor(((Math.random() * 5) + 3) * 100) / 100
@@ -52,7 +54,7 @@ export default {
     await addItems(guildId, userId, itemObj)
 
     await buttonEmbed(message,
-      'Ubagot', text + ` un ${stringifyItems(itemObj)}`, 'ubagot', buttons, async i => {
+      'Ubagot', text + ` un ${stringifyItems(itemObj)}`, 'ubagot', row, async i => {
         if (i.customId === `izm ${rand}`) {
           await izmantot.callback(message, ['1'], null, null, i, Object.keys(itemObj)[0])
           return { id: `izm ${rand}` }

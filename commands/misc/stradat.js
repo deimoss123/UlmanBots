@@ -30,18 +30,20 @@ export default {
     }
 
     const rand = Math.floor(Math.random() * 100000)
-    const buttons = [
-      {
+    const row = [{
+      type: 1,
+      components: [{
+        type: 2,
         label: 'Godīgi strādāt',
         style: 1,
         custom_id: `stradat ${rand}`
-      },
-      {
+      }, {
+        type: 2,
         label: 'Strādāt un zagt',
         style: 1,
         custom_id: `zagt ${rand}`
-      }
-    ]
+      }]
+    }]
 
     let lati = Math.floor((Math.random() * 10) + 15)
 
@@ -75,7 +77,7 @@ export default {
       }
     }
 
-    await buttonEmbed(message, 'Strādāt', 'Ko tu vēlies darīt?', null, buttons, async i => {
+    await buttonEmbed(message, 'Strādāt', 'Ko tu vēlies darīt?', null, row, async i => {
       if (i.customId === `stradat ${rand}`) {
         const { text, bonus = 0 } = strChance.stradat[chance(strChance.stradat)]
 
