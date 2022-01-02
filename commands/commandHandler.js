@@ -92,10 +92,11 @@ export default (client, message) => {
 
           let { cooldowns } = await findUser(guildId, userId)
 
-          let cmdCooldown = command.cooldown
+          let cmdCooldown = command?.cooldown
+          if (!cmdCooldown) cmdCooldown = 0
 
           // testa serveri 0 cooldown
-          if (guildId === process.env.TESTSERVERID) cmdCooldown = 0
+          //if (guildId === process.env.TESTSERVERID) cmdCooldown = 0
 
           if (!activeCommands[`${guildId}-${userId}`]) {
             activeCommands[`${guildId}-${userId}`] = {}
@@ -108,27 +109,29 @@ export default (client, message) => {
             return
           }
 
-          console.log(Date.now() - parseInt(cooldowns[command.title]))
-          console.log(parseInt(cooldowns[command.title]))
+          //console.log(Date.now() - parseInt(cooldowns[command.title]))
+          //console.log(parseInt(cooldowns[command.title]))
 
-          console.log(cmdCooldown)
+          //console.log(cmdCooldown)
 
-          if (!cooldowns[command.title]) cooldowns[command.title] = Date.now()
+          let time = cmdCooldown
 
-          if ((Date.now() - parseInt(cooldowns[command.title])) >= cmdCooldown) {
+          if (cooldowns[command.title]) {
+            time = Date.now() - parseInt(cooldowns[command.title])
+          }
+
+          //console.log(`Laiks: ${time}`)
+
+          if (time >= cmdCooldown) {
 
             if (await commandBase(client, message, cmd, command)) {
               await addCooldown(guildId, userId, command.title)
             }
           } else {
-            const time = cmdCooldown - (Date.now() - parseInt(cooldowns[command.title]))
-
-            console.log(`Laiks: ${time}`)
-
             let msg = await message.reply(
               embedError(
-                message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
-                  ? timeToText(time, 1) : '1 sekundes'}`))
+                message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(cmdCooldown - time, 1)
+                  ? timeToText(cmdCooldown - time, 1) : '1 sekundes'}`))
 
             setTimeout(async () => msg.delete(), 10000)
           }

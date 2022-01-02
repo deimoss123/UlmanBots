@@ -14,7 +14,6 @@ export const feniks = {
   description: 'Griezt vienu no Ulmaņa naudas aparātiem',
   commands: ['feniks', 'fenikss', 'fenka', 'aparats', 'griezt'],
   maxArgs: 1,
-  cooldown: 0,
   callback: async (message, args) => {
     const guildId = message.guildId
     const userId = message.author.id
