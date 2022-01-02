@@ -108,6 +108,8 @@ export default (client, message) => {
             return
           }
 
+          console.log(Date.now() - cooldowns[command.title])
+
           if (!cooldowns[command.title] ||
             (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
 
