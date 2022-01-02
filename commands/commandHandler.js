@@ -76,8 +76,6 @@ export default (client, message) => {
             return
           }
 
-          console.log('ddd')
-
           if (settingsCache[guildId]?.allowedChannels.length) {
             if (!settingsCache[guildId].allowedChannels.includes(message.channelId) &&
               userCommand !== 'iestatijumi') return

@@ -48,8 +48,6 @@ const createBtnRow = (rand, { chosenRod, coughtFish, rodUsesLeft }, lati, guildI
       style = 2
       disabled = true
 
-      console.log(lati)
-
       row.components.push({
         type: 2,
         style: 1,

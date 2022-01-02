@@ -16,7 +16,7 @@ dotenv.config()
 
 export const redisEnabled = true
 export const okddId = '797584379685240882'
-const devMode = true
+const devMode = false
 
 // definē DiscordJS klientu
 const client = new Client({
