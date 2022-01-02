@@ -108,16 +108,14 @@ export default (client, message) => {
             return
           }
 
-          console.log(Date.now() - cooldowns[command.title])
-
           if (!cooldowns[command.title] ||
-            (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
+            (Date.now() - parseInt(cooldowns[command.title])) >= cmdCooldown) {
 
             if (await commandBase(client, message, cmd, command)) {
               await addCooldown(guildId, userId, command.title)
             }
           } else {
-            const time = cmdCooldown - (Date.now() - cooldowns[command.title])
+            const time = cmdCooldown - (Date.now() - parseInt(cooldowns[command.title]))
 
             console.log(time)
 
