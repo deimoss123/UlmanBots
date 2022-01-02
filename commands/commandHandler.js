@@ -108,6 +108,9 @@ export default (client, message) => {
             return
           }
 
+          console.log(Date.now() - parseInt(cooldowns[command.title]))
+          console.log(parseInt(cooldowns[command.title]))
+
           if (!cooldowns[command.title] ||
             (Date.now() - parseInt(cooldowns[command.title])) >= cmdCooldown) {
 
@@ -116,6 +119,8 @@ export default (client, message) => {
             }
           } else {
             const time = cmdCooldown - (Date.now() - parseInt(cooldowns[command.title]))
+
+            console.log(`Laiks: ${time}`)
 
             let msg = await message.reply(
               embedError(
