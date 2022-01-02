@@ -177,8 +177,8 @@ export const feniks = {
 
     const { data } = await findUser(guildId, userId)
 
-    if (data.maxFeniksWin <= parseInt(likme) + resLati) {
-      dataUser.maxFeniksWin = `=${parseInt(likme) + resLati}`
+    if (data.maxFeniksWin <= resLati) {
+      dataUser.maxFeniksWin = `=${resLati}`
     }
 
     if (data.maxFeniksLikme <= likme) dataUser.maxFeniksLikme = `=${likme}`
