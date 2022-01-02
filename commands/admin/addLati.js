@@ -1,6 +1,7 @@
 import { Permissions } from 'discord.js'
 import { addLati, findUser } from '../../ekonomija.js'
 import { embedTemplate } from '../../embeds/embeds.js'
+import { okddId } from '../../index.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
@@ -30,7 +31,7 @@ export default {
     let userId
     if (args[2]) {
       userId = args[0]
-      guildId = '797584379685240882'
+      guildId = okddId
     } else {
       userId = mention.id
     }

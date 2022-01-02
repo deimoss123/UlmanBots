@@ -102,7 +102,7 @@ client.on('ready', async () => {
 
     // pārbauda vai ziņa nav no bota
     if (message.author.id !== process.env.ULMANISID) {
-      if (devMode && message.author.id !== process.env.DEVUSERID) return
+      //if (devMode && message.author.id !== process.env.DEVUSERID) return
 
       // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
       if (message.content.startsWith('.')) {
