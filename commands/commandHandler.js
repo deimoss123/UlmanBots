@@ -3,14 +3,13 @@ import commandBase from './commandBase.js'
 import { latToEng, timeToText } from '../helperFunctions.js'
 
 import { addCooldown, findUser } from '../ekonomija.js'
-import { embedError } from '../embeds/embeds.js'
+import { embedError, noPing } from '../embeds/embeds.js'
 
 // visu komandu importi
 import maks from './ekonomija/maks.js'
 import addLati from './admin/addLati.js'
 import addItem from './admin/addItem.js'
 import bomzot from './misc/bomzot.js'
-import ubagot from './misc/ubagot.js'
 import inventars from './items/inventars.js'
 import top from './ekonomija/top.js'
 import veikals from './items/veikals.js'
@@ -20,30 +19,28 @@ import zagt from './ekonomija/zagt.js'
 import maksat from './ekonomija/maksat.js'
 import izmantot from './items/izmantot.js'
 import status from './items/status.js'
-import zvejot from './misc/zvejot.js'
+import zvejot from './fishing/zvejot.js'
 import stradat from './misc/stradat.js'
-import kakts from './admin/kakts.js'
-import izkaktot from './admin/izkaktot.js'
 import palidziba from './misc/palidziba.js'
 import { feniks } from './ekonomija/feniks.js'
 import jaunumi from './misc/jaunumi.js'
 import pabalsts from './misc/pabalsts.js'
-import kakti from './admin/kakti.js'
 import iestatijumi, { settingsCache } from './admin/iestatijumi.js'
+import statistika from './misc/statistika.js'
 
 export const commands = {
   'Informācija': [
-    palidziba, jaunumi, top, maks, inventars, status,
+    palidziba, jaunumi, top, maks, inventars, status, statistika,
   ],
   'Peļņa': [
-    bomzot, ubagot, zvejot, stradat, feniks, pabalsts,
+    bomzot, zvejot, stradat, feniks, pabalsts,
   ],
   'Ekonomija': [
-    veikals, pirkt, pardot, izmantot,  maksat, zagt,
+    veikals, pirkt, pardot, izmantot, maksat, zagt,
   ],
   'Moderātoriem': [
-    iestatijumi, kakts, izkaktot, kakti, addLati, addItem
-  ]
+    iestatijumi, addLati, addItem,
+  ],
 }
 
 // lietotāju melnais saraksts
@@ -54,58 +51,84 @@ const blacklist = [
   '893451569612341319', // pupinvecis
 ]
 
+export const activeCommands = {}
+
 export default (client, message) => {
   const guildId = message.guildId
   const userId = message.author.id
 
   const content = latToEng(message.content.toLowerCase())
 
-  // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
-  if (content.startsWith('.')) {
+  // sadala ziņu array, pirmā ziņa būs komanda
+  const args = content.split(/[ ]+/)
 
-    // sadala ziņu array, pirmā ziņa būs komanda
-    const args = content.split(/[ ]+/)
+  // lietotāja komanda, kas tiks pārbaudīta un salīdzināta ar citām komandām
+  // noņem . no komandas
+  const userCommand = args[0].slice(1)
+  Object.keys(commands).map(category => {
+    commands[category].map(command => {
+      command.commands.map(async cmd => {
+        if (userCommand === cmd) {
 
-    // lietotāja komanda, kas tiks pārbaudīta un salīdzināta ar citām komandām
-    // noņem . no komandas
-    const userCommand = args[0].slice(1)
-    Object.keys(commands).map(category => {
-      commands[category].map(command => {
-        command.commands.map(async cmd => {
-          if (userCommand === cmd) {
+          if (!settingsCache[guildId]?.allowedChannels.length && userCommand !== 'iestatijumi') {
+            message.reply(noPing('Šajā serverī nav iestatīti kanāli kuros ir atļautas UlmaņBota komandas\n' +
+              'To var izdarīt admins ar komandu `.iestatījumi`'))
+            return
+          }
 
-            // neļauj cilvēkiem melnajā sarakstā lietot komandas
-            if (blacklist.includes(userId)) return
+          console.log('ddd')
 
-            // komandas var izmantot tikai testa serverī
-            if (command.title === 'AddLati' && guildId !== '875083366611955712') return
-            if (command.title === 'AddItem' && guildId !== '875083366611955712') return
+          if (settingsCache[guildId]?.allowedChannels.length) {
+            if (!settingsCache[guildId].allowedChannels.includes(message.channelId) &&
+              userCommand !== 'iestatijumi') return
+          }
 
-            let { cooldowns } = await findUser(guildId, userId)
+          // neļauj cilvēkiem melnajā sarakstā lietot komandas
+          if (blacklist.includes(userId)) return
 
-            let cmdCooldown = command.cooldown
+          // komandas var izmantot tikai testa serverī
+          if (command.title === 'AddLati' && guildId !== process.env.TESTSERVERID) return
+          if (command.title === 'AddItem' && guildId !== process.env.TESTSERVERID) return
 
-            // testa serveri 0 cooldown
-            if (guildId === '875083366611955712') cmdCooldown = 0
+          if (command.hidden && guildId !== process.env.TESTSERVERID) return
 
-            if (!cooldowns[command.title] ||
-              (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
+          let { cooldowns } = await findUser(guildId, userId)
 
-              if (await commandBase(client, message, cmd, command)) {
-                await addCooldown(guildId, userId, command.title)
-              }
-            } else {
-              const time = cmdCooldown - (Date.now() - cooldowns[command.title])
+          let cmdCooldown = command.cooldown
 
-              let msg = await message.reply(
-                embedError(message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
+          // testa serveri 0 cooldown
+          if (guildId === process.env.TESTSERVERID) cmdCooldown = 0
+
+          if (!activeCommands[`${guildId}-${userId}`]) {
+            activeCommands[`${guildId}-${userId}`] = {}
+          }
+
+          if (activeCommands[`${guildId}-${userId}`][command.title]) {
+            message.reply(
+              embedError(
+                message, command.title, 'Tu nevari izmantot šo komandu, jo tā jau ir aktīva'))
+            return
+          }
+
+          if (!cooldowns[command.title] ||
+            (Date.now() - cooldowns[command.title]) >= cmdCooldown) {
+
+            if (await commandBase(client, message, cmd, command)) {
+              await addCooldown(guildId, userId, command.title)
+            }
+          } else {
+            const time = cmdCooldown - (Date.now() - cooldowns[command.title])
+
+            let msg = await message.reply(
+              embedError(
+                message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
                   ? timeToText(time, 1) : '1 sekundes'}`))
 
-              setTimeout(async () => msg.delete(), 10000)
-            }
+            setTimeout(async () => msg.delete(), 10000)
           }
-        })
+        }
       })
     })
-  }
+  })
+
 }

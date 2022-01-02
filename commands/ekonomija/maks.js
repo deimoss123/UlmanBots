@@ -15,10 +15,11 @@ export default {
   callback: async (message, args) => {
     const guildId = message.guildId
     let targetId = message.author.id
+    const userId = targetId
 
     // pārbauda vai ir ievadīts lietotājs, ja nav tad izvēlāts tad lietotājs būs ziņas autors
     if (args[0]) {
-      const resultId = getUserId(args[0])
+      const resultId = await getUserId(args[0], message.guild)
       if (!resultId) {
         return 0
       } else {
@@ -40,13 +41,16 @@ export default {
     if (targetId === process.env.ULMANISID) {
       user = 'Valsts bankai'
       maksImg = imgLinks.ulmanis
+    } else if (targetId === userId) {
+      user = 'Tev'
+      maksImg = imgLinks.maks[img]
     } else {
       user = `<@${targetId}>`
       maksImg = imgLinks.maks[img]
     }
 
     message.reply(embedTemplate(message, 'Maks',
-      ` ${user} ir **${floorTwo(lati).toFixed(2)}** ${latsOrLati(lati)}`, maksImg))
+      ` ${user} ir **${floorTwo(lati).toFixed(2)}** ${latsOrLati(lati)}`, maksImg, 0x9d2235))
     return 1
   },
 }

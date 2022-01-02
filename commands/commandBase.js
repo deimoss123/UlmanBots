@@ -1,41 +1,41 @@
 import { latToEng } from '../helperFunctions.js'
 import { Permissions } from 'discord.js'
-import { embedError, embedTemplate } from '../embeds/embeds.js'
+import { embedError, embedTemplate, noPing } from '../embeds/embeds.js'
 import { settingsCache } from './admin/iestatijumi.js'
+import chalk from 'chalk'
+import { findUser, setDateCooldown } from '../ekonomija.js'
 
 export default async (client, message, alias, commandOptions) => {
 
   // defaultie parametri
   let {
     title = '',
-    description,
+    description = '',
     expectedArgs = '',
-    roleError = 'Tev nav nepieciešamā loma',
+    roleError = 'Tikai administrātori var izmantot šo komandu',
     minArgs = 0,
     maxArgs = null,
     requiredRoles = [],
-    modCommand = 0,
+    modCommand = false,
+    uses = 0,
+    extraUses = 0,
     callback,
   } = commandOptions
 
   const content = latToEng(message.content.toLowerCase())
 
-  const { member } = message
-  console.log(member.guild.id)
+  const { member, guildId } = message
 
   // Pārbaudīt vai ir pareizās lomas
-  let roletest = member.id === '222631002265092096' ? 1 : 0
+  let roletest = member.id === process.env.DEVUSERID ? 1 : 0
   if (requiredRoles.length) {
     if (member.roles.cache.some(r => requiredRoles.includes(r.id))) roletest = 1
   } else if (modCommand) {
     if (member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])) roletest = 1
-    if (settingsCache[member.guild.id]?.modRoles) {
-      if (member.roles.cache.some(r => settingsCache[member.guild.id].modRoles.includes(r.id))) roletest = 1
-    }
   } else roletest = 1
 
   if (!roletest) {
-    message.reply(embedError(message, alias, roleError))
+    message.reply(noPing(roleError))
     return 2
   }
 
@@ -44,7 +44,8 @@ export default async (client, message, alias, commandOptions) => {
   args.shift()
 
   // nepareizas sintakses funkcija
-  const wrongSyntax = () => {message.reply(
+  const wrongSyntax = () => {
+    message.reply(
       embedTemplate(message, `${title} - nepareiza sintakse`, `.${alias} ${expectedArgs}`, 'error'))
   }
 
@@ -58,6 +59,35 @@ export default async (client, message, alias, commandOptions) => {
   // 0 - nepareiza sintakse
   // 1 - veiksmigi
   // 2 - komandai errors
+
+  const date = new Date()
+
+  console.log(
+    `${date.toLocaleTimeString('en-GB')} ` +
+    `${chalk.blueBright(`[${message.guild.name}]`)} ` +
+    `${chalk.bold(`${message.member.displayName}`)} ` +
+    `${chalk.gray(`(${message.author.id})`)}: ` +
+    `${alias} ${args.join(' ')}`,
+  )
+
+  if (uses) {
+    let { dateCooldowns } = await findUser(guildId, member.id)
+    if (!dateCooldowns[title]) {
+      dateCooldowns = {
+        uses,
+        extraUses,
+        date: date.toDateString()
+      }
+      await setDateCooldown(guildId, member.id, title, dateCooldowns)
+    } else if (dateCooldowns[title].date !== date.toDateString()) {
+      await setDateCooldown(guildId, member.id, title, {
+        uses,
+        extraUses,
+        date: date.toDateString()
+      })
+    }
+  }
+
   const func = await callback(message, args, args.join(' '), client)
   if (func === 0) wrongSyntax()
   if (func === 1) return 1

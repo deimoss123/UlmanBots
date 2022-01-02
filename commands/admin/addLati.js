@@ -35,8 +35,6 @@ export default {
       userId = mention.id
     }
 
-    console.log(guildId)
-
     const { lati } = await findUser(guildId, userId)
 
     message.reply(embedTemplate(message, 'Pievienot latus',

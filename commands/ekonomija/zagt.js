@@ -1,6 +1,6 @@
 import { chance, getUserId } from '../../helperFunctions.js'
 import { addData, addLati, addStatus, checkStatus, findUser } from '../../ekonomija.js'
-import { embedError, embedTemplate } from '../../embeds/embeds.js'
+import { embedError, embedTemplate, noPing } from '../../embeds/embeds.js'
 import { statusList } from '../../itemList.js'
 
 const zagtChange = {
@@ -11,8 +11,6 @@ const zagtChange = {
   nazis: {
     win: { chance: '*' }, // 0.60 },
     lose: { chance: 0.4 },
-    win50: { chance: 0.03 },
-    lose50: { chance: 0.03 },
   },
 }
 
@@ -30,9 +28,7 @@ export default {
     const userId = message.author.id
 
     const winCh = 1 -
-      zagtChange.nazis.lose.chance -
-      zagtChange.nazis.win50.chance -
-      zagtChange.nazis.lose50.chance
+      zagtChange.nazis.lose.chance
 
     if (!args[0]) {
       message.reply(embedTemplate(message, 'Zagšana',
@@ -41,8 +37,6 @@ export default {
         '**Procenti zogot ar laupītāja statusu (nazis)**\n' +
         `${Math.round(winCh * 100)}% nozagt\n` +
         `${zagtChange.nazis.lose.chance * 100}% pazaudēt naudu\n` +
-        `${zagtChange.nazis.win50.chance * 100}% nozagt pusi naudas\n` +
-        `${zagtChange.nazis.lose50.chance * 100}% pazaudēt pusi naudu\n\n` +
 
         'Maksimālais nozagtais/pazaudētas latu daudzums ir atkarīgs no tā kuram ir vismazāk nauda\n\n' +
         '**Piemērs:** Jānim ir 20 lati un viņš grib zagt no Igora, kam ir 100 lati, šajā gadījumā maksimālais ko Jānis varēs nozagt vai pazaudēt būs 20 lati'
@@ -50,45 +44,41 @@ export default {
       return 2
     }
 
-    let targetId = getUserId(args[0])
+    let targetId = await getUserId(args[0], message.guild)
     if (!targetId) return 0
 
     if (await checkStatus(guildId, userId, 'aizsardziba') && targetId !== process.env.ULMANISID) {
-      message.reply(embedTemplate(message, 'Zagšana', 'Tu nevari zagt kamēr tev ir aizsardzība'))
+      message.reply(noPing('Tu nevari zagt kamēr tev ir aizsardzība'))
       return 2
     }
 
     if (targetId === userId) {
-      message.reply(embedError(message, 'Zagšana', 'Tu nevari nozagt no sevis'))
+      message.reply(noPing('Tu nevari nozagt no sevis'))
       return 2
     }
 
     if (await checkStatus(guildId, targetId, 'aizsardziba') && targetId !== process.env.ULMANISID) {
-      message.reply(embedTemplate(message, 'Zagšana', `Tu nevari zagt no <@${targetId}>, jo viņam ir aizsardzība`))
+      message.reply(noPing(`Tu nevari zagt no <@${targetId}>, jo viņam ir aizsardzība`))
       return 2
     }
 
     const user = await findUser(guildId, userId)
     const target = await findUser(guildId, targetId)
 
-
-    // parastā zagšana
-    if (user.lati <= 30 || target.lati <= 30) {
-      message.reply(embedError(message, 'Zagt', `Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
-      return 2
-    }
-    
     // zagšana no valsts bankas
     if (targetId === process.env.ULMANISID) {
       for (const key in statusList) {
         if (!await checkStatus(guildId, userId, `${key}`)) {
-          message.reply(embedError(message, 'Zagt',
-          'Lai zagtu no valsts bankas ir nepieciešami **visi** statusi\nSavus status var apskatīt izmantojot komandu `.status`'))
+          message.reply(noPing(
+            'Lai zagtu no valsts bankas ir nepieciešami **visi** statusi\n' +
+            'Savus status var apskatīt izmantojot komandu `.status`'))
           return 2
         }
       }
 
-      const lati = target.lati * ( (Math.random() * 0.3) + 0.3 )
+      let lati = target.lati
+      if (target.lati >= 750) lati = 750
+
       message.reply(embedTemplate(message, 'Zagt',
       `Tu nozagi **${floorTwo(lati).toFixed(2)}** latus no valsts bankas un pazaudēji visus statusus`))
       
@@ -99,6 +89,12 @@ export default {
       await addLati(guildId, userId, lati)
       await addLati(guildId, targetId, lati * -1)
       return 1
+    }
+
+    // parastā zagšana
+    if (user.lati <= 30 || target.lati <= 30) {
+      message.reply(noPing(`Gan tev, gan <@${targetId}> ir jābūt vismaz 30 latiem`))
+      return 2
     }
 
     const maxSteal = target.lati > user.lati ? user.lati : target.lati
@@ -112,23 +108,15 @@ export default {
     switch (chance(zagtChange[type])) {
       case 'win':
         stolen = randChance * maxSteal
-        resultText = `Tu nozagi ${floorTwo(stolen).toFixed(2)} latus <@${targetId}> `
+        resultText = `Tu nozagi ${floorTwo(stolen).toFixed(2)} latus no <@${targetId}> `
         break
       case 'lose':
         stolen = randChance * maxSteal * -1
         resultText = `Zogot no <@${targetId}> tu pazaudēji ${floorTwo(stolen * -1).toFixed(2)} latus`
         break
-      case 'win50':
-        stolen = target.lati * 0.5
-        resultText = `Tu nozagi pusi no <@${targetId}> naudas`
-        break
-      case 'lose50':
-        stolen = user.lati * 0.5 * -1
-        resultText = `Zogot no <@${targetId}> tu pazaudēji pusi no savas naudas`
-        break
     }
 
-    message.reply(embedTemplate(message, 'Zagšana', resultText))
+    message.reply(embedTemplate(message, 'Zagšana', resultText, '', 0xd98736))
     await addLati(guildId, userId, stolen)
     await addLati(guildId, targetId, stolen * -1)
 

@@ -4,6 +4,7 @@ import { latsOrLati } from '../../helperFunctions.js'
 import { calcInvValue } from '../items/inventars.js'
 import { getEmoji } from '../../reakcijas/atbildes.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
+import { okddId } from '../../index.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
@@ -15,7 +16,7 @@ export default {
   maxArgs: 2,
   callback: async (message, args, b, client) => {
     let guildId = message.guildId
-    if (args[1]) guildId = "797584379685240882"
+    if (args[1] && message.author.id === process.env.DEVUSERID) guildId = okddId
 
     await findUser(guildId, process.env.ulmanisid)
 
@@ -40,7 +41,7 @@ export default {
     switch (args[0]) {
       case 'maks': {
         results = results.sort((a, b) => { return b.lati - a.lati } )
-        results.map(result => cirkulacija += result.lati)
+        results.map(result => cirkulacija += result.lati > 0 ? result.lati : 0)
 
         title = '- Maks'
         desc = `Cirkulācijā ir **${cirkulacija.toFixed(2)}** ${latsOrLati(cirkulacija)}\n` +
@@ -73,9 +74,9 @@ export default {
           if (result.items) {
             if (Object.keys(result.items).length) result.invValue = calcInvValue(result.items)
           }
-          cirkulacijaMaks += result.lati
+          cirkulacijaMaks += result.lati > 0 ? result.lati : 0
           cirkulacijaInv += result.invValue
-          cirkulacija += result.invValue + result.lati
+          cirkulacija += result.invValue + (result.lati > 0 ? result.lati : 0)
         })
 
         results.sort((a, b) => { return (b.invValue + b.lati) - (a.invValue + a.lati) })
@@ -160,11 +161,26 @@ export default {
         }
 
         let percent = ''
-        if (showPercent) percent = '  `' + floorTwo(pointer(i) / cirkulacija * 100).toFixed(2) + '%`'
+        if (showPercent) percent = `  \`${floorTwo(pointer(i) / cirkulacija * 100).toFixed(2)}%\``
+        //if (showPercent) percent = '  `' + floorTwo(pointer(i) / cirkulacija * 100).toFixed(2) + '%`'
+
+        let place = `\`#${i+1}\``
+
+        switch (i+1) {
+          case 1:
+            place = ':first_place:'
+            break
+          case 2:
+            place = ':second_place:'
+            break
+          case 3:
+            place = ':third_place:'
+            break
+        }
 
         resultsArr.push(
           {
-            name: `${i + 1}. ${user.username}${user.discriminator === '-'
+            name: `${place}  ${user.username}${user.discriminator === '-'
               ? ``
               : `#${user.discriminator}`}` + percent,
             value: `${floorTwo(pointer(i)).toFixed(2)}${extraInfo(i)}`,

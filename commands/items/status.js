@@ -6,7 +6,7 @@ import { embedSaraksts } from '../../embeds/embeds.js'
 export default {
   title: 'Statusu saraksts',
   description: 'Apskatīt savu, vai kāda cita lietotāja statusus',
-  commands: ['status', 'statuss'],
+  commands: ['status', 'statuss', 'statusi'],
   cooldown: 1000,
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
@@ -23,10 +23,10 @@ export default {
             value: statusList[key].description
           })
         })
-        message.reply(embedSaraksts(message, 'Statusu saraksts', 'Statusu paskaidrojumi', embedArr))
+        message.reply(embedSaraksts(message, 'Statusu saraksts', 'Statusu paskaidrojumi', embedArr, '', 0xff94b4))
         return 2
       } else {
-        const resultId = getUserId(args[0])
+        const resultId = await getUserId(args[0], message.guild)
 
         if (!resultId) return 0
         else targetId = resultId
@@ -36,21 +36,19 @@ export default {
     let resultArr = []
 
     for (const key in statusList) {
-      console.log(key)
       const statusResult = await checkStatus(guildId, targetId, key)
 
       resultArr.push({
         name: statusList[key].name,
-        value: `${statusResult ? timeToText(statusResult) : '-'}`,
+        value: `\`\`\`${statusResult ? timeToText(statusResult) : '-'}\`\`\``,
         inline: true,
       })
     }
 
-    console.log(resultArr)
     message.reply(
       embedSaraksts(message, 'Statusu saraksts',
         `<@${targetId}>` + ', statusu paskaidrojumi - `.status info`',
-        resultArr, null))
+        resultArr, '', 0xff94b4))
     return 1
   },
 }

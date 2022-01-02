@@ -15,6 +15,12 @@ export const emoji = [
 ]
 
 export const emojiList = {
+  udenszive: 'a920839478174683136',
+  cope1: 'a920842349339353098',
+  cope2: 'a920842349821706260',
+  zive: 'a920844107583221782',
+
+  lats: '911400812754915388',
   muskulis: '894250303371763762',
   lenka: '894250303229153351',
   kruts: '894250303229132830',
@@ -43,17 +49,47 @@ export const emojiList = {
   itsniks: '894250302784565279',
   nuja: '894250302633553931',
   trola: '894250302298005586',
-  griezvarde: '895312716170919976',
-  levits: '895312716242235422'
+  griezvarde: 'a895312716170919976',
+  levits: 'a895312716242235422',
+  petnieks: 'a911599720928002059',
+  fenka1: 'a917087131128700988',
+
+
+  _dizloto: '922498308210032690',
+  _etalons: '922498308587524137',
+  _kartonakaste: '922498308843397161',
+  _konservi: '922498308650438656',
+  _latloto: '922498308671414272',
+  _makskere: '922501148974383204',
+  _divainamakskere: 'a927027121845567488',
+  _mullermilch: '922498309053091943',
+  _nazis: '922501148806615071',
+  _oditiscitrus: '922501149070880818',
+  _sputnikvakc: '922501450456793189',
+  _stiklapudele: '922501149192515584',
+  _virve: '922501450544857098',
+  _zemenurasens: '922498308537192470',
+  _zabaks: '922498308595929178',
+  _whatsapp: 'a927212180661764179',
+
+  _draudzinzivs: '922507454741381190',
+  _daundizvs: '922507454842019870',
+  _dizdaundizvs: '922510373775609886',
+  _dizdraudzinzivs: '922510361549230081',
+  _juridiskazivs: '927210107803164672',
+  _divainazivs: 'a927210108654587905',
 }
 
 
 export const getEmoji = arr => {
-  let res = []
-  arr.map(emoji => res.push(`<:${emoji}:${emojiList[emoji]}>`))
-  return res
-}
+  return arr.map(emoji => {
+    if (!emojiList[emoji]) return ''
 
+    if (emojiList[emoji].startsWith('a'))
+      return `<a:${emoji}:${emojiList[emoji].substr(1)}>`
+    return `<:${emoji}:${emojiList[emoji]}>`
+  })
+}
 
 // smieklīgās atbildes uz smieklīgo tekstu
 export const atbildes = {
@@ -64,15 +100,14 @@ export const atbildes = {
       'Protams, ka jā',
       'Tas pavisam noteikti ir iespējams',
       'Pašsaprotami',
-      'Nav ne jausmas',
       'Neuzdod man stulbus jautājumus',
       'A kam viegli?',
       'Protams, ka nē',
-      'Nezinu',
       'Tas būtu ļoti smieklīgi',
       'Netraucē man veikt apvērsumu',
-      'Jautā martinsonam',
-      'Jautā ambālim',
+      'Balstīts jautājums',
+      'Galīgi nav balstīts jautājums',
+      'Es ienīstu krievus'
     ],
   },
 
@@ -110,7 +145,6 @@ export const atbildes = {
       'Kad mēs gājām četrrāpus, mūsu priekšā bija viena lieta, dibens. Tad no brīža, kad cilvēce sāka staigāt uz divām kājām, mēs pārstājām redzēt dibenu mūsu sejās. Un viņu vietā pupi parādījās tieši mūsu sejās. Sievietes palielināja krūtis, lai ieņemtu dibena vietu. ORIĢINĀLAIS DZĪVES AVOTS IR DIBENS! Krūtis ir tikai aizstājējs. Krūtis nav nekas cits kā bāla dibena imitācija! Ja jūs jautātu, vai man labāk būtu kopija vai oriģināls, es ņemtu oriģinālu! Gurni un dibens norāda uz auglību! Krūtis evolūcijas procesa dēļ izvirzās uz priekšu, turot dibenu tālāk uz aizmuguri paslēptu!\n' +
       '\n' +
       'TĀPĒC ES ESMU DIBENA VĪRIETIS!',
-
     ]
   },
 
@@ -158,7 +192,6 @@ export const atbildes = {
       'komunisms',
       'burtiski 1984',
       '1984',
-
     ],
   },
 
@@ -184,4 +217,14 @@ export const atbildes = {
       'smird <:Trola_seja:797826157226491965>',
     ],
   },
+
+  reiz: {
+    text: [
+      'reiz',
+      'bunkurs',
+    ],
+    atb: [
+      'Reiz bija bunkurs trīspadsmit, kur veči dzīvoja. Kad granātu tur iemeta, tad sūdi pajuka.'
+    ]
+  }
 }

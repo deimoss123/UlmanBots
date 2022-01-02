@@ -9,6 +9,7 @@ export default {
   callback: message => {
     let embedArr = []
 
+
     Object.keys(commands).map(category => {
       let resultArr = []
       commands[category].map(cmd => {
@@ -20,7 +21,7 @@ export default {
       embedArr.push({
         title: category,
         description: '',
-        color: 0x9d2235,
+        color: 0x3bdb61,
         fields: resultArr
       })
     })

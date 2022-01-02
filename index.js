@@ -1,4 +1,4 @@
-import { Intents, Client, Permissions } from 'discord.js'
+import { Intents, Client } from 'discord.js'
 
 import dotenv from 'dotenv'
 import mongo from './mongo.js'
@@ -6,17 +6,17 @@ import mongo from './mongo.js'
 import { reakcijas } from './reakcijas/reakcijas.js'
 
 import commandHandler from './commands/commandHandler.js'
-import { antispam } from './antispam.js'
 
-import settingsSchema from './schemas/settings-schema.js'
-import mutesSchema from './schemas/mutes-schema.js'
 import { settingsCache } from './commands/admin/iestatijumi.js'
-import settingSchema from './schemas/settings-schema.js'
+import settingsSchema from './schemas/settings-schema.js'
 import redis from './redis.js'
-import { stringifyItems, timeToText } from './helperFunctions.js'
 import { calculateDiscounts } from './commands/items/veikals.js'
 
 dotenv.config()
+
+export const redisEnabled = true
+export const okddId = '797584379685240882'
+const devMode = true
 
 // definē DiscordJS klientu
 const client = new Client({
@@ -28,6 +28,7 @@ const client = new Client({
 })
 
 const getDayOfMonth = async () => {
+  if (!redisEnabled) return 1
   const redisClient = await redis()
   return new Promise((res, rej) => {
     redisClient.get('dayofmonth', (err, r) => {
@@ -51,152 +52,87 @@ client.on('ready', async () => {
       settings.map(setting => {
         settingsCache[setting._id] = setting
       })
+
     } catch (e) {
       console.error(e)
     }
   })
 
-  const guilds = await client.guilds.cache
-  let i = 0
-  guilds.forEach(guild => {
-    i++
-    console.log(`serv ${i}: ${guild.name} - ${guild.id}`)
-  })
-
-
-  const kaktsLoop = async () => {
-    setTimeout(async () => {
-
-      // parbauda kura diena menesi ir prieks veikala atlaidem
-      let date = new Date()
-
-      const currDay = await getDayOfMonth()
-
-      if (currDay !== `${date.getDay()}`) {
-        await calculateDiscounts()
-        const redisClient = await redis()
-        redisClient.set('dayofmonth', `${date.getDay()}`)
-        console.log('discounts reset')
-      }
-
-      // kakti
-      await mongo().then(async mongoose => {
-        try {
-          let kakti = await mutesSchema.find()
-
-          kakti = kakti.filter(kakts => {
-            return kakts.current && kakts.expires > 0 && kakts.expires <= Date.now()
-          })
-
-          //console.log(kakti, 'kakti')
-
-          if (kakti.length) {
-            for (const kakts of kakti) {
-              console.log(kakts, 'kakts')
-              await kaktsRole(kakts.guildId, kakts.userId, 1)
-
-              await mutesSchema.findOneAndUpdate({
-                userId: kakts.userId,
-                guildId: kakts.guildId
-              }, { current: false }, { new: true, upsert: true })
-            }
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      })
-      await kaktsLoop()
-    }, 5000)
+  if (redisEnabled) {
+    try {
+      await redis()
+      console.log('connected to redis')
+    } catch (e) {
+      console.error(e)
+    }
+  } else {
+    console.log('REDIS DISABLED!')
   }
-  await kaktsLoop()
-
 
   client.on('guildMemberAdd', async member => {
-    const { guild, id } = member
+    if (member.guild.id === okddId) {
+      const okddRoles = ['797820158709727243', '797820498713116702']
 
-    await mongo().then(async mongoose =>{
-      const currentMute = await mutesSchema.findOne({
-        userId: id,
-        guildId: guild.id,
-        current: true
-      })
-      if (currentMute) await kaktsRole(guild.id, id)
-    })
+      const newrole = okddRoles[Math.floor(Math.random() * 2)]
 
-    if (settingsCache[guild.id]?.autoRoles?.length) {
-      const randRoleId = settingsCache[guild.id].autoRoles[Math.floor(Math.random() * settingsCache[guild.id].autoRoles.length)]
-
-      const newrole = await guild.roles.cache.find(role => {
-        return role.id === randRoleId
-      })
-
-      await member.roles.add(newrole)
+      try {
+        await member.roles.add(newrole)
+      } catch (e) {
+        console.error(e)
+      }
     }
   })
 
-  const timeout = 20000
-
-  client.on('messageCreate', async message => {
+  await client.on('messageCreate', async message => {
 
     if (!settingsCache[message.guildId]) {
       await mongo().then(async mongoose => {
 
-        try {
-          const newSchema = {
-            _id: message.guildId,
-            kaktsRole: '',
-            modRoles: [],
-            spamChannels: [],
-            autoDeleteChannels: [],
-            autoRoles: [],
-          }
-
-          settingSchema[newSchema._id] = newSchema
-          await new settingSchema(newSchema).save()
-        } catch (e) {
-          console.error(e)
+        // šitais sūds crasho botu katru reizi kad tiek pievienots jaunam serverim
+        // es burtiski nezinu risinājumu šitam
+        const newSchema = {
+          _id: message.guildId,
+          allowedChannels: [],
         }
+        settingsSchema[newSchema._id] = newSchema
+        await new settingsSchema(newSchema).save()
 
       })
     }
 
     // pārbauda vai ziņa nav no bota
-    if (message.author.id === process.env.ULMANISID) {
-      if (settingsCache[message.guildId]?.autoDeleteChannels?.length) {
-        settingsCache[message.guildId].autoDeleteChannels.map(channel => {
-          if (channel === message.channelId && message.embeds.length) {
-            setTimeout(() => {
-              if (!message.deleted) message.delete()
-            }, timeout)
-          }
-        })
+    if (message.author.id !== process.env.ULMANISID) {
+      if (devMode && message.author.id !== process.env.DEVUSERID) return
+
+      // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
+      if (message.content.startsWith('.')) {
+        await commandHandler(client, message)
+      } else {
+        await reakcijas(client, message)
       }
-    } else {
-      if (settingsCache[message.guildId]?.kaktsRole) await antispam(message)
-      await commandHandler(client, message)
-      await reakcijas(client, message)
     }
   })
+
+  const loop = async () => {
+    // parbauda kura diena menesi ir prieks veikala atlaidem
+    let date = new Date()
+
+    const currDay = await getDayOfMonth()
+
+    if (currDay !== `${date.getDay()}`) {
+      await calculateDiscounts()
+      const redisClient = await redis()
+      redisClient.set('dayofmonth', `${date.getDay()}`)
+      console.log('discounts reset')
+    }
+
+    setTimeout(async () => { await loop() }, 20000)
+  }
+  await loop()
 })
-
-export const kaktsRole = async (guildId, userId, isRemove = 0) => {
-  const guild = await client.guilds.cache.get(guildId)
-  const member = await guild.members.fetch(userId)
-
-  const bot = await guild.members.fetch(process.env.ULMANISID)
-
-  if (!bot.permissions.has([Permissions.FLAGS.MANAGE_ROLES])) return 0
-
-  const kaktsRole = await guild.roles.cache.find(role => {
-    return role.id === settingsCache[guildId].kaktsRole
-  })
-
-  if (isRemove) await member.roles.remove(kaktsRole)
-  else await member.roles.add(kaktsRole)
-  return 1
-}
 
 // bots ieloggojas discorda
 client.login(process.env.TOKEN).then(() => {
   console.log('logged in')
+  client.user.setActivity('.palīdzība', { type: 'PLAYING' })
 })

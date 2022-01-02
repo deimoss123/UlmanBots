@@ -16,8 +16,10 @@ const profileSchema = new mongoose.Schema({
   itemCap: { type: Number },
   itemCount: { type: Number },
   items: { type: Object, },
+  fishing: { type: Object },
   status: { type: Object, },
   cooldowns: { type: Object, },
+  dateCooldowns: { type: Object },
   data: { type: Object }
 })
 

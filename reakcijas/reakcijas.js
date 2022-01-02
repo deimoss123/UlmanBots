@@ -18,7 +18,16 @@ const atbTemplate = (t, content, randEmoji = 0) => {
 }
 
 // šis fails pārstrādā tekstu uz ko vajag reaģēt
-export const reakcijas = (client, message) => {
+export const reakcijas = (client, message) => { // TODO reakcijām strādāt tikai pieminot ulmani
+
+  const ulmanisTags = [
+    'ulmani',
+    'ulmanis',
+    'ulmanbots',
+    'ulmanim',
+    'ulmanbotam',
+    `<@${process.env.ULMANISID}>`,
+  ]
 
   // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)
   if (/[а-яА-ЯЁё]/.test(message.content)) {
@@ -28,6 +37,17 @@ export const reakcijas = (client, message) => {
 
   // pārveido message uz lower case un noņem mīkstinājum un garumzīmes
   const content = latToEng(message.content.toLowerCase())
+
+  let isValid = false
+
+  for (const tag of ulmanisTags) {
+    if (content.includes(tag)) {
+      isValid = true
+      break
+    }
+  }
+
+  if (!isValid) return
 
   // JAUTĀJUMS
   if (content.endsWith('?') && content.startsWith('ulmani')) {

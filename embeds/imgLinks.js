@@ -8,6 +8,8 @@ export const imgLinks = {
   oligarhs: 'https://i.postimg.cc/DwZDPMZ2/oligarhs-1.jpg',
   top: 'https://i.postimg.cc/9Qnk8YRy/top.png',
 
+  petnieks: 'https://i.postimg.cc/R0z661Qz/ezgif-2-d2c71cd8c607.gif',
+
   iestatijumi: 'https://i.postimg.cc/RhhKyzM4/iestatijumi-1.jpg',
   kakts: 'https://i.postimg.cc/wv0DwBYw/kakts-1.jpg',
 

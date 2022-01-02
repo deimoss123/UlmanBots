@@ -29,16 +29,20 @@ export const findUser = async (guildId, userId) => {
             itemCap: 100,
             itemCount: 0,
             items: {},
+            fishing: {},
             cooldowns: {},
+            dateCooldowns: {},
             status: {},
-            data: {}
+            data: {},
           }
           await new profileSchema(newSchema).save()
-          result = newSchema
+          result = JSON.parse(JSON.stringify(newSchema))
         }
         if (!result.items) result.items = {}
         if (!result.cooldowns) result.cooldowns = {}
+        if (!result.dateCooldowns) result.dateCooldowns = {}
         if (!result.status) result.status = {}
+        if (!result.fishing) result.fishing = {}
         if (!result.data) result.data = {}
 
         result.data.maxFeniksWin ||= 0
@@ -46,7 +50,7 @@ export const findUser = async (guildId, userId) => {
 
         if (!result.data?.maxMaksLati) result.data.maxMaksLati = result.lati
 
-        result.itemCap = 100
+        if (guildId === '875083366611955712') result.itemCap = 99999
 
         if (!Object.keys(result.items).length) result.itemCount = 0
         else {
@@ -57,7 +61,7 @@ export const findUser = async (guildId, userId) => {
         }
 
         userCache[`${guildId}-${userId}`] = result
-        return result
+        return JSON.parse(JSON.stringify(result))
       } catch (e) {
         console.error(e)
       }
@@ -67,7 +71,6 @@ export const findUser = async (guildId, userId) => {
 
 // atrod bagātākos lietotājus serverī, kā arī nosaka kopējo naudas cirkulāciju
 export const getTop = async (guildId, type = 'lati') => {
-  console.log('running getTop()')
   return await mongo().then(async mongoose => {
     try {
       const result = await profileSchema.find().select({ lati: 1, userId: 1, guildId: 1, data: 1, items: 1 })
@@ -79,13 +82,11 @@ export const getTop = async (guildId, type = 'lati') => {
 }
 
 export const addData = async (guildId, userId, newData) => {
-  console.log('running addData()')
   let { data } = await findUser(guildId, userId)
 
   return await mongo().then(async mongoose => {
     try {
       Object.keys(newData).map(key => {
-        console.log(newData[key])
         if (isNaN(newData[key]) && newData[key].startsWith('='))
           data[key] = parseInt(newData[key].slice(1))
         else data[key] = data[key] ? data[key] + newData[key] : newData[key]
@@ -96,7 +97,6 @@ export const addData = async (guildId, userId, newData) => {
         userId,
       }, { data }, {})
 
-      console.log(data, newData)
       userCache[`${guildId}-${userId}`].data = data
     } catch (e) {
       console.error(e)
@@ -107,7 +107,6 @@ export const addData = async (guildId, userId, newData) => {
 
 // pievieno latus lietotājam
 export const addLati = async (guildId, userId, lati) => {
-  console.log('running addLati()')
   let result = await findUser(guildId, userId)
 
   return await mongo().then(async mongoose => {
@@ -118,8 +117,6 @@ export const addLati = async (guildId, userId, lati) => {
         guildId,
         userId,
       }, { lati: result.lati }, {})
-
-      //console.log('addLati() result: ', result)
 
       // pievieno gala rezultātu cache
       userCache[`${guildId}-${userId}`].lati = result.lati
@@ -133,17 +130,15 @@ export const addLati = async (guildId, userId, lati) => {
 // pievieno itemus lietotājam
 // ja isAdd = 1 tad itemus pievienos, ja ir 0 tad tos itemus noņems
 export const addItems = async (guildId, userId, itemsToAdd) => {
-  console.log('running addItems()')
   let { items, itemCount } = await findUser(guildId, userId)
 
   return await mongo().then(async mongoose => {
     try {
       //console.log('fetched items:', items)
-      console.log('items to add:', itemsToAdd)
 
       Object.keys(itemsToAdd).map(item => {
         if (!items[item]) items[item] = itemsToAdd[item]
-        else if (!(items[item] + itemsToAdd[item])) delete items[item]
+        else if ((items[item] + itemsToAdd[item]) <= 0) delete items[item]
         else items[item] += itemsToAdd[item]
       })
 
@@ -224,6 +219,67 @@ export const addCooldown = async (guildId, userId, command) => {
         guildId,
         userId,
       }, { cooldowns }, { new: true, upsert: true })
+    } catch (e) {
+      console.error(e)
+    }
+  })
+}
+
+export const setDateCooldown = async (guildId, userId, command, useObj) => {
+  return await mongo().then(async mongoose => {
+    try {
+      let { dateCooldowns } = await findUser(guildId, userId)
+
+      const date = new Date()
+
+      dateCooldowns[command] = {
+        date: date.toDateString(),
+        ...useObj
+      }
+
+      userCache[`${guildId}-${userId}`].dateCooldowns = dateCooldowns
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+      }, { dateCooldowns }, { new: true, upsert: true })
+    } catch (e) {
+      console.error(e)
+    }
+  })
+}
+
+export const removeOneDateCooldown = async (guildId, userId, command) => {
+  return await mongo().then(async mongoose => {
+    try {
+      let { dateCooldowns } = await findUser(guildId, userId)
+
+      if (dateCooldowns[command].uses > 0) {
+        dateCooldowns[command].uses--
+      } else if (dateCooldowns[command].extraUses > 0) {
+        dateCooldowns[command].extraUses--
+      } else {
+        return
+      }
+
+      userCache[`${guildId}-${userId}`].dateCooldowns = dateCooldowns
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+      }, { dateCooldowns }, { new: true, upsert: true })
+    } catch (e) {
+      console.error(e)
+    }
+  })
+}
+
+export const setFishing = async (guildId, userId, fishingObj) => {
+  return await mongo().then(async mongoose => {
+    try {
+      userCache[`${guildId}-${userId}`].fishing = {...fishingObj}
+      await profileSchema.findOneAndUpdate({
+        guildId,
+        userId,
+      }, { fishing: fishingObj }, { new: true, upsert: true })
     } catch (e) {
       console.error(e)
     }

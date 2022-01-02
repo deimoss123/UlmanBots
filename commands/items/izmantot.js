@@ -1,56 +1,64 @@
 import { itemList } from '../../itemList.js'
 import { addItems, findUser } from '../../ekonomija.js'
-import { embedError, embedTemplate } from '../../embeds/embeds.js'
+import { embedError, embedSaraksts, embedTemplate, noPing } from '../../embeds/embeds.js'
+import { findItem, findItemById } from '../../helperFunctions.js'
+import { getEmoji } from '../../reakcijas/atbildes.js'
 
 export default {
   title: 'Izmantot',
   description: 'Izmantot kādu lietu no inventāra',
   commands: ['izmantot', 'lietot'],
   cooldown: 1000,
-  expectedArgs: '<lietas numurs>',
+  expectedArgs: '<lietas id>',
   maxArgs: 2,
   minArgs: 1,
-  callback: async (message, args, _, _1, i, itemToUse = undefined, isReply = 1) => {
+  callback: async (message, args, _, _1, i, itemToUse = null, isReply = 1) => {
 
-    console.log(itemToUse)
-    const guildId = message.guildId
+    const { guildId } = message
     const userId = message.author.id
 
-    if (isNaN(args[0])) return 0
-    args[0] = Math.floor(args[0])
+    const { items } = await findUser(guildId, userId)
 
-    const result = await findUser(guildId, userId)
+    let itemName
+    let item
 
-    if (args[0] <= 0 || Object.keys(result.items).length < args[0]) {
-      message.reply(embedError(message, 'Izmantot', 'Tavā inventārā nav šāda lieta'))
+    if (itemToUse) {
+      item = findItem(itemToUse)
+      itemName = itemToUse
+    } else {
+      const tempItem = findItemById(args[0])
+      item = tempItem?.item
+      itemName = tempItem?.key
+    }
+
+    if (!item) {
+      message.reply(noPing('Šāda lieta nepastāv'))
       return 2
     }
 
-    let selectedItem = itemToUse
-    if (!itemToUse) selectedItem = Object.keys(result.items)[args[0] - 1]
-
-    for (const key in itemList) {
-      if (itemList[key][selectedItem]) {
-        if (!itemList[key][selectedItem].use) {
-          message.reply(
-            embedError(message, 'Izmantot',
-              `${itemList[key][selectedItem].nameNomVsk} nav izmantojams`,
-              itemList[key][selectedItem].url))
-          return 2
-        } else {
-          let item = {}
-          item[selectedItem] = -1
-          const text = await itemList[key][selectedItem].use(message, result, args)
-
-          const reply = embedTemplate(message, `Izmantot - ${itemList[key][selectedItem].nameAkuVsk}`, text,
-            itemList[key][selectedItem].url)
-
-          if (isReply) message.reply(reply)
-
-          await addItems(guildId, userId, item)
-          return 1
-        }
-      }
+    if (!items[itemName]) {
+      message.reply(noPing(`Tavā inventārā nav ${getEmoji([`_${itemName}`])} **${item.nameNomVsk}**`))
+      return 2
     }
+
+    if (!item.use) {
+      message.reply(noPing(`${getEmoji([`_${itemName}`])} **${item.nameNomVsk}** nav izmantojams`))
+      return 2
+    }
+
+    if (!item.notRemovedOnUse) {
+      let itemToRemove = {}
+      itemToRemove[itemName] = -1
+      await addItems(guildId, userId, itemToRemove)
+    }
+
+    const resultText = await item.use(message)
+
+    message.reply(embedSaraksts(message, '', '',[{
+      name: `Izmantot: ${getEmoji([`_${itemName}`])} ${item.nameNomVsk}`,
+      value: resultText
+    }], '', 0x94cf42))
+
+    return 1
   },
 }

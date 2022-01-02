@@ -1,4 +1,7 @@
 import { itemList } from './itemList.js'
+import { getEmoji } from './reakcijas/atbildes.js'
+
+export const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
 // ieņem vērtību un pārvērš par latiem vai latu
 export const latsOrLati = lati => {
@@ -9,9 +12,8 @@ export const latsOrLati = lati => {
 // izvēlās no objekta randomā kādu lietu
 // lietām var būt svars, svars nav ja ir '*"
 export const chance = obj => {
-
-  // noapaļo līdz 0.001
-  const randNum = (Math.floor(Math.random() * 1000) / 1000)
+  // noapaļo līdz 0.0001
+  const randNum = Math.random()
 
   let result
   let sumChance = 0
@@ -34,7 +36,7 @@ export const chance = obj => {
 
 
 // pārvērš arr ar itemiem par izlasāmu tekstu
-export const stringifyItems = items => {
+export const stringifyItems = (items, config = 1) => {
 
   let resultArr = []
 
@@ -45,8 +47,8 @@ export const stringifyItems = items => {
         if (keydb === key) {
           resultArr.push(
             `${items[key]} ${items[key] === 1
-              ? itemList[keysdb][keydb].nameAkuVsk
-              : itemList[keysdb][keydb].nameAkuDsk}`)
+              ? config ? itemList[keysdb][keydb].nameAkuVsk : itemList[keysdb][keydb].nameNomVsk
+              : config ? itemList[keysdb][keydb].nameAkuDsk : itemList[keysdb][keydb].nameNomDsk}`)
         }
       }
     }
@@ -64,9 +66,59 @@ export const stringifyItems = items => {
   return '`' + resultString.replace(/,([^,]*)$/, '$1') + '`'
 }
 
+export const stringifyItems2 = (items, config = 0) => {
+
+  let resultArr = []
+
+  // pārtaisa objektu par teksta stringu
+  for (const key in items) {
+    for (const keysdb in itemList) {
+      for (const keydb in itemList[keysdb]) {
+        if (keydb === key) {
+          resultArr.push(
+            `• ${items[key]} ${items[key] === 1
+              ? config ? itemList[keysdb][keydb].nameAkuVsk : itemList[keysdb][keydb].nameNomVsk
+              : config ? itemList[keysdb][keydb].nameAkuDsk : itemList[keysdb][keydb].nameNomDsk}`)
+        }
+      }
+    }
+  }
+
+  // pārtaisa jauno arr par stringu
+  return '```' + resultArr.join('\n') + '```'
+}
+
+export const stringifyItemsList = items => {
+  let resultFields = []
+  for (const key of Object.keys(items)) {
+    const { nameNomVsk, price } = findItem(key)
+    resultFields.push({
+      name: `${getEmoji([`_${key}`])} ${nameNomVsk.charAt(0).toUpperCase() + nameNomVsk.slice(1)} x${items[key]}`,
+      value: `Vērtība: **${price}** ${latsOrLati(price)}`,
+      inline: true
+    })
+  }
+  return resultFields
+}
+
+export const stringifyItemsList2 = items => {
+  let resultStr = ''
+  for (const key of Object.keys(items)) {
+    const { nameNomVsk } = findItem(key)
+    resultStr += `> ${getEmoji([`_${key}`])} ${nameNomVsk.charAt(0).toUpperCase() + nameNomVsk.slice(1)} x${items[key]}\n`
+  }
+  return resultStr
+}
+
+export const stringifyOne = key => {
+  const { nameNomVsk } = findItem(key)
+  return `${getEmoji([`_${key}`])} ${nameNomVsk.charAt(0).toUpperCase() + nameNomVsk.slice(1)}`
+}
+
 // pārvērš laiku sekundēs uz tekstu
 export const timeToText = (time, option = 0) => {
 
+  if (time < 1000) time = 1000
   time = Math.floor(time / 1000)
 
   const h = Math.floor(time / 3600)
@@ -103,7 +155,6 @@ export const timeToText = (time, option = 0) => {
   let str = result.join(', ')
 
   return str.replace(/,([^,]*)$/, '$1')
-
 }
 
 
@@ -117,29 +168,31 @@ export const latToEng = text => {
 }
 
 // iegūst lietotāja ID no discord sintakses
-export const getUserId = (text) => {
-  if (text.startsWith('<@') && text.endsWith('>')) {
-    text = text.slice(2, -1)
-    if (text.startsWith('!')) {
-      text = text.slice(1)
-    }
-    return text
-  } else return 0
+export const getUserId = async (text, guild) => {
+  if (!text.startsWith('<@') && !text.endsWith('>')) return 0
+
+  text = text.slice(2, -1)
+  if (text.startsWith('!')) text = text.slice(1)
+
+  if (!await guild.members.cache.find(member => member.id === text)) return 0
+  return text
 }
 
-// sajauc array randoma
-export const shuffle = (arr) => {
-  let currentIndex = arr.length,  randomIndex
-
-  while (currentIndex !== 0) {
-
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-
-    [arr[currentIndex], arr[randomIndex]] = [
-      arr[randomIndex], arr[currentIndex]]
+export const findItem = name => {
+  for (const category in itemList) {
+    for (const item in itemList[category]) {
+      if (item === name) return itemList[category][item]
+    }
   }
+}
 
-  return arr
+export const findItemById = id => {
+  for (const category in itemList) {
+    for (const item in itemList[category]) {
+      if (itemList[category][item].ids.includes(id)) {
+        return { key: item, item: itemList[category][item] }
+      }
+    }
+  }
 }
 
