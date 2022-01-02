@@ -48,9 +48,9 @@ const jaun = {/*
     '- **!!** Lietas tagad var pirkt/pārdot/izmantot pēc to nosaukuma (id) nevis numura, ' +
     'lietu nosaukumi ir norādīti veikalā un inventārā\n' +
     '- Samazināts fēniksa nodoklis\n' +
-    `- UlmaņBots atbildēs ar smieklīgajām atbildēm tikai tad kad viņš tiks pingots <@${process.env.ULMANISID}>, vai arī ziņā būs iekļauts vārds "Ulmanis", "Ulmani", utt.\n\n` +
+    `- UlmaņBots atbildēs ar smieklīgajām atbildēm tikai tad kad viņš tiks pingots <@${process.env.ULMANISID}>, vai arī ziņā būs iekļauts vārds "Ulmanis", "Ulmani", utt.\n\n`,
 
-    '**Jaunā bomžošana sistēma**\n' +
+  '**Jaunā bomžošana sistēma**':
     '- Bomžošanai vairs nav nepieciešams bomža status, kas vairs neeksistē\n' +
     '- Bomžot ir iespējams ik 5 minūtes, bet tā limits ir 5 reizes diennaktī (restartējas plkst 00.00)\n' +
     '- Kad lietotājs ir sasniedzis bomžošanas limitu, tiks piedāvāta iespēja bomžot velreiz par samaksu - 1 odekolona pudele, papildus var bomžot 3 reizes\n\n' +
