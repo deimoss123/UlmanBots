@@ -117,6 +117,8 @@ export default (client, message) => {
           } else {
             const time = cmdCooldown - (Date.now() - cooldowns[command.title])
 
+            console.log(time)
+
             let msg = await message.reply(
               embedError(
                 message, command.title, `Šo komandu tu varēsi izmantot pēc ${timeToText(time, 1)
