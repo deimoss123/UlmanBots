@@ -8,7 +8,7 @@ export default {
   title: 'Maksat',
   description: 'Pārskaitīt naudu kādam lietotājam',
   commands: ['maksat', 'parskaitit', 'samaksat'],
-  cooldown: 1000,
+  cooldown: 0,
   expectedArgs: '<@lietotajs> <daudzums>',
   minArgs: 2,
   maxArgs: 2,

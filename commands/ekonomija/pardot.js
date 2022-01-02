@@ -24,7 +24,7 @@ export default {
     'Pārdot neizmantojamās zivis - `.pardot z`\n' +
     'Pārdot visu inventāru - `.pardot visu`',
   commands: ['pardot'],
-  cooldown: 1000,
+  cooldown: 0,
   expectedArgs: '<lietas id> <daudzums>',
   minArgs: 1,
   maxArgs: 2,

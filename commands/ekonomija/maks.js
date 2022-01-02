@@ -9,7 +9,7 @@ export default {
   title: 'Maks',
   description: 'Apskatīt savu, vai kāda cita lietotāja latu daudzumu',
   commands: ['maks', 'm', 'makste', 'maksts'],
-  cooldown: 1000,
+  cooldown: 0,
   maxArgs: 1,
   expectedArgs: '<@lietotājs>',
   callback: async (message, args) => {

@@ -12,7 +12,7 @@ export default {
   title: 'Servera tops',
   description: 'Parāda bagātākos lietotājus serverī',
   commands: ['top', 'tops', 'oligarhi'],
-  cooldown: 10000,
+  cooldown: 5000,
   maxArgs: 2,
   callback: async (message, args, b, client) => {
     let guildId = message.guildId

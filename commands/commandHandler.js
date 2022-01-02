@@ -113,9 +113,7 @@ export default (client, message) => {
 
           console.log(cmdCooldown)
 
-          if (!cooldowns[command.title]) cooldowns[command.title] = Date.now() + 10000
-
-          if (Date.now() - parseInt(cooldowns[command.title]) >= cmdCooldown) {
+          if (!cooldowns[command.title] || (Date.now() - parseInt(cooldowns[command.title])) >= cmdCooldown) {
 
             if (await commandBase(client, message, cmd, command)) {
               await addCooldown(guildId, userId, command.title)

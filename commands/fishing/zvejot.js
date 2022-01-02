@@ -29,6 +29,7 @@ export default {
   title: 'Zvejot',
   description: 'Zvejot dižLatvijas ezeros',
   commands: ['zvejot', 'makskeret', 'copet', 'cope', 'zveja', 'zivs', 'zive', 'zuvis'],
+  cooldown: 0,
   callback: async message => {
     const { guildId } = message
     const userId = message.author.id
