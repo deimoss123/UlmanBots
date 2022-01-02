@@ -128,6 +128,7 @@ export default {
         if (message.member.roles.cache.some(r => r.id === roles[role].id)) {
           txt += `${roles[role].name} pabalstu: **${roles[role].lati}** lati`
           totalLati += roles[role].lati
+          break
         }
       }
     }
