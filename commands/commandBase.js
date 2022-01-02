@@ -20,6 +20,7 @@ export default async (client, message, alias, commandOptions) => {
     uses = 0,
     extraUses = 0,
     callback,
+    cooldown = 0,
   } = commandOptions
 
   const content = latToEng(message.content.toLowerCase())
