@@ -113,7 +113,7 @@ export default (client, message) => {
 
           console.log(cmdCooldown)
 
-          if (!cooldowns[command.title]) cooldowns[command.title] = 0
+          if (!cooldowns[command.title]) cooldowns[command.title] = Date.now() + 10000
 
           if (Date.now() - parseInt(cooldowns[command.title]) >= cmdCooldown) {
 
