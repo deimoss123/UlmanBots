@@ -1,7 +1,6 @@
 import { floorTwo } from '../../helperFunctions.js'
-import { getDiscounts } from './veikals.js'
 import { itemList } from '../../itemList.js'
-import { emojiList, getEmoji } from '../../reakcijas/atbildes.js'
+import { emojiList } from '../../reakcijas/atbildes.js'
 import { findUser } from '../../ekonomija.js'
 
 export const getComponents = async (rand, guildId, userId, chosenItem, amount, discounts) => {

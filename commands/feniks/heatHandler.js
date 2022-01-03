@@ -4,6 +4,10 @@ import redis from '../../redis.js'
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
 const calculateHeat = (currentTime, heat, heatTime, likme) => {
+  heat = parseFloat(heat)
+  heatTime = parseInt(heatTime)
+  likme = parseInt(likme)
+
   let newHeat = heat
   let timePassed = Math.floor((currentTime - heatTime) / 100)
 
@@ -15,6 +19,13 @@ const calculateHeat = (currentTime, heat, heatTime, likme) => {
 
   if (newHeat < 20) newHeat = 20
   newHeat += floorTwo(likme / 20)
+
+  if (isNaN(newHeat)) {
+    console.log('Heat NaN:')
+    console.log(newHeat)
+    //newHeat = 20
+  }
+
   return newHeat
 }
 
