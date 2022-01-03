@@ -66,7 +66,7 @@ export const feniks = {
       }
 
       likme = Math.floor(lati)
-    } else if ((likme % 10) || likme < 50) {
+    } else if ((likme % 10) || likme < 50 || isNaN(likme)) {
       message.reply(noPing('**Tu neesi izvēlējies pareizu likmi**\n' +
         `Likmei jābūt jebkādam skaitlim kas dalās ar 10 (piemēram: 50, 110, 200, 690)\n` +
         'Minimālā likme: 50 lati\n\n' +
