@@ -114,6 +114,8 @@ export default {
             : winSpendRatio1 - winSpendRatio2
         })
 
+        console.log(results)
+
 
         title = args[0] === 'laimetaji' ? '- veiksmīgākie' : '- neveiksmīgākie'
         title += ' aparāta griezēji (kopš 02.01.22)'

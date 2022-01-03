@@ -170,7 +170,7 @@ export const feniks = {
 
     let dataUser = {
       feniksSpend: parseInt(likme),
-      feniksWin: parseInt(likme) + resLati,
+      feniksWin: resLati,
       feniksCount: 1,
     }
 
