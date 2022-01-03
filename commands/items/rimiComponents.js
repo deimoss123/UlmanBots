@@ -6,7 +6,6 @@ import { findUser } from '../../ekonomija.js'
 
 export const getComponents = async (rand, guildId, userId, chosenItem, amount, discounts) => {
 
-  console.log(chosenItem)
   const calcPrice = item => {
     return itemList.veikals[item].price * 2 * (discounts ? discounts[item] ? discounts[item] : 1 : 1)
   }

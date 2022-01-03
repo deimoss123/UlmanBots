@@ -42,7 +42,6 @@ export default {
 
     return await mongo().then(async mongoose => {
       try {
-        console.log(settingsCache[guildId])
         if (!settingsCache[guildId]) {
           const newSchema = {
             _id: guildId,

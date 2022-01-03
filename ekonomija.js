@@ -70,7 +70,7 @@ export const findUser = async (guildId, userId) => {
 }
 
 // atrod bagātākos lietotājus serverī, kā arī nosaka kopējo naudas cirkulāciju
-export const getTop = async (guildId, type = 'lati') => {
+export const getTop = async guildId => {
   return await mongo().then(async mongoose => {
     try {
       const result = await profileSchema.find().select({ lati: 1, userId: 1, guildId: 1, data: 1, items: 1 })
