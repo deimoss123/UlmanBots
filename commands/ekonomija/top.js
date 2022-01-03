@@ -94,7 +94,7 @@ export default {
 
         results.map(result => cirkulacija += result.data.feniksSpend)
 
-        title = '- Fēniksā iztērēts (kopš 02.01.22)'
+        title = '- Fēniksā iztērēts (kopš 04.01.22)'
         desc = `Kopā fēniksā ir iztērēti **${cirkulacija}** lati\n`
         imgUrl = imgLinks.feniksTop
 
@@ -118,7 +118,7 @@ export default {
 
 
         title = args[0] === 'laimetaji' ? '- veiksmīgākie' : '- neveiksmīgākie'
-        title += ' aparāta griezēji (kopš 02.01.22)'
+        title += ' aparāta griezēji (kopš 04.01.22)'
 
         desc = `UlmaņBota veidotājs procentus nevienam nav grozījis ${getEmoji(['ulmanis'])}`
         listSize = 5

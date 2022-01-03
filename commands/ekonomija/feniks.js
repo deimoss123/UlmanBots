@@ -24,7 +24,6 @@ export const feniks = {
 
     //testLaimesti(laim, 1000000)
 
-
     Object.keys(laim).map(l => {
       if (laim[l]?.multiplier) {
         reizinataji += `${getEmoji([l])} x${laim[l].multiplier}\n`
