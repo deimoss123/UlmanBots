@@ -2,7 +2,7 @@ import { imgLinks } from './imgLinks.js'
 import { getEmoji } from '../reakcijas/atbildes.js'
 import { activeCommands } from '../commands/commandHandler.js'
 
-export const ulmanversija = '3.3'
+export const ulmanversija = '3.3.1'
 const footer = `Versija: ${ulmanversija}⠀|⠀Veidotājs: Deimoss#1984`
 const footerUrl = 'https://i.postimg.cc/W3fvhpJp/Karlis-Ulmanis.jpg'
 
