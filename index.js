@@ -1,4 +1,4 @@
-import { Intents, Client } from 'discord.js'
+import { Intents, Client, Permissions } from 'discord.js'
 
 import dotenv from 'dotenv'
 import mongo from './mongo.js'
@@ -36,6 +36,13 @@ const getDayOfMonth = async () => {
       return res(r)
     })
   })
+}
+
+const checkPerms = msg => {
+  const perms = [Permissions.FLAGS.SEND_MESSAGES]
+  const res = msg.guild.me.permissionsIn(msg.channel).has(perms)
+  //console.log(res)
+  return res
 }
 
 // galvenais kods
@@ -100,17 +107,17 @@ client.on('ready', async () => {
       })
     }
 
-    // pārbauda vai ziņa nav no bota
-    //if (message.author.id !== process.env.ULMANISID) {
-      //if (devMode && message.author.id !== process.env.DEVUSERID) return
+    if (!checkPerms(message)) return
 
-      // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
-      if (message.content.startsWith('.')) {
-        await commandHandler(client, message)
-      } else if (message.author.id !== process.env.ULMANISID) {
-        await reakcijas(client, message)
-      }
-    //}
+    //if (devMode && message.author.id !== process.env.DEVUSERID) return
+
+    // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
+    if (message.content.startsWith('.')) {
+      await commandHandler(client, message)
+    } else if (message.author.id !== process.env.ULMANISID) {
+      await reakcijas(client, message)
+    }
+
   })
 
   const loop = async () => {
