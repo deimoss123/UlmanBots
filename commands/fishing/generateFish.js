@@ -5,14 +5,14 @@ export const fishingRodList = {
   makskere: {
     uses: 15,
     costToRepair: 200,
-    timeMin: 3.75,
-    timeMax: 4.25
+    timeMin: 3.50,
+    timeMax: 4.00
   },
   divainamakskere: {
     uses: 80,
     costToRepair: 1000,
-    timeMin: 2.75,
-    timeMax: 3.75
+    timeMin: 2.50,
+    timeMax: 3.00
   }
 }
 
@@ -23,7 +23,6 @@ const itemPool = {
     pool: {
       draudzinzivs: { chance: '*' },
       daundizvs: { chance: '*' },
-      etalons: { chance: '*' },
       oditiscitrus: { chance: '*' },
       virve: { chance: '*' },
     },
@@ -45,6 +44,7 @@ const itemPool = {
       juridiskazivs: { chance: '*' },
       nazis: { chance: 0.2 },
       dizloto: { chance: 0.12 },
+      whatsapp: { chance: 0.02 }
     },
   },
 }

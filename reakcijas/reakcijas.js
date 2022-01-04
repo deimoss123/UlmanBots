@@ -27,6 +27,7 @@ export const reakcijas = (client, message) => { // TODO reakcijām strādāt tik
     'ulmanim',
     'ulmanbotam',
     `<@${process.env.ULMANISID}>`,
+    `<@!${process.env.ULMANISID}>`
   ]
 
   // KIRILICA (es nesaprotu kā šis strādā bet internets teica ka strādā)

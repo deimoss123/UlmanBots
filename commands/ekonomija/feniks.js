@@ -18,11 +18,12 @@ export const feniks = {
     const guildId = message.guildId
     const userId = message.author.id
 
+    const minLikme = 20
     let reizinataji = ''
 
     const laim = { ...laimesti.fenkaSloti }
 
-    //testLaimesti(laim, 1000000)
+    //testLaimesti(laim, 1000000); return 1
 
     Object.keys(laim).map(l => {
       if (laim[l]?.multiplier) {
@@ -35,8 +36,8 @@ export const feniks = {
     if (!args[0]) {
       message.reply(embedTemplate(message, '',
         'Lai grieztu aparātu izmanto komandu `.feniks <likme>`\n' +
-        `Aparātu var griezt ar jebkādu likmi kas dalās ar 10 (piemēram: 50, 110, 200, 690)\n` +
-        'Minimālā likme: 50 lati\n\n' +
+        `Aparātu var griezt ar jebkādu likmi kas dalās ar 10 (piemēram: 20, 110, 200, 690)\n` +
+        `Minimālā likme: ${minLikme} lati\n\n` +
         'Lai grieztu aparātu ar nejauši izvēlētu likmi izmanto `.feniks virve`\n' +
         'Griezt aparātu ar visu savu naudu - `.feniks viss`\n\n' +
         '**Reizinātāji**\n' +
@@ -48,28 +49,28 @@ export const feniks = {
     const { lati } = await findUser(guildId, userId)
     let likme = args[0]
 
-    if (likme === 'virve') {
-      if (lati < 50) {
+    if (['virve', 'pasnaviba', 'virvi', 'pasnavibu'].includes(likme)) {
+      if (lati < minLikme) {
         message.reply(noPing(
-          `Lai grieztu pašnāvnieku aparātu tev vajag vismaz 50 latus\n` +
+          `Lai grieztu pašnāvnieku aparātu tev vajag vismaz ${minLikme} latus\n` +
           `Tev ir **${floorTwo(lati).toFixed(2)}** lati`))
         return 2
       }
 
-      likme = Math.floor(Math.random() * (lati - 50)) + 50
+      likme = Math.floor(Math.random() * (lati - minLikme)) + minLikme
     } else if (likme === 'viss') {
-      if (lati < 50) {
+      if (lati < minLikme) {
         message.reply(noPing(
-          `Tev vajag vismaz 50 latus lai grieztu aparātu\n` +
+          `Tev vajag vismaz ${minLikme} latus lai grieztu aparātu\n` +
           `Tev ir **${floorTwo(lati).toFixed(2)}** lati`))
         return 2
       }
 
       likme = Math.floor(lati)
-    } else if ((likme % 10) || likme < 50 || isNaN(likme)) {
+    } else if ((likme % 10) || likme < minLikme || isNaN(likme)) {
       message.reply(noPing('**Tu neesi izvēlējies pareizu likmi**\n' +
         `Likmei jābūt jebkādam skaitlim kas dalās ar 10 (piemēram: 50, 110, 200, 690)\n` +
-        'Minimālā likme: 50 lati\n\n' +
+        `Minimālā likme: ${minLikme} lati\n\n` +
         'Griezt ar nejauši izvēlētu likmi - `.feniks virve`\n' +
         'Griezt visu savu naudu - `.feniks viss`',
       ))
@@ -149,7 +150,6 @@ export const feniks = {
             }, time)
           }, 2000)
         })
-
       },
       cb: async i => {
         if (i.customId === `grieztVelreiz ${rand}`) {

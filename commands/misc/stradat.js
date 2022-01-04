@@ -3,13 +3,15 @@ import { buttonEmbed, embedError, embedTemplate, noPing } from '../../embeds/emb
 import { chance, stringifyItems } from '../../helperFunctions.js'
 import { itemList } from '../../itemList.js'
 
+const cmdUses = 5
+
 export default {
   title: 'Strādāt',
   description: 'Strādāt veikalā',
   commands: ['stradat', 'darbs'],
-  uses: 3,
+  uses: cmdUses,
   extraUses: 0,
-  cooldown: 300000,
+  cooldown: 600000,
   callback: async message => {
     const guildId = message.guildId
     const userId = message.author.id
@@ -24,7 +26,7 @@ export default {
     if (!await checkStatus(guildId, userId, 'vakcinets')) {
       message.reply(noPing(
         'Lai strādātu tev vajag būt vakcinētam, ' +
-        'vakcīnu vai sertifikātu var atrast atkritumos ar komandu `.bomžot`'))
+        'vakcīnu var atrast atkritumos ar komandu `.bomžot`'))
       return 2
     }
 
@@ -91,7 +93,7 @@ export default {
     await buttonEmbed({
       message,
       commandTitle: 'Strādāt',
-      title: `Strādāt (${dateCooldowns['Strādāt'].uses}/3)`,
+      title: `Strādāt (${dateCooldowns['Strādāt'].uses}/${cmdUses})`,
       description: 'Ko tu vēlies darīt?',
       row,
       color: 0xed694e,
@@ -107,7 +109,7 @@ export default {
           return {
             id: `stradat ${rand}`,
             editComponents: [],
-            editTitle: `Strādāt (${dateCooldowns['Strādāt'].uses}/3)`,
+            editTitle: `Strādāt (${dateCooldowns['Strādāt'].uses}/${cmdUses})`,
             deactivate: true,
             edit:
               'Izvēle: `Godīgi strādāt`\n\n' +
@@ -134,7 +136,7 @@ export default {
 
           return {
             id: `zagt ${rand}`,
-            editTitle: `Strādāt (${dateCooldowns['Strādāt'].uses}/3)`,
+            editTitle: `Strādāt (${dateCooldowns['Strādāt'].uses}/${cmdUses})`,
             editComponents: [],
             deactivate: true,
             edit: 'Izvēle: `Zagt`\n\n' + txt

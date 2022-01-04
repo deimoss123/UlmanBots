@@ -12,7 +12,7 @@ export default {
   title: 'Servera tops',
   description: 'Parāda bagātākos lietotājus serverī',
   commands: ['top', 'tops', 'oligarhi'],
-  cooldown: 5000,
+  cooldown: 2000,
   maxArgs: 2,
   callback: async (message, args, b, client) => {
     let guildId = message.guildId
@@ -114,9 +114,6 @@ export default {
             : winSpendRatio1 - winSpendRatio2
         })
 
-        console.log(results)
-
-
         title = args[0] === 'laimetaji' ? '- veiksmīgākie' : '- neveiksmīgākie'
         title += ' aparāta griezēji (kopš 04.01.22)'
 
@@ -140,7 +137,7 @@ export default {
           '**feniks** - lielākie aparāta griezēji\n' +
           '**laimētāji** - laimīgākie aparāta griezēji\n' +
           '**zaudētāji** - nelaimīgākie aparāta griezēji\n'
-        , imgLinks.top))
+        , imgLinks.top, 0xe3fc03))
         return 2
       }
     }
@@ -190,7 +187,7 @@ export default {
       }
     }
 
-    message.reply(embedSaraksts(message, `Servera tops ${title}`,desc, resultsArr, imgUrl))
+    message.reply(embedSaraksts(message, `Servera tops ${title}`,desc, resultsArr, imgUrl, 0xe3fc03))
     return 1
   },
 }

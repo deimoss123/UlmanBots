@@ -1,6 +1,6 @@
 import { chance, getUserId } from '../../helperFunctions.js'
 import { addData, addLati, addStatus, checkStatus, findUser } from '../../ekonomija.js'
-import { embedError, embedTemplate, noPing } from '../../embeds/embeds.js'
+import { embedTemplate, noPing } from '../../embeds/embeds.js'
 import { statusList } from '../../itemList.js'
 
 const zagtChange = {
@@ -27,19 +27,28 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
+    const maxLatiBanka = 1200
+
     const winCh = 1 -
       zagtChange.nazis.lose.chance
 
     if (!args[0]) {
-      message.reply(embedTemplate(message, 'Zagšana',
-        '`.zagt <@lietotājs>`\n\n' +
+      message.reply(embedTemplate(message, '',
+        `**Zagt no bankas** \`.zagt @UlmaņBots\`\n` +
+        `- Nav iespēja zaudēt naudu zogot no bankas\n` +
+        `- Iespēja nozagt maksimāli **${maxLatiBanka}** latus\n` +
+        `- Ja bankai ir mazāk par ${maxLatiBanka} latiem, tad tiks nozagta visa bankas nauda\n` +
+        '- Nepieciešami visi statusi (`.status`), zogot no bankas visi statusi noņemsies\n\n' +
+
+        '**Zagt no lietotāja** `.zagt @lietotājs`\n' +
         '**Procenti**\n40% nozagt\n60% pazaudēt naudu\n\n' +
+
         '**Procenti zogot ar laupītāja statusu (nazis)**\n' +
         `${Math.round(winCh * 100)}% nozagt\n` +
         `${zagtChange.nazis.lose.chance * 100}% pazaudēt naudu\n` +
 
         'Maksimālais nozagtais/pazaudētas latu daudzums ir atkarīgs no tā kuram ir vismazāk nauda\n\n' +
-        '**Piemērs:** Jānim ir 20 lati un viņš grib zagt no Igora, kam ir 100 lati, šajā gadījumā maksimālais ko Jānis varēs nozagt vai pazaudēt būs 20 lati'
+        '**Piemērs:** Jānim ir 20 lati un viņš grib zagt no Reiņa, kam ir 100 lati, šajā gadījumā maksimālais ko Jānis varēs nozagt vai pazaudēt būs 20 lati'
       ))
       return 2
     }
@@ -77,7 +86,7 @@ export default {
       }
 
       let lati = target.lati
-      if (target.lati >= 750) lati = 750
+      if (target.lati >= maxLatiBanka) lati = maxLatiBanka
 
       message.reply(embedTemplate(message, 'Zagt',
       `Tu nozagi **${floorTwo(lati).toFixed(2)}** latus no valsts bankas un pazaudēji visus statusus`))

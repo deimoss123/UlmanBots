@@ -28,19 +28,19 @@ export const laimesti = {
       chance: '*',
     },
     zivs: {
-      chance: 0.07,
+      chance: 0.2,
       multiplier: 0.05
     },
     nuja: {
-      chance: 0.05,
+      chance: 0.15,
       multiplier: 0.1
     },
     muskulis: {
-      chance: 0.04,
+      chance: 0.1,
       multiplier: 0.2
     },
     bacha: {
-      chance: 0.035,
+      chance: 0.07,
       multiplier: 0.5
     },
     izbrinits: {
@@ -48,15 +48,15 @@ export const laimesti = {
       multiplier: 1
     },
     kabacis: {
-      chance: 0.02,
+      chance: 0.01,
       multiplier: 3
     },
     ulmanis: {
-      chance: 0.01,
+      chance: 0.007,
       multiplier: 5
     },
     petnieks: {
-      chance: 0.005,
+      chance: 0.002,
       minMultiplier: 8,
       maxMultiplier: 12
     }

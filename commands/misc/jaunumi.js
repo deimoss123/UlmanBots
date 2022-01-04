@@ -39,8 +39,7 @@ const jaun = {/*
 
   '3.2.3':
     `- Ieviestas nejaušas atlaides veikalā ${getEmoji(['uldons'])}, restartējas katru dienu plkst. 00.00\n` +
-    '- Veikalā tagad ir iespējams pa taisno nopirkt preces',*/
-
+    '- Veikalā tagad ir iespējams pa taisno nopirkt preces',
   '3.3 - Lielais ekonomijas atjauninājums':
     '- `.ubagot` komanda izdzēsta\n' +
     '- Odekolons tagad krīt no atkritumiem, kā iepriekš\n' +
@@ -62,6 +61,23 @@ const jaun = {/*
     '**Statistika**\n' +
     '- Jauna komanda `.statistika`\n' +
     '- Katram lietotājam var apskatīties statistiku no savāktajiem datiem',
+    */
+  '3.3.1':
+    '**Fenikss**\n' +
+    `- Samazināta feniksa likme no 50 latiem uz 20 latiem\n\n` +
+
+    '**Bomžošana**\n' +
+    '- Palielināts bomžošanas cooldown no 5m uz 10m\n' +
+    '- Palielināts ikdienas bomžošanas limits no 5 uz 10\n' +
+    '- Noņemts limits papildus bomžošanai ar odekolonu\n\n' +
+
+    '**Strādāšana**\n' +
+    '- Palielināts strādāšanas cooldown no 5m uz 10m\n' +
+    '- Palielināts ikdienas strādāšanas limits no 3 uz 5\n\n' +
+
+    '**Zagšana**\n' +
+    '- Zagšanas limits no bankas palielināts no 750 latiem uz 1200 latiem\n' +
+    '- Whatsapp odekolonam tagad ir limits - maksimāli nozagt no bankas iespējams 3000 latus'
 }
 
 export default {

@@ -28,7 +28,7 @@ const getRepairCost = fishing => {
 export default {
   title: 'Zvejot',
   description: 'Zvejot dižLatvijas ezeros',
-  commands: ['zvejot', 'makskeret', 'copet', 'cope', 'zveja', 'zivs', 'zive', 'zuvis'],
+  commands: ['zvejot', 'makskeret', 'copet', 'cope', 'zveja', 'zivs', 'zive', 'zuvis', 'zivjot'],
   cooldown: 0,
   callback: async message => {
     const { guildId } = message

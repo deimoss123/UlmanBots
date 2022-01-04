@@ -96,7 +96,7 @@ export default (client, message) => {
           if (!cmdCooldown) cmdCooldown = 0
 
           // testa serveri 0 cooldown
-          //if (guildId === process.env.TESTSERVERID) cmdCooldown = 0
+          if (guildId === process.env.TESTSERVERID) cmdCooldown = 0
 
           if (!activeCommands[`${guildId}-${userId}`]) {
             activeCommands[`${guildId}-${userId}`] = {}

@@ -107,13 +107,16 @@ const calculateBomzot = times => {
   console.log(totalLati/totalTimes)
 }
 
+const cmdUses = 10
+const cmdExtraUses = 0
+
 export default {
   title: 'Bomžot',
   description: 'Bomžot un ielām',
   commands: ['bomzot', 'bomzis'],
-  cooldown: 300000,
-  uses: 5,
-  extraUses: 3,
+  cooldown: 600000,
+  uses: cmdUses,
+  extraUses: cmdExtraUses,
   callback: async message => {
     const { guildId } = message
     const userId = message.author.id
@@ -134,11 +137,6 @@ export default {
       return 2
     }
 
-    if (dateCooldowns['Bomžot'].extraUses < 1) {
-      message.reply(noPing('Tu šodien vairs nevari bomžot'))
-      return 2
-    }
-
     if (dateCooldowns['Bomžot'].uses < 1) {
       if (!items.oditiscitrus) {
         message.reply(noPing(
@@ -151,7 +149,7 @@ export default {
 
     await buttonEmbed({
       message,
-      title: `Bomžot (${dateCooldowns['Bomžot'].uses}/5) (${dateCooldowns['Bomžot'].extraUses}/3)`,
+      title: `Bomžot (${dateCooldowns['Bomžot'].uses}/${cmdUses})`,
       commandTitle: 'Bomžot',
       description,
       time: 30000,
@@ -241,7 +239,7 @@ export default {
           return {
             ...returnObj,
             id: i.customId,
-            editTitle: `Bomžot (${uses}/5) (${extraUses}/3)`,
+            editTitle: `Bomžot (${uses}/${cmdUses})`,
             editComponents: [],
             deactivate: true,
           }

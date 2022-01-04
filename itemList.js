@@ -35,7 +35,7 @@ export const itemList = {
   // preces kas nopērkamas veikalā
   veikals: {
     divainamakskere: {
-      ids: ['divainamakskere'],
+      ids: ['divainamakskere', 'divainomakskeri'],
       nameNomVsk: 'dīvainā makšķere',
       nameNomDsk: 'dīvainā makšķeres',
       nameAkuVsk: 'dīvainā makšķeri',
@@ -111,7 +111,7 @@ export const itemList = {
       },
     },
     nazis: {
-      ids: ['nazis'],
+      ids: ['nazis', 'nazi'],
       nameNomVsk: 'nazis',
       nameNomDsk: 'naži',
       nameAkuVsk: 'nazi',
@@ -127,7 +127,7 @@ export const itemList = {
       },
     },
     makskere: {
-      ids: ['kokamakskere'],
+      ids: ['kokamakskere', 'kokamakskeri'],
       nameNomVsk: 'koka makšķere',
       nameNomDsk: 'koka makšķeres',
       nameAkuVsk: 'koka makšķeri',
@@ -139,7 +139,7 @@ export const itemList = {
       use: async () => 'Lai izmantotu makšķeri lieto komandu `.zvejot`'
     },
     zemenurasens: {
-      ids: ['rasens', 'zemenurasens'],
+      ids: ['rasens', 'zemenurasens', 'rasenu', 'zemenurasenu'],
       nameNomVsk: 'zemeņu Rasēns',
       nameNomDsk: 'zemeņu Rasēni',
       nameAkuVsk: 'zemeņu Rasēnu',
@@ -203,7 +203,7 @@ export const itemList = {
       },
     },
     virve: {
-      ids: ['virve', 'pasnaviba'],
+      ids: ['virve', 'pasnaviba', 'virvi', 'pasnavibu'],
       nameNomVsk: 'virve',
       nameNomDsk: 'virves',
       nameAkuVsk: 'virvi',
@@ -223,7 +223,7 @@ export const itemList = {
   // atkritumi, iegūstami no bomžošanas
   atkritumi: {
     etalons: {
-      ids: ['etalons', 'e-talons'],
+      ids: ['etalons', 'e-talons', 'etalonu', 'e-talonu'],
       nameNomVsk: 'e-talons',
       nameNomDsk: 'e-taloni',
       nameAkuVsk: 'e-talonu',
@@ -233,7 +233,7 @@ export const itemList = {
       chance: '*',
     },
     zabaks: {
-      ids: ['zabaks', 'lietotszabaks'],
+      ids: ['zabaks', 'zabaku'],
       nameNomVsk: 'lietots zābaks',
       nameNomDsk: 'lietoti zābaki',
       nameAkuVsk: 'lietotu zābaku',
@@ -243,7 +243,7 @@ export const itemList = {
       chance: '*',
     },
     stiklapudele: {
-      ids: ['stiklapudele', 'pudele'],
+      ids: ['pudele', 'pudeli'],
       nameNomVsk: 'stikla pudele',
       nameNomDsk: 'stikla pudeles',
       nameAkuVsk: 'stikla pudeli',
@@ -253,7 +253,7 @@ export const itemList = {
       chance: '*',
     },
     konservi: {
-      ids: ['konservi'],
+      ids: ['konservi', 'konservus'],
       nameNomVsk: 'konservu bundža',
       nameNomDsk: 'konservu bundžas',
       nameAkuVsk: 'konservu bundžu',
@@ -264,7 +264,7 @@ export const itemList = {
     },
 
     kartonakaste: {
-      ids: ['kaste', 'kartonakaste'],
+      ids: ['kaste', 'kartonakaste', 'kasti'],
       nameNomVsk: 'kartona kaste',
       nameNomDsk: 'kartona kastes',
       nameAkuVsk: 'kartona kasti',
@@ -275,7 +275,7 @@ export const itemList = {
     },
 
     oditiscitrus: {
-      ids: ['citrus', 'odekolons', 'odekolonscitrus', 'oditis'],
+      ids: ['citrus', 'odekolons', 'odekolonscitrus', 'oditis', 'odekolonu', 'citrusu'],
       nameNomVsk: 'odekolons "Citrus"',
       nameNomDsk: 'odekoloni "Citrus"',
       nameAkuVsk: 'odekolonu "Citrus"',
@@ -289,7 +289,7 @@ export const itemList = {
       },
     },
     sputnikvakc: {
-      ids: ['vakcina', 'sputnik', 'sputnikvakcina'],
+      ids: ['vakcina', 'sputnik', 'sputnikvakcina', 'vakcinu'],
       nameNomVsk: '"Sputnik V" vakcīna',
       nameNomDsk: '"Sputnik V" vakcīnas',
       nameAkuVsk: '"Sputnik V" vakcīnu',
@@ -304,7 +304,7 @@ export const itemList = {
       },
     },
     whatsapp: { // nozog visu bankas naudu
-      ids: ['whatsapp', 'odekolonswhatsapp', 'vacapaoditis', 'vacaps', 'oditisvacap', 'oditiswhatsapp'],
+      ids: ['whatsapp', 'odekolonswhatsapp', 'vacapaoditis', 'vacaps', 'oditisvacap', 'oditiswhatsapp', 'vacapu'],
       nameNomVsk: 'odekolons "Whatsapp"',
       nameNomDsk: 'odekoloni "Whatsapp"',
       nameAkuVsk: 'odekolonu "Whatsapp"',
@@ -320,11 +320,14 @@ export const itemList = {
         // bota lati
         const banka = await findUser(message.guildId, process.env.ULMANISID)
 
-        const txt = `Tu izdzēri vacapa odīti un kaut kādā veidā nozagi visu bankas naudu: **${floorTwo(banka.lati).toFixed(2)}** latus\n` +
-          `Tev tagad ir **${floorTwo(lati + banka.lati).toFixed(2)}** lati`
+        let stolen = banka.lati
+        if (stolen > 3000) stolen = 3000
 
-        await addLati(guildId, userId, banka.lati)
-        await addLati(guildId, process.env.ULMANISID, banka.lati * -1)
+        const txt = `Tu izdzēri vacapa odīti un apštirījies no bankas nozagi **${floorTwo(stolen).toFixed(2)}** latus\n` +
+          `Tev tagad ir **${floorTwo(lati + stolen).toFixed(2)}** lati`
+
+        await addLati(guildId, userId, stolen)
+        await addLati(guildId, process.env.ULMANISID, stolen * -1)
 
         return txt
       },
@@ -332,7 +335,7 @@ export const itemList = {
   },
   zivis: {
     draudzinzivs: {
-      ids: ['draudzinzivs'],
+      ids: ['draudzinzivs', 'draudzinzivi'],
       nameNomVsk: 'draudziņZivs',
       nameNomDsk: 'draudziņZivis',
       nameAkuVsk: 'draudziņZivi',
@@ -341,7 +344,7 @@ export const itemList = {
       price: 20,
     },
     daundizvs: {
-      ids: ['daunzivs'],
+      ids: ['daunzivs', 'daunzivi'],
       nameNomVsk: 'dauņZivs',
       nameNomDsk: 'dauņZivis',
       nameAkuVsk: 'dauņZivi',
@@ -350,7 +353,7 @@ export const itemList = {
       price: 20,
     },
     dizdraudzinzivs: {
-      ids: ['dizdraudzinzivs'],
+      ids: ['dizdraudzinzivs', 'dizdraudzinzivi'],
       nameNomVsk: 'dižDraudziņZivs',
       nameNomDsk: 'dižDraudziņZivis',
       nameAkuVsk: 'dižDraudziņZivi',
@@ -359,7 +362,7 @@ export const itemList = {
       price: 40,
     },
     dizdaundizvs: {
-      ids: ['dizdaunzivs'],
+      ids: ['dizdaunzivs', 'dizdaunzivi'],
       nameNomVsk: 'dižDauņZivs',
       nameNomDsk: 'dižDauņZivis',
       nameAkuVsk: 'dižDauņZivi',
@@ -368,7 +371,7 @@ export const itemList = {
       price: 40,
     },
     divainazivs: {
-      ids: ['divainazivs'],
+      ids: ['divainazivs', 'divainozivi'],
       nameNomVsk: 'dīvainā zivs',
       nameNomDsk: 'dīvainās zivis',
       nameAkuVsk: 'dīvaino zivi',
@@ -386,7 +389,7 @@ export const itemList = {
       }
     },
     juridiskazivs: {
-      ids: ['juridiskazivs'],
+      ids: ['juridiskazivs', 'juridiskozivi'],
       nameNomVsk: 'juridiskā zivs',
       nameNomDsk: 'juridiskās zivis',
       nameAkuVsk: 'juridisko zivi',
