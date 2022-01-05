@@ -116,7 +116,7 @@ export default (client, message) => {
 
           let time = cmdCooldown
 
-          if (cooldowns[command.title]) {
+          if (cooldowns) if (cooldowns[command.title]) {
             time = Date.now() - parseInt(cooldowns[command.title])
           }
 
