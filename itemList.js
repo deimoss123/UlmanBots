@@ -380,7 +380,7 @@ export const itemList = {
       price: 80,
       use: async message => {
         let st = {}
-        const statusName = Object.keys(statusList)[Math.floor(Math.random() * 6)]
+        const statusName = Object.keys(statusList)[Math.floor(Math.random() * Object.keys(statusList).length)]
         const status = statusList[statusName]
         st[statusName] = status.time / 2
         const result = await addStatus(message.guildId, message.author.id, st)
