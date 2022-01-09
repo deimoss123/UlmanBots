@@ -15,7 +15,8 @@ export const imgLinks = {
 
   kabacis: [
     'https://i.postimg.cc/dQGnG5Tq/kabacis.jpg',
-    'https://i.postimg.cc/G2Vf76p2/kabacis2.jpg'
+    'https://i.postimg.cc/G2Vf76p2/kabacis2.jpg',
+    'https://i.postimg.cc/xdNYKNsp/kabacis3.jpg'
   ],
 
   fenikss: 'https://i.postimg.cc/xdJyG8hd/fenikss-neg.png',
