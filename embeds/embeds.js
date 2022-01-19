@@ -1,10 +1,19 @@
 import { imgLinks } from './imgLinks.js'
 import { getEmoji } from '../reakcijas/atbildes.js'
 import { activeCommands } from '../commands/commandHandler.js'
+import { okddId } from '../index.js'
 
 export const ulmanversija = '3.3.1'
-const footer = `Versija: ${ulmanversija}⠀|⠀Veidotājs: Deimoss#1984`
+
+const footer = guildId => {
+  let footer = `Versija: ${ulmanversija}⠀|⠀Veidotājs: Deimoss#1984`
+  if (guildId !== okddId) footer += '\n➡️ discord.gg/latvia'
+
+  return footer
+}
+
 const footerUrl = 'https://i.postimg.cc/W3fvhpJp/Karlis-Ulmanis.jpg'
+const okddInv = 'https://discord.gg/8dssPHVR3Z'
 
 export const noPing = (description, fields = []) => {
   return {
@@ -42,18 +51,22 @@ export const reakcEmbeds = embedName => {
 }
 
 export const embedTemplate = (message, title, description, imgUrls = null, color = 0x000, imageLarge = null) => {
+  const { guildId } = message
+
   let embed = {
     embeds: [
       {
         title,
+        url: guildId === okddId ? '' : okddInv,
         description,
         color,
         author: {
           name: message.member.displayName,
+          url: okddInv,
           icon_url: message.author.displayAvatarURL({ dynamic: true }),
         },
         footer: {
-          text: footer,
+          text: footer(guildId),
           icon_url: footerUrl
         }
       }],
@@ -190,19 +203,23 @@ export const embedError = (message, name, description) => {
 }
 
 export const embedSaraksts = (message, title, description, fields, imgUrls, color = 0x000) => {
+  const { guildId } = message
+
   let embed = {
     embeds: [
       {
         title,
         description,
         color,
+        url: guildId === okddId ? '' : okddInv,
         author: {
           name: message.member.displayName,
+          url: okddInv,
           icon_url: message.author.displayAvatarURL({ dynamic: true }),
         },
         fields,
         footer: {
-          text: footer,
+          text: footer(guildId),
           icon_url: footerUrl
         }
       }],
