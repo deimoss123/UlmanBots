@@ -1,4 +1,4 @@
-import { chance } from '../../helperFunctions.js'
+import { chance } from '../../../helperFunctions.js'
 
 export const generateSlotiRow = (amount, laimesti) => {
   let obj = {}

@@ -6,7 +6,7 @@ import {
   noPing,
 } from '../../embeds/embeds.js'
 import { addItems, addLati, checkStatus, findUser } from '../../ekonomija.js'
-import izmantot from '../items/izmantot.js'
+import izmantot from './izmantot.js'
 import { getEmoji } from '../../reakcijas/atbildes.js'
 import { okddId } from '../../index.js'
 

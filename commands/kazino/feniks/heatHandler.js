@@ -1,5 +1,5 @@
-import { redisEnabled } from '../../index.js'
-import redis from '../../redis.js'
+import { redisEnabled } from '../../../index.js'
+import redis from '../../../redis.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 

@@ -1,11 +1,11 @@
-import { getEmoji } from '../../reakcijas/atbildes.js'
-import { buttonEmbed, embedError, embedTemplate, noPing } from '../../embeds/embeds.js'
-import { addLati, findUser, addData } from '../../ekonomija.js'
-import { imgLinks } from '../../embeds/imgLinks.js'
-import { generateSlotiRow } from '../feniks/generateSlotiRow.js'
-import { laimesti, testLaimesti } from '../feniks/laimesti.js'
-import { fenkaEmbed } from '../feniks/fenkaEmbeds.js'
-import { getHeat } from '../feniks/heatHandler.js'
+import { getEmoji } from '../../../reakcijas/atbildes.js'
+import { buttonEmbed, embedError, embedTemplate, noPing } from '../../../embeds/embeds.js'
+import { addLati, findUser, addData } from '../../../ekonomija.js'
+import { imgLinks } from '../../../embeds/imgLinks.js'
+import { generateSlotiRow } from './generateSlotiRow.js'
+import { laimesti, testLaimesti } from './laimesti.js'
+import { fenkaEmbed } from './fenkaEmbeds.js'
+import { getHeat } from './heatHandler.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 

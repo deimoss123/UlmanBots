@@ -1,5 +1,5 @@
-import { embedSaraksts } from '../../embeds/embeds.js'
-import { getEmoji } from '../../reakcijas/atbildes.js'
+import { embedSaraksts } from '../../../embeds/embeds.js'
+import { getEmoji } from '../../../reakcijas/atbildes.js'
 
 const spinText = [
   'Griežas',

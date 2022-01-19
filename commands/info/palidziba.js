@@ -22,7 +22,10 @@ export default {
         title: category,
         description: '',
         color: 0x3bdb61,
-        fields: resultArr
+        fields: resultArr,
+        image: {
+          url: 'https://i.stack.imgur.com/Fzh0w.png'
+        }
       })
     })
 

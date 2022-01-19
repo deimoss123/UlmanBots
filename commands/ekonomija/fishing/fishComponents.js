@@ -1,7 +1,7 @@
-import { findItem } from '../../helperFunctions.js'
-import { emojiList } from '../../reakcijas/atbildes.js'
+import { findItem } from '../../../helperFunctions.js'
+import { emojiList } from '../../../reakcijas/atbildes.js'
 import { fishingRodList } from './generateFish.js'
-import { findUser } from '../../ekonomija.js'
+import { findUser } from '../../../ekonomija.js'
 
 let hasAvbRod = false
 

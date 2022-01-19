@@ -10,7 +10,7 @@ import commandHandler from './commands/commandHandler.js'
 import { settingsCache } from './commands/admin/iestatijumi.js'
 import settingsSchema from './schemas/settings-schema.js'
 import redis from './redis.js'
-import { calculateDiscounts } from './commands/items/veikals.js'
+import { calculateDiscounts } from './commands/ekonomija/veikals/veikals.js'
 
 dotenv.config()
 

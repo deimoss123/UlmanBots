@@ -1,7 +1,7 @@
 import { getUserId } from '../../helperFunctions.js'
 import { findUser, getTop } from '../../ekonomija.js'
 import { embedSaraksts, embedTemplate } from '../../embeds/embeds.js'
-import { calcInvValue } from '../items/inventars.js'
+import { calcInvValue } from './inventars.js'
 import { okddId } from '../../index.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }

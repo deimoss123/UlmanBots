@@ -1,5 +1,5 @@
-import { itemList } from '../../itemList.js'
-import { chance, findItem } from '../../helperFunctions.js'
+import { itemList } from '../../../itemList.js'
+import { chance, findItem } from '../../../helperFunctions.js'
 
 export const fishingRodList = {
   makskere: {

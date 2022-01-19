@@ -1,11 +1,11 @@
-import { findItem, stringifyItemsList2, stringifyOne, } from '../../helperFunctions.js'
-import { addItems, addLati, findUser, setFishing } from '../../ekonomija.js'
-import { buttonEmbed, noPing } from '../../embeds/embeds.js'
+import { findItem, stringifyItemsList2, stringifyOne, } from '../../../helperFunctions.js'
+import { addItems, addLati, findUser, setFishing } from '../../../ekonomija.js'
+import { buttonEmbed, noPing } from '../../../embeds/embeds.js'
 import fishEmbed from './fishEmbed.js'
 import fishComponents from './fishComponents.js'
 import generateFish, { fishingRodList } from './generateFish.js'
 import { updateFish } from './fishingHandler.js'
-import { getEmoji } from '../../reakcijas/atbildes.js'
+import { getEmoji } from '../../../reakcijas/atbildes.js'
 
 const dbTemplate = {
   chosenRod: '',

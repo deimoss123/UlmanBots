@@ -1,5 +1,5 @@
-import { findItem, stringifyItemsList, timeToText } from '../../helperFunctions.js'
-import { getEmoji } from '../../reakcijas/atbildes.js'
+import { findItem, stringifyItemsList, timeToText } from '../../../helperFunctions.js'
+import { getEmoji } from '../../../reakcijas/atbildes.js'
 import { fishingRodList } from './generateFish.js'
 
 export default (fishing, items) => {

@@ -1,7 +1,7 @@
 import { findUser, getTop } from '../../ekonomija.js'
 import { embedSaraksts, embedTemplate } from '../../embeds/embeds.js'
 import { latsOrLati } from '../../helperFunctions.js'
-import { calcInvValue } from '../items/inventars.js'
+import { calcInvValue } from './inventars.js'
 import { getEmoji } from '../../reakcijas/atbildes.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
 import { okddId } from '../../index.js'

@@ -10,8 +10,8 @@ import {
   latsOrLati,
   stringifyItemsList2,
 } from '../../helperFunctions.js'
-import izmantot from '../items/izmantot.js'
-import { getDiscounts } from '../items/veikals.js'
+import izmantot from './izmantot.js'
+import { getDiscounts } from './veikals/veikals.js'
 
 const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
