@@ -53,6 +53,11 @@ export default {
         return 2
       }
 
+      if (isNaN(amount)) {
+        message.reply(noPing(`Tu neesi pareizi ievadījis skaitli`))
+        return 2
+      }
+
       const item = findItemById(args[0])
 
       if (!item) {

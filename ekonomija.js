@@ -6,6 +6,7 @@ let userCache = {}
 
 export const findUser = async (guildId, userId) => {
   // meklē lietotāju cache, ja neatrod tad pieprasa datubāzei
+
   if (userCache[`${guildId}-${userId}`]) {
     const result = userCache[`${guildId}-${userId}`]
     if (result.lati > result.data.maxMaksLati) result.data.maxMaksLati = result.lati
@@ -38,6 +39,7 @@ export const findUser = async (guildId, userId) => {
           await new profileSchema(newSchema).save()
           result = JSON.parse(JSON.stringify(newSchema))
         }
+
         if (!result.items) result.items = {}
         if (!result.cooldowns) result.cooldowns = {}
         if (!result.dateCooldowns) result.dateCooldowns = {}
@@ -55,9 +57,11 @@ export const findUser = async (guildId, userId) => {
         if (!Object.keys(result.items).length) result.itemCount = 0
         else {
           result.itemCount = 0
-          Object.keys(result.items).map(item => {
+          for (const item of Object.keys(result.items)) {
+            if (isNaN(result.items[item]) || result.items[item] < 1) delete result.items[item]
+
             result.itemCount += result.items[item]
-          })
+          }
         }
 
         userCache[`${guildId}-${userId}`] = result

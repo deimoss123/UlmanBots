@@ -33,7 +33,7 @@ export default {
   description: 'Nopirkt preci no veikala',
   commands: ['pirkt'],
   cooldown: 0,
-  expectedArgs: '<preces numurs> <daudzums>',
+  expectedArgs: '<preces id> <daudzums>',
   minArgs: 1,
   maxArgs: 2,
   callback: async (message, args, _, _1, item = {}) => {

@@ -7,6 +7,7 @@ import izmantot from './izmantot.js'
 import { emojiList, getEmoji } from '../../reakcijas/atbildes.js'
 import profileSchema from '../../schemas/profile-schema.js'
 import mongo from '../../mongo.js'
+import { okddId } from '../../index.js'
 
 export const calcInvValue = items => {
   let invValue = 0
@@ -61,6 +62,8 @@ export default {
       if (resultId) targetId = resultId
       else return 0
     }
+
+    console.log(await findUser(guildId, targetId))
 
     const { items, itemCap, itemCount } = await findUser(guildId, targetId)
 
