@@ -63,8 +63,6 @@ export default {
       else return 0
     }
 
-    console.log(await findUser(guildId, targetId))
-
     const { items, itemCap, itemCount } = await findUser(guildId, targetId)
 
     // pārbauda vai inventārs nav tukšs
