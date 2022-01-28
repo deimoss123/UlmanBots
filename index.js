@@ -11,6 +11,7 @@ import { settingsCache } from './commands/admin/iestatijumi.js'
 import settingsSchema from './schemas/settings-schema.js'
 import redis from './redis.js'
 import { calculateDiscounts } from './commands/ekonomija/veikals/veikals.js'
+import { getEmojis } from './helperFunctions.js'
 
 dotenv.config()
 
@@ -91,6 +92,8 @@ client.on('ready', async () => {
   })
 
   await client.on('messageCreate', async message => {
+
+    //getEmojis(message.content); return
 
     if (!settingsCache[message.guildId]) {
       await mongo().then(async mongoose => {

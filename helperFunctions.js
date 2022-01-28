@@ -196,3 +196,17 @@ export const findItemById = id => {
   }
 }
 
+export const getEmojis = msgText => {
+  let obj = {}
+
+  const arr = msgText.split('>')
+
+  for (const emoji of arr) {
+    const arr2 = emoji.substring(2).split(':')
+
+    obj[arr2[0]] = arr2[1]
+  }
+
+  console.log(obj)
+}
+

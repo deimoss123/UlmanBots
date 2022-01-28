@@ -27,7 +27,7 @@ export default {
     const guildId = message.guildId
     const userId = message.author.id
 
-    const maxLatiBanka = 1200
+    const maxLatiBanka = 1100
 
     const winCh = 1 -
       zagtChange.nazis.lose.chance

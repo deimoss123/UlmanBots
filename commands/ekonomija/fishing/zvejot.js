@@ -134,7 +134,17 @@ export default {
           fishing.fishCount = 0
 
           if (fishing.rodUsesLeft) {
-            fishing.fish = generateFish(fishing.chosenRod, fishing.rodUsesLeft)
+            const newGeneratedFish = generateFish(fishing.chosenRod, fishing.rodUsesLeft)
+            let nextFish = {}
+
+            if (Object.keys(fishing.fish).length) {
+              const tempFishTime = Object.keys(fishing.fish)[0]
+              nextFish[tempFishTime] = newGeneratedFish[Object.keys(newGeneratedFish)[0]]
+
+              delete newGeneratedFish[Object.keys(newGeneratedFish)[0]]
+            }
+
+            fishing.fish = {...nextFish, ...newGeneratedFish}
           }
 
           fishing = await updateFish(fishing)

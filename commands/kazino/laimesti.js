@@ -1,4 +1,4 @@
-import { generateSlotiRow } from './generateSlotiRow.js'
+import { generateSlotiRow } from './feniks/generateSlotiRow.js'
 
 export const testLaimesti = (laimesti, times) => {
   const totalTimes = times

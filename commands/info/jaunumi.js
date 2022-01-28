@@ -61,7 +61,7 @@ const jaun = {/*
     '**Statistika**\n' +
     '- Jauna komanda `.statistika`\n' +
     '- Katram lietotājam var apskatīties statistiku no savāktajiem datiem',
-    */
+
   '3.3.1':
     '**Fenikss**\n' +
     `- Samazināta feniksa likme no 50 latiem uz 20 latiem\n\n` +
@@ -77,7 +77,16 @@ const jaun = {/*
 
     '**Zagšana**\n' +
     '- Zagšanas limits no bankas palielināts no 750 latiem uz 1200 latiem\n' +
-    '- Whatsapp odekolonam tagad ir limits - maksimāli nozagt no bankas iespējams 3000 latus'
+    '- Whatsapp odekolonam tagad ir limits - maksimāli nozagt no bankas iespējams 3000 latus',
+
+    */
+  '3.3.2':
+    '**UlmaņRulete** (`.rulete`)\n' +
+    `- Jauna naudas ~~dedzināšanas~~ **laimēšanas** sistēma ${getEmoji(['bacha'])}\n` +
+    `- Šodien paveiksies!!! ${getEmoji(['kruts'])}\n\n` +
+
+    `**Zagšana** ${getEmoji(['ulmanis'])} \n` +
+    '- Maksimālais daudzums ko iespējams nozagt no bankas samazināts no 1200 uz 1100 latiem\n'
 }
 
 export default {

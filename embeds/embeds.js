@@ -3,7 +3,7 @@ import { getEmoji } from '../reakcijas/atbildes.js'
 import { activeCommands } from '../commands/commandHandler.js'
 import { okddId } from '../index.js'
 
-export const ulmanversija = '3.3.1'
+export const ulmanversija = '3.3.2'
 
 const footer = guildId => {
   let footer = `Versija: ${ulmanversija}⠀|⠀Veidotājs: Deimoss#1984`

@@ -27,6 +27,7 @@ import jaunumi from './info/jaunumi.js'
 import pabalsts from './ekonomija/pabalsts.js'
 import iestatijumi, { settingsCache } from './admin/iestatijumi.js'
 import statistika from './info/statistika.js'
+import { rulete } from './kazino/rulete/rulete.js'
 
 export const commands = {
   'Informācijai': [
@@ -39,7 +40,7 @@ export const commands = {
     veikals, pirkt, pardot, izmantot, maksat, zagt,
   ],
   'Kazino': [
-    feniks
+    feniks, rulete,
   ],
   'Moderātoriem': [
     iestatijumi, addLati, addItem,

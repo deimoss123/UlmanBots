@@ -3,7 +3,7 @@ import { buttonEmbed, embedError, embedTemplate, noPing } from '../../../embeds/
 import { addLati, findUser, addData } from '../../../ekonomija.js'
 import { imgLinks } from '../../../embeds/imgLinks.js'
 import { generateSlotiRow } from './generateSlotiRow.js'
-import { laimesti, testLaimesti } from './laimesti.js'
+import { laimesti, testLaimesti } from '../laimesti.js'
 import { fenkaEmbed } from './fenkaEmbeds.js'
 import { getHeat } from './heatHandler.js'
 
@@ -11,7 +11,7 @@ const floorTwo = num => { return Math.floor(num * 100) / 100 }
 
 export const feniks = {
   title: 'Fēnikss',
-  description: 'Griezt vienu no Ulmaņa naudas aparātiem',
+  description: 'Griezt Ulmaņa naudas aparātiem',
   commands: ['feniks', 'fenikss', 'fenka', 'aparats', 'griezt'],
   maxArgs: 1,
   callback: async (message, args) => {
@@ -37,7 +37,8 @@ export const feniks = {
       message.reply(embedTemplate(message, '',
         'Lai grieztu aparātu izmanto komandu `.feniks <likme>`\n' +
         `Aparātu var griezt ar jebkādu likmi kas dalās ar 10 (piemēram: 20, 110, 200, 690)\n` +
-        `Minimālā likme: ${minLikme} lati\n\n` +
+        `Minimālā likme: **${minLikme}** lati\n\n` +
+
         'Lai grieztu aparātu ar nejauši izvēlētu likmi izmanto `.feniks virve`\n' +
         'Griezt aparātu ar visu savu naudu - `.feniks viss`\n\n' +
         '**Reizinātāji**\n' +
@@ -77,7 +78,7 @@ export const feniks = {
       return 2
     } else {
       if (lati < likme) {
-        message.reply(embedError(message, 'Fenikss',
+        message.reply(noPing(
           `Tev nepietiek naudas lai grieztu aparātu ar **${likme}** latu likmi\n` +
           `Tev ir **${floorTwo(lati).toFixed(2)}** lati`))
         return 2
