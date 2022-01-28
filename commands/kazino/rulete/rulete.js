@@ -116,7 +116,7 @@ export const rulete = {
     const winNum = generateNum()
     const multiplier = checkWin(pos, winNum.num, winNum.color)
 
-    await addLati(guildId, process.env.ULMANISID, likme * 0.05)
+    //await addLati(guildId, process.env.ULMANISID, likme * 0.05)
     await addLati(guildId, userId, likme * multiplier - likme)
 
     const rand = Math.floor(Math.random() * 100000)
