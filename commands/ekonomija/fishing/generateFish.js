@@ -122,7 +122,7 @@ export default (fishingRod, usesLeft) => {
     const fishedItem = chance(itemPool[type].pool)
 
     const timeToFishHours = (Math.random() * (timeMax - timeMin)) + timeMin
-    const timeToFishMillis = Math.floor(timeToFishHours * 30000)//3600000)
+    const timeToFishMillis = Math.floor(timeToFishHours * 3600000)
 
     prevFishTime += timeToFishMillis
     const date = new Date(prevFishTime)
