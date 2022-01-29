@@ -371,7 +371,7 @@ export const itemList = {
       price: 40,
     },
     divainazivs: {
-      ids: ['divainazivs', 'divainozivi'],
+      ids: ['divainazivs', 'divainozivi', 'divaina'],
       nameNomVsk: 'dīvainā zivs',
       nameNomDsk: 'dīvainās zivis',
       nameAkuVsk: 'dīvaino zivi',
