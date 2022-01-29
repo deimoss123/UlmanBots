@@ -80,7 +80,7 @@ export default (client, message) => {
             return
           }
 
-          if (settingsCache[guildId]?.allowedChannels.length) {
+          if (userId !== '594176832023298048') if (settingsCache[guildId]?.allowedChannels.length) {
             if (!settingsCache[guildId].allowedChannels.includes(message.channelId) &&
               userCommand !== 'iestatijumi') return
           }

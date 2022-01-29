@@ -35,7 +35,7 @@ export const itemList = {
   // preces kas nopērkamas veikalā
   veikals: {
     smiekligaisburkans: {
-      ids: ['burkans'],
+      ids: ['burkans', 'burkanu'],
       nameNomVsk: 'burkāns',
       nameNomDsk: 'burkāni',
       nameAkuVsk: 'burkānu',
