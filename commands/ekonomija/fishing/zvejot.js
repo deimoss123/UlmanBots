@@ -31,6 +31,10 @@ export default {
   commands: ['zvejot', 'makskeret', 'copet', 'cope', 'zveja', 'zivs', 'zive', 'zuvis', 'zivjot'],
   cooldown: 0,
   callback: async message => {
+
+    message.reply(noPing('Zvejošana atslēgta uz nenoteiktu laiku līdz tiks salabots kukainis'))
+    return 2
+
     const { guildId } = message
     const userId = message.author.id
 
