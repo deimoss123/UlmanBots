@@ -71,6 +71,7 @@ export const emojiList = {
   _zemenurasens: '922498308537192470',
   _zabaks: '922498308595929178',
   _whatsapp: 'a927212180661764179',
+  _smiekligaisburkans: 'a937087454513598474',
 
   _draudzinzivs: '922507454741381190',
   _daundizvs: '922507454842019870',

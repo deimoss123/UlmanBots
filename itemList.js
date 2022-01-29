@@ -34,6 +34,18 @@ const floorTwo = num => { return Math.floor(num * 100) / 100 }
 export const itemList = {
   // preces kas nopērkamas veikalā
   veikals: {
+    smiekligaisburkans: {
+      ids: ['burkans'],
+      nameNomVsk: 'burkāns',
+      nameNomDsk: 'burkāni',
+      nameAkuVsk: 'burkānu',
+      nameAkuDsk: 'burkānus',
+      price: 5000,
+      chance: 0,
+      url: '',
+      notRemovedOnUse: true,
+      use: async () => 'Tu nokodies burkānu, **mmmm** bija garšīgs'
+    },
     divainamakskere: {
       ids: ['divainamakskere', 'divainomakskeri'],
       nameNomVsk: 'dīvainā makšķere',
