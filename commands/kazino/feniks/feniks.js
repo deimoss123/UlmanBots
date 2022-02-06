@@ -118,8 +118,30 @@ export const feniks = {
       },
     ]
 
-    const heat = await getHeat(message.guildId, likme)
+    resLati = Math.floor(resLati)
 
+    await addLati(guildId, process.env.ULMANISID, likme * 0.05)
+    await addLati(guildId, userId, resLati - likme)
+
+    let dataUser = {
+      feniksSpend: parseInt(likme),
+      feniksWin: resLati,
+      feniksCount: 1,
+    }
+
+    const { data } = await findUser(guildId, userId)
+
+    if (data.maxFeniksWin <= resLati) {
+      dataUser.maxFeniksWin = `=${resLati}`
+    }
+
+    if (data.maxFeniksLikme <= likme) dataUser.maxFeniksLikme = `=${likme}`
+
+    await addData(guildId, userId, dataUser)
+
+
+
+    const heat = await getHeat(message.guildId, likme)
     const embeds = await fenkaEmbed(message, winRow, resLati, totalMultiplier, likme, [], heat)
     const { title, description, fields } = embeds.embeds[0]
 
@@ -163,26 +185,7 @@ export const feniks = {
         }
       },
     })
-    resLati = Math.floor(resLati)
 
-    await addLati(guildId, process.env.ULMANISID, likme * 0.05)
-    await addLati(guildId, userId, resLati - likme)
-
-    let dataUser = {
-      feniksSpend: parseInt(likme),
-      feniksWin: resLati,
-      feniksCount: 1,
-    }
-
-    const { data } = await findUser(guildId, userId)
-
-    if (data.maxFeniksWin <= resLati) {
-      dataUser.maxFeniksWin = `=${resLati}`
-    }
-
-    if (data.maxFeniksLikme <= likme) dataUser.maxFeniksLikme = `=${likme}`
-
-    await addData(guildId, userId, dataUser)
     return 1
   },
 }
