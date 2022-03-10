@@ -77,6 +77,7 @@ client.on('ready', async () => {
     console.log('REDIS DISABLED!')
   }
 
+  /*
   client.on('guildMemberAdd', async member => {
     if (member.guild.id === okddId) {
       const okddRoles = ['797820158709727243', '797820498713116702']
@@ -90,6 +91,7 @@ client.on('ready', async () => {
       }
     }
   })
+  */
 
   await client.on('messageCreate', async message => {
 
