@@ -4,14 +4,11 @@ import dotenv from 'dotenv'
 import mongo from './mongo.js'
 
 import { reakcijas } from './reakcijas/reakcijas.js'
-
 import commandHandler from './commands/commandHandler.js'
-
 import { settingsCache } from './commands/admin/iestatijumi.js'
 import settingsSchema from './schemas/settings-schema.js'
 import redis from './redis.js'
 import { calculateDiscounts } from './commands/ekonomija/veikals/veikals.js'
-import { getEmojis } from './helperFunctions.js'
 
 dotenv.config()
 
@@ -25,6 +22,7 @@ const client = new Client({
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MEMBERS,
     Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS
   ],
 })
 
@@ -44,6 +42,17 @@ const checkPerms = msg => {
   const res = msg.guild.me.permissionsIn(msg.channel).has(perms)
   //console.log(res)
   return res
+}
+
+const mobings = async msg => {
+  const perms = [Permissions.FLAGS.ADD_REACTIONS]
+  if (!msg.guild.me.permissionsIn(msg.channel).has(perms)) return
+
+  const henrijsId = '571398169359810562'
+
+  if (msg.author.id === henrijsId && msg.guildId === okddId) {
+    await msg.react('🏳️‍🌈')
+  }
 }
 
 // galvenais kods
@@ -95,7 +104,7 @@ client.on('ready', async () => {
 
   await client.on('messageCreate', async message => {
 
-    //getEmojis(message.content); return
+    await mobings(message)
 
     if (!settingsCache[message.guildId]) {
       await mongo().then(async mongoose => {
