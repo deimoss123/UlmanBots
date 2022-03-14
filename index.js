@@ -104,7 +104,7 @@ client.on('ready', async () => {
 
   await client.on('messageCreate', async message => {
 
-    await mobings(message)
+    //await mobings(message)
 
     if (!settingsCache[message.guildId]) {
       await mongo().then(async mongoose => {
