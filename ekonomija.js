@@ -27,7 +27,7 @@ export const findUser = async (guildId, userId) => {
             guildId,
             userId,
             lati: 0,
-            itemCap: 100,
+            itemCap: 125,
             itemCount: 0,
             items: {},
             fishing: {},
@@ -46,7 +46,9 @@ export const findUser = async (guildId, userId) => {
         if (!result.status) result.status = {}
         if (!result.fishing) result.fishing = {}
         if (!result.data) result.data = {}
-
+        
+        result.itemCap = 125
+        
         result.data.maxFeniksWin ||= 0
         result.data.maxFeniksLikme ||= 0
 
