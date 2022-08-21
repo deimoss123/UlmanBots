@@ -1,5 +1,5 @@
 import { addLati, addStatus, findUser } from './ekonomija.js'
-import { chance, timeToText } from './helperFunctions.js'
+import { chance, latsOrLati, timeToText } from './helperFunctions.js'
 
 /*
 template objekts priekš kopēšanas
@@ -29,7 +29,9 @@ name: {
 
 // es ienīstu latviešu valodu
 
-const floorTwo = num => { return Math.floor(num * 100) / 100 }
+const floorTwo = (num) => {
+  return Math.floor(num * 100) / 100
+}
 
 export const itemList = {
   // preces kas nopērkamas veikalā
@@ -44,7 +46,7 @@ export const itemList = {
       chance: 0,
       url: '',
       notRemovedOnUse: true,
-      use: async () => 'Tu nokodies burkānu, **mmmm** bija garšīgs'
+      use: async () => 'Tu nokodies burkānu, **mmmm** bija garšīgs',
     },
     divainamakskere: {
       ids: ['divainamakskere', 'divainomakskeri'],
@@ -56,7 +58,7 @@ export const itemList = {
       chance: 0,
       url: 'https://i.postimg.cc/B603PZG6/makskere.jpg',
       notRemovedOnUse: true,
-      use: async () => 'Lai izmantotu makšķeri lieto komandu `.zvejot`'
+      use: async () => 'Lai izmantotu makšķeri lieto komandu `.zvejot`',
     },
     mullermilch: {
       ids: ['mullermilch', 'muller', 'mullerpiens'],
@@ -68,10 +70,13 @@ export const itemList = {
       chance: 0.01,
       url: 'https://i.postimg.cc/QtJ3QLXq/mullermilch.jpg',
       use: async (message) => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { aizsardziba: statusList.aizsardziba.time })
+        const result = await addStatus(message.guildId, message.author.id, {
+          aizsardziba: statusList.aizsardziba.time,
+        })
         return `Tu izdzēri mullermilch, tavi kauli palika daudz stiprāki\nTu esi aizsargāts no zagšanas **${timeToText(
-          result.aizsardziba - Date.now(), 2)}**`
+          result.aizsardziba - Date.now(),
+          2
+        )}**`
       },
     },
     dizloto: {
@@ -84,38 +89,42 @@ export const itemList = {
       price: 150,
       chance: 0,
       url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
-      use: async message => {
+      use: async (message) => {
         const laimesti = {
           massive: {
             name: 'milzīgo',
             chance: 0.01,
-            reward: 4000
+            reward: 4000,
           },
           big: {
             name: 'lielo',
             chance: 0.1,
-            reward: 800
+            reward: 800,
           },
           mid: {
             name: 'vidējo',
             chance: 0.2,
-            reward: 400
+            reward: 400,
           },
           small: {
             name: 'mazo',
             chance: 0.45,
-            reward: 175
+            reward: 175,
           },
           nothing: {
             name: 'neko',
             chance: '*',
-            reward: 0
-          }
+            reward: 0,
+          },
         }
         const res = chance(laimesti)
 
         if (laimesti[res].name !== 'neko') {
-          await addLati(message.guildId, message.author.id, laimesti[res].reward)
+          await addLati(
+            message.guildId,
+            message.author.id,
+            laimesti[res].reward
+          )
           return `Tu vinnēji ${laimesti[res].name} laimestu - **${laimesti[res].reward}** latus`
         } else {
           return `Tu neko nevinnēji :(`
@@ -131,11 +140,17 @@ export const itemList = {
       price: 125,
       chance: 0.05,
       url: 'https://i.postimg.cc/3NrH9LNQ/nazis.jpg',
-      use: async message => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { laupitajs: statusList.laupitajs.time })
-        return `Tu izvilki nazi un agresīvi sāki skatīties uz garāmgājējiem\n` +
-          `Tavai zagšanai ir palielināta efektivitāte **${timeToText(result.laupitajs - Date.now(), 2)}**`
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id, {
+          laupitajs: statusList.laupitajs.time,
+        })
+        return (
+          `Tu izvilki nazi un agresīvi sāki skatīties uz garāmgājējiem\n` +
+          `Tavai zagšanai ir palielināta efektivitāte **${timeToText(
+            result.laupitajs - Date.now(),
+            2
+          )}**`
+        )
       },
     },
     makskere: {
@@ -148,7 +163,7 @@ export const itemList = {
       chance: 0,
       url: 'https://i.postimg.cc/B603PZG6/makskere.jpg',
       notRemovedOnUse: true,
-      use: async () => 'Lai izmantotu makšķeri lieto komandu `.zvejot`'
+      use: async () => 'Lai izmantotu makšķeri lieto komandu `.zvejot`',
     },
     zemenurasens: {
       ids: ['rasens', 'zemenurasens', 'rasenu', 'zemenurasenu'],
@@ -159,11 +174,17 @@ export const itemList = {
       price: 75,
       chance: '*',
       url: 'https://i.postimg.cc/bYLPdjVy/zemenurasens.jpg',
-      use: async message => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { aizsardziba: 3600000 })
-        return `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\n` +
-          `Tu esi aizsargāts no zagšanas **${timeToText(result.aizsardziba - Date.now(), 2)}**`
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id, {
+          aizsardziba: 3600000,
+        })
+        return (
+          `Tu izdzēri zemeņu Rāsēnu, tavi kauli palika nedaudz stiprāki\n` +
+          `Tu esi aizsargāts no zagšanas **${timeToText(
+            result.aizsardziba - Date.now(),
+            2
+          )}**`
+        )
       },
     },
     latloto: {
@@ -176,42 +197,67 @@ export const itemList = {
       disableDiscount: true,
       chance: '*',
       url: 'https://i.postimg.cc/SK8qK233/latloto.jpg',
-      use: async message => {
+      use: async (message) => {
         const laimesti = {
           massive: {
             name: 'milzīgo',
             chance: 0.01,
-            reward: 1000
+            reward: 1000,
           },
           big: {
             name: 'lielo',
             chance: 0.1,
-            reward: 250
+            reward: 250,
           },
           mid: {
             name: 'vidējo',
             chance: 0.25,
-            reward: 120
+            reward: 120,
           },
           small: {
             name: 'mazo',
             chance: 0.5,
-            reward: 50
+            reward: 50,
           },
           nothing: {
             name: 'neko',
             chance: '*',
-            reward: 0
-          }
+            reward: 0,
+          },
         }
         const res = chance(laimesti)
 
         if (laimesti[res].name !== 'neko') {
-          await addLati(message.guildId, message.author.id, laimesti[res].reward)
+          await addLati(
+            message.guildId,
+            message.author.id,
+            laimesti[res].reward
+          )
           return `Tu vinnēji ${laimesti[res].name} laimestu - **${laimesti[res].reward}** latus`
         } else {
           return `Tu neko nevinnēji :(`
         }
+      },
+    },
+    cigaretes: {
+      ids: ['cigaretes', 'cigarete', 'cigateti', 'cigas', 'ciga', 'cigu'],
+      nameNomVsk: 'WhatsApp cigaretes',
+      nameNomDsk: 'Whatsapp cigaretes',
+      nameAkuVsk: 'Whatsapp cigaretes',
+      nameAkuDsk: 'WhatsApp cigaretes',
+      price: 35,
+      chance: 0,
+      url: '',
+      use: async (message) => {
+        const max = 100
+        const min = 50
+
+        const lati = Math.floor((Math.random() * (max - min) + min) * 100) / 100
+        await addLati(message.guildId, message.author.id, -lati)
+        return (
+          'Tu izkurīji cīgu un dabūji plaušu vēzi\n' +
+          `Slimnīcas rēķins: **${lati}** lati`
+        )
       },
     },
     virve: {
@@ -223,9 +269,12 @@ export const itemList = {
       price: 10,
       chance: '*',
       url: 'https://i.postimg.cc/zvdYQnHb/virve.jpg',
-      use: async message => {
+      use: async (message) => {
         const { lati } = await findUser(message.guildId, message.author.id)
-        if (lati < 0) return `Tu nevari pakārties, tev ir nesamaksāts parāds ${floorTwo(lati * -1).toFixed(2)} latu apmērā`
+        if (lati < 0)
+          return `Tu nevari pakārties, tev ir nesamaksāts parāds ${floorTwo(
+            lati * -1
+          ).toFixed(2)} latu apmērā`
         await addLati(message.guildId, message.author.id, lati * -1)
         return `Tu pakāries un pazaudēji visu savu naudu`
       },
@@ -287,7 +336,14 @@ export const itemList = {
     },
 
     oditiscitrus: {
-      ids: ['citrus', 'odekolons', 'odekolonscitrus', 'oditis', 'odekolonu', 'citrusu'],
+      ids: [
+        'citrus',
+        'odekolons',
+        'odekolonscitrus',
+        'oditis',
+        'odekolonu',
+        'citrusu',
+      ],
       nameNomVsk: 'odekolons "Citrus"',
       nameNomDsk: 'odekoloni "Citrus"',
       nameAkuVsk: 'odekolonu "Citrus"',
@@ -295,9 +351,11 @@ export const itemList = {
       price: 5,
       chance: 0.1,
       notRemovedOnUse: true,
-      use: async message => {
-        return 'Odekolonu var izmantot lai iegūtu papildus bomžošanas reizes ' +
+      use: async (message) => {
+        return (
+          'Odekolonu var izmantot lai iegūtu papildus bomžošanas reizes ' +
           'vai pārdot bomžojot izmantojot pogu `Tirgot odekolonu "Citrus"`'
+        )
       },
     },
     sputnikvakc: {
@@ -308,22 +366,34 @@ export const itemList = {
       nameAkuDsk: '"Sputnik V" vakcīnas',
       price: 20,
       chance: 0.1,
-      use: async message => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { vakcinets: statusList.vakcinets.time })
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id, {
+          vakcinets: statusList.vakcinets.time,
+        })
         return `Tu sev iedūri okupantu šļirci un kļuvi vakcinēts\nTu vari strādāt veikalā **${timeToText(
-          result.vakcinets - Date.now(), 2)}**`
+          result.vakcinets - Date.now(),
+          2
+        )}**`
       },
     },
-    whatsapp: { // nozog visu bankas naudu
-      ids: ['whatsapp', 'odekolonswhatsapp', 'vacapaoditis', 'vacaps', 'oditisvacap', 'oditiswhatsapp', 'vacapu'],
+    whatsapp: {
+      // nozog visu bankas naudu
+      ids: [
+        'whatsapp',
+        'odekolonswhatsapp',
+        'vacapaoditis',
+        'vacaps',
+        'oditisvacap',
+        'oditiswhatsapp',
+        'vacapu',
+      ],
       nameNomVsk: 'odekolons "Whatsapp"',
       nameNomDsk: 'odekoloni "Whatsapp"',
       nameAkuVsk: 'odekolonu "Whatsapp"',
       nameAkuDsk: 'odekolonus "Whatsapp"',
       price: 100,
       chance: 0.005,
-      use: async message => {
+      use: async (message) => {
         const { guildId } = message
         const userId = message.author.id
 
@@ -335,7 +405,10 @@ export const itemList = {
         let stolen = banka.lati
         if (stolen > 3000) stolen = 3000
 
-        const txt = `Tu izdzēri vacapa odīti un apštirījies no bankas nozagi **${floorTwo(stolen).toFixed(2)}** latus\n` +
+        const txt =
+          `Tu izdzēri vacapa odīti un apštirījies no bankas nozagi **${floorTwo(
+            stolen
+          ).toFixed(2)}** latus\n` +
           `Tev tagad ir **${floorTwo(lati + stolen).toFixed(2)}** lati`
 
         await addLati(guildId, userId, stolen)
@@ -388,17 +461,26 @@ export const itemList = {
       nameNomDsk: 'dīvainās zivis',
       nameAkuVsk: 'dīvaino zivi',
       nameAkuDsk: 'dīvainās zivis',
-      description: 'Šī zivs iedod nejauši izvēlētu statusu to apēdot (izmantojot)',
+      description:
+        'Šī zivs iedod nejauši izvēlētu statusu to apēdot (izmantojot)',
       price: 80,
-      use: async message => {
+      use: async (message) => {
         let st = {}
-        const statusName = Object.keys(statusList)[Math.floor(Math.random() * Object.keys(statusList).length)]
+        const statusName =
+          Object.keys(statusList)[
+            Math.floor(Math.random() * Object.keys(statusList).length)
+          ]
         const status = statusList[statusName]
         st[statusName] = status.time / 2
         const result = await addStatus(message.guildId, message.author.id, st)
-        return `Tu apēdi dīvaino zivi un nejauši ieguvi "${status.name.toLowerCase()}" statusu\n` +
-          `Tu tagad esi ${status.name.toLowerCase()} **${timeToText(result[statusName]  - Date.now(), 2)}**`
-      }
+        return (
+          `Tu apēdi dīvaino zivi un nejauši ieguvi "${status.name.toLowerCase()}" statusu\n` +
+          `Tu tagad esi ${status.name.toLowerCase()} **${timeToText(
+            result[statusName] - Date.now(),
+            2
+          )}**`
+        )
+      },
     },
     juridiskazivs: {
       ids: ['juridiskazivs', 'juridiskozivi'],
@@ -406,14 +488,18 @@ export const itemList = {
       nameNomDsk: 'juridiskās zivis',
       nameAkuVsk: 'juridisko zivi',
       nameAkuDsk: 'juridiskās zivis',
-      description: 'Apēdot (izmantojot) juridisko zivi tu iegūsti "Juridiska persona" statusu uz 7 dienām\n' +
+      description:
+        'Apēdot (izmantojot) juridisko zivi tu iegūsti "Juridiska persona" statusu uz 7 dienām\n' +
         'Ar "Juridiska persona" statusu tev nav jāmaksā nodokļi pārskaitot naudu citiem lietotājiem',
       price: 80,
-      use: async message => {
-        const result = await addStatus(message.guildId, message.author.id,
-          { juridisks: statusList.juridisks.time })
+      use: async (message) => {
+        const result = await addStatus(message.guildId, message.author.id, {
+          juridisks: statusList.juridisks.time,
+        })
         return `Tu apēdi juridisko zivi un sajuties juridisks\nTu esi atvieglināts no nodokļiem **${timeToText(
-          result.juridisks - Date.now(), 2)}**`
+          result.juridisks - Date.now(),
+          2
+        )}**`
       },
     },
   },
@@ -424,28 +510,32 @@ export const itemList = {
 export const statusList = {
   aizsardziba: {
     name: 'Aizsargāts',
-    description: 'Aizsardzība pret zagšanu. ' +
+    description:
+      'Aizsardzība pret zagšanu. ' +
       'Statusu iespējams iegūt no Mullermilch - **24h** un zemeņu rāsēna - **1h**. ' +
       'Abus var nopirkt veikalā (`.veikals`)',
     time: 86400000, // 24h 86400000
   },
   laupitajs: {
     name: 'Laupītājs',
-    description: 'Palielināti zagšanas procenti. ' +
+    description:
+      'Palielināti zagšanas procenti. ' +
       'Statusu var iegūt no naža - **1h**, kas nopērkams veikalā (`.veikals`). ' +
       'Zagšanas procentus var apskatīt ar komandu `.zagt`',
     time: 3600000, // 1h 3600000
   },
   vakcinets: {
     name: 'Vakcinēts',
-    description: 'Ļauj strādāt veikalā (`.strādāt`). ' +
+    description:
+      'Ļauj strādāt veikalā (`.strādāt`). ' +
       'Statusu iegūst no "Sputnik V" vakcīnas - **36h**' +
       'Vakcīnu var iegūt no bomžošanas (meklēt atkritumus)',
     time: 43200000, // 36h 43200000
   },
   juridisks: {
     name: 'Juridiska persona',
-    description: 'Kļūsti par juridisku personu un nemaksā naudas pārskaitīšanas nodokli. ' +
+    description:
+      'Kļūsti par juridisku personu un nemaksā naudas pārskaitīšanas nodokli. ' +
       'Statusu iegūst no juridiskās zivs - **7d**, kuru var nozvejot (`.zvejot`)',
     time: 604800000, // 7d
   },

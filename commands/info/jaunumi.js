@@ -2,7 +2,8 @@ import { embedSaraksts } from '../../embeds/embeds.js'
 import { imgLinks } from '../../embeds/imgLinks.js'
 import { getEmoji } from '../../reakcijas/atbildes.js'
 
-const jaun = {/*
+const jaun = {
+  /*
   '3.1.1':
     '- `.jaunumi`' + `komanda UlmaņBota ${getEmoji(['ulmanis'])} jaunumiem\n` +
     '- `.feniks viss`' + `, griezt visu naudu aparātā ${getEmoji(['izbrinits'])}\n` +
@@ -82,11 +83,15 @@ const jaun = {/*
     */
   '3.3.2':
     '**UlmaņRulete** (`.rulete`)\n' +
-    `- Jauna naudas ~~dedzināšanas~~ **laimēšanas** sistēma ${getEmoji(['bacha'])}\n` +
+    `- Jauna naudas ~~dedzināšanas~~ **laimēšanas** sistēma ${getEmoji([
+      'bacha',
+    ])}\n` +
     `- Šodien paveiksies!!! ${getEmoji(['kruts'])}\n\n` +
-
     `**Zagšana** ${getEmoji(['ulmanis'])} \n` +
-    '- Maksimālais daudzums ko iespējams nozagt no bankas samazināts no 1200 uz 1100 latiem\n'
+    '- Maksimālais daudzums ko iespējams nozagt no bankas samazināts no 1200 uz 1100 latiem\n',
+  '3.3.3':
+    `- Pievienotas ${getEmoji(['_cigaretes'])} WhatsApp cigaretes\n` +
+    '- Nopērkamas veikalā pa **70** latiem',
 }
 
 export default {
@@ -94,9 +99,8 @@ export default {
   description: 'Apskatīt jaunumus UlmaņBota versijās',
   commands: ['jaunumi', 'kasjauns'],
   cooldown: 0,
-  callback: message => {
-
-    const resultArr = Object.keys(jaun).map(versija => {
+  callback: (message) => {
+    const resultArr = Object.keys(jaun).map((versija) => {
       return {
         name: versija,
         value: jaun[versija],
@@ -104,7 +108,15 @@ export default {
     })
 
     message.reply(
-      embedSaraksts(message, 'Jaunumi', 'Kas jauns UlmaņBota versijās', resultArr, '', 0x004659))
+      embedSaraksts(
+        message,
+        'Jaunumi',
+        'Kas jauns UlmaņBota versijās',
+        resultArr,
+        '',
+        0x004659
+      )
+    )
     return 1
   },
 }

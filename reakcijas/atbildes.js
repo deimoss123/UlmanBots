@@ -30,7 +30,7 @@ export const emojiList = {
   noslepumains: '894250303182999572',
   sigma: '894250303166218240',
   dizlatv: '894250303149461514',
-  '1984': '894250303132696626',
+  1984: '894250303132696626',
   zivs: '894250303094947900',
   neapmierinats: '894250303086530560',
   velns: '894250303027810325',
@@ -40,7 +40,7 @@ export const emojiList = {
   depresija: '894250302948139058',
   uldons: '894250302918783007',
   izbrinits: '894250302914592788',
-  '876': '894250302889414697',
+  876: '894250302889414697',
   varde: '894250302868443169',
   ulmanis: '894250302839066624',
   bedigs: '894250302830682163',
@@ -53,7 +53,6 @@ export const emojiList = {
   levits: 'a895312716242235422',
   petnieks: 'a911599720928002059',
   fenka1: 'a917087131128700988',
-
 
   _dizloto: '922498308210032690',
   _etalons: '922498308587524137',
@@ -72,6 +71,7 @@ export const emojiList = {
   _zabaks: '922498308595929178',
   _whatsapp: 'a927212180661764179',
   _smiekligaisburkans: 'a937087454513598474',
+  _cigaretes: '1011007876833235034',
 
   _draudzinzivs: '922507454741381190',
   _daundizvs: '922507454842019870',
@@ -81,9 +81,8 @@ export const emojiList = {
   _divainazivs: 'a927210108654587905',
 }
 
-
-export const getEmoji = arr => {
-  return arr.map(emoji => {
+export const getEmoji = (arr) => {
+  return arr.map((emoji) => {
     if (!emojiList[emoji]) return ''
 
     if (emojiList[emoji].startsWith('a'))
@@ -94,7 +93,6 @@ export const getEmoji = arr => {
 
 // smieklīgās atbildes uz smieklīgo tekstu
 export const atbildes = {
-
   // ulmaņa atbildes uz jautājumiem
   jaut: {
     atb: [
@@ -108,7 +106,7 @@ export const atbildes = {
       'Netraucē man veikt apvērsumu',
       'Balstīts jautājums',
       'Galīgi nav balstīts jautājums',
-      'Es ienīstu krievus'
+      'Es ienīstu krievus',
     ],
   },
 
@@ -125,7 +123,7 @@ export const atbildes = {
   // neiesaku šito lasīt ja esi mentāli stabils cilvēks
   sieviete: {
     atb: [
-      'Pieniņš\:baby_bottle:pieniņš\:milk:silts\:fire:un garšīgs\:tongue:mammīt\:girl:pabaro mani\:stuck_out_tongue:fiksi!\:tired_face:Es gribu pieniņu\:milk:no mammas pupiem!\:coconut:\:coconut:Es gribu mammas un ne citu!\:rage:Dod!\:stuck_out_tongue:Dod!\:star_struck:Dod tagad!\:heart_eyes:Dod pieniņu\:milk:tu, govs!\:cow2:Ja nedosi\:scream:Es kliegšu\:tired_face: un bļaušu!\:triumph:Īdēšu\:confounded:un čīkstēšu\:sob:un dusmošos!<:neapmierinats:844856934732791858>',
+      'Pieniņš:baby_bottle:pieniņš:milk:silts:fire:un garšīgs:tongue:mammīt:girl:pabaro mani:stuck_out_tongue:fiksi!:tired_face:Es gribu pieniņu:milk:no mammas pupiem!:coconut::coconut:Es gribu mammas un ne citu!:rage:Dod!:stuck_out_tongue:Dod!:star_struck:Dod tagad!:heart_eyes:Dod pieniņu:milk:tu, govs!:cow2:Ja nedosi:scream:Es kliegšu:tired_face: un bļaušu!:triumph:Īdēšu:confounded:un čīkstēšu:sob:un dusmošos!<:neapmierinats:844856934732791858>',
       'Sveiki kuce, jauki pupi ahahahahah pienaini pienaini pienaini bērniņi izslāpuši māmiņbērni grib pienu zīst sūkāt sūkāt sūkāt suha hahahaha stulba pizda dod man tos lielos tesmeņus tu slampa hahahaha krūtis zīle pupi man tavs alu cilvēks man izmantot lielos pupus lielai bitty Honk Honk pienains mazulis vēlas vairāk tagad Honk Honk Honk Pitter Patter uz tiem lielajiem mammām milkies hee hee hee haha haaaa haaaa nevar apturēt piena mašīnu, kas nāk caur honk honk visiem klāja pupu vilciens hee hee woop wooooooo honk honk honk',
       'Labvakar, vai es, sieviešu atbalstošs feminists, varētu saņemt no jums bildi ar vismaz vienu jūsu krūti, mana karaliene? Ja jums šķiet, ka es neesmu piemērots vīrietis un ja šis lūgums jūs traucē, lūdzu, informējiet mani. Jūs, mana karaliene, esat pelnījuši jebkura vīrieša vislielāko cieņu. Tomēr šķiet, ka daudzi no mana dzimuma seksualizē sievietes un uzskata viņas par seksa rotaļlietām. Tomēr, mana karaliene, es nepiekrītu šiem uzskatiem. Drīzāk es vērtēju sieviešu dzimumu kā augstāko, un es, cienījams vīrietis, lūdzu no jūsu ķermeņa apskatīt izolētu, vienu krūti. Es gaidu jūsu atbildi, mana karaliene.',
       'pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk pupu vilciens hee hee woop wooooooo honk honk honk',
@@ -133,46 +131,28 @@ export const atbildes = {
   },
 
   dibens: {
-    text: [
-      'dibens',
-      'dupsis',
-      'pupi',
-      'krutis'
-    ],
+    text: ['dibens', 'dupsis', 'pupi', 'krutis'],
     atb: [
       'Vai esat kādreiz redzējuši dievīgu dibenu? Kratās jūsu sirdspukstu ritmā dibenu?  Dibens, kas kaunina visus pārējos dibenus?  Tik labs dibens, kas liek atcerēties visus bēdīgos sūdus, ko darījāt jaunībā, un liek aizdomāties, kad kļuvāt par tādu neveiksminieku?  Dibens, kas ir tik labs, ka tu aizmirsti kļūt uzbudināts, jo biji satriekts par šo dibenu?  Tikko redzēju vienu.  Un ļaujiet man jums pateikt, tas bija jauks dupsis.',
       'Pupi, pupi, pupi ... tas ir viss, par ko puiši domā šajās dienās. Viņi ir idioti.  Parādiet man krūšu vīru, un es jums parādīšu bezsmadzeņu, bez klases pirkstu vilcēju, kurš neko nezina par daiļā dzimuma pārstāvi.  Es nesaprotu;  jūs nevarat izmērīt labu sievieti, vienkārši pamīcot krūtis ... ... Redziet, ja jūs esat apgaismots kā es, tad jūs zināt, ka īstais šovs ir zemāk: dibentiņš, mazulīt!  Tur tas ir!  Nekas nepārspēj aizmuguri, mans draugs.  Ikviens, kurš to neredz, ir akls vai muļķis.  Tāpēc es saku pietiek ar šo masu krūšu histēriju.  Ir pienācis laiks sakārtot lietas.  Ir pienācis laiks dot dupsim cieņu, ko tas ir pelnījis!',
       'Tās līdzības. Cilvēces attīstība. Krūšu un dibena līdzības.\n' +
-      'Kad mēs gājām četrrāpus, mūsu priekšā bija viena lieta, dibens. Tad no brīža, kad cilvēce sāka staigāt uz divām kājām, mēs pārstājām redzēt dibenu mūsu sejās. Un viņu vietā pupi parādījās tieši mūsu sejās. Sievietes palielināja krūtis, lai ieņemtu dibena vietu. ORIĢINĀLAIS DZĪVES AVOTS IR DIBENS! Krūtis ir tikai aizstājējs. Krūtis nav nekas cits kā bāla dibena imitācija! Ja jūs jautātu, vai man labāk būtu kopija vai oriģināls, es ņemtu oriģinālu! Gurni un dibens norāda uz auglību! Krūtis evolūcijas procesa dēļ izvirzās uz priekšu, turot dibenu tālāk uz aizmuguri paslēptu!\n' +
-      '\n' +
-      'TĀPĒC ES ESMU DIBENA VĪRIETIS!',
-    ]
+        'Kad mēs gājām četrrāpus, mūsu priekšā bija viena lieta, dibens. Tad no brīža, kad cilvēce sāka staigāt uz divām kājām, mēs pārstājām redzēt dibenu mūsu sejās. Un viņu vietā pupi parādījās tieši mūsu sejās. Sievietes palielināja krūtis, lai ieņemtu dibena vietu. ORIĢINĀLAIS DZĪVES AVOTS IR DIBENS! Krūtis ir tikai aizstājējs. Krūtis nav nekas cits kā bāla dibena imitācija! Ja jūs jautātu, vai man labāk būtu kopija vai oriģināls, es ņemtu oriģinālu! Gurni un dibens norāda uz auglību! Krūtis evolūcijas procesa dēļ izvirzās uz priekšu, turot dibenu tālāk uz aizmuguri paslēptu!\n' +
+        '\n' +
+        'TĀPĒC ES ESMU DIBENA VĪRIETIS!',
+    ],
   },
 
   piens: {
-    text: [
-      'piens',
-      'pienu',
-      'pienins',
-      'pieninu',
-      'rasens',
-      'mullermilch'
-    ],
+    text: ['piens', 'pienu', 'pienins', 'pieninu', 'rasens', 'mullermilch'],
     atb: [
       'Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛Pieniņš🍼pieniņš🥛',
       'Sāksim ar to, ka sākumā jāsaprot, kas tad īsti ir piens. Te runa nav par veikala pasterizēto "pienu". Tas NAV piens. Piens satur ne tikai to balto šļuru, kas saķep kopā rūgulī, bet arī visas jaukās baktērijas, kas pasterizācijas procesā vienkārši iznīkst. Piens ir biosfēra. Katrai gotiņai ir sava piena struktūra. Protams, es atbalstu Latvijas Brūnas gotiņas nevis kaut kādus Vācijas vatusus. Latvijas Brūnās ir pielāgotas tieši Latvijas klimatam. Tās te ir dzīvojušas gadsimtiem ilgi. Pie reizes latvieši ir pieraduši pie svaigi slaukta Latvijas Brūno gotiņu piena nevis pie kaut kāda Polijas pasterizētā "piena". Ko Jūs vispār dzerat? Vai tas maz vēl ir piens? Vai sajaukts piena pulveris Jums arī būtu piens? Piens nāk no zīdītāja nevis no katla. Es personīgi visu laiku savu pienu pērku no lauciniekiem, kas atbrauc uz Rīgu vienā stāvlaukumā trešdienu un sestdienu pēcpusdienās. Es zinu, ko es pērku. Es zinu, ko es dzeru. Jā, piens sabojājas pēc 2-5 dienām. Tā tam vajadzētu būt. Es dzeru īstu pienu, atbalstu Latvijas biznesu, nemoku ārzemju gotiņas lielajās slauktuvēs, atkārtoti izmantoju piena kanniņu, jo piens ir izlejams, un maksāju tikai 80 centus litrā. Es te skatos, kā mana mazā māsa no skolas atnes mājās skolā dalītās piena paciņas - viņa noliek ledusskapī, a piens nostāv pusgadu, un nekas nenotiek. Jūs ko gribat teikt, ka tas ir kaut kas veselīgs? Ka tas ir kaut kas dzīvs? Kaut kas bioloģisks? Varēji vitamīnus rīt nevis mānīt sevi ar veselīgu uzturu. Bet, nē - tūlīt kāds jau rakstīs: "Valt, ko tu pīpē?" Ko Jūs pīpējat? Jums makdonalda burgerītis arī skaitās veselīgs ēdiens? Siers nekad nesabojājas - tur pat nekas nevar iedzīvoties. Labi, jā, es par visu šo pārspīlēju, bet padomājiet tak, ko Jūs ēdat. Vai tas maz ir kaut kas ēdams? Jā, cauri ķermenim iziet, bet vai pie šāda dzīves stila mūsu ķermeņi ir gadu tūkstošos pieraduši? Centīsimies tomēr būt prātīgi un veselīgi un nepārtikt tikai no pārstrādātiem produktiem.',
-
-    ]
+    ],
   },
 
   // ulmaņa atbildes kādam pieminot martinsonu
   martinsons: {
-    text: [
-      'martinsons',
-      'lenkinsons',
-      'martinsonas',
-      'lenkinsonas',
-    ],
+    text: ['martinsons', 'lenkinsons', 'martinsonas', 'lenkinsonas'],
     atb: [
       'martinsons kaka',
       'martisonas lenkas',
@@ -183,12 +163,7 @@ export const atbildes = {
 
   // ulmaņa atbildes kādam pieminot martinsonu
   ambalis: {
-    text: [
-      'ambalis',
-      '1984',
-      'moderatori',
-      'moderators',
-    ],
+    text: ['ambalis', '1984', 'moderatori', 'moderators'],
     atb: [
       'ambālis komunists',
       'dandālis',
@@ -199,12 +174,7 @@ export const atbildes = {
   },
 
   olas: {
-    text: [
-      'sis olas',
-      'olas sis',
-      'olas',
-      'penis',
-    ],
+    text: ['sis olas', 'olas sis', 'olas', 'penis'],
     atb: [
       '<:izbrinits:843106796083871744> <:izbrinits:843106796083871744> <:izbrinits:843106796083871744>',
       'nu nejau ',
@@ -222,12 +192,9 @@ export const atbildes = {
   },
 
   reiz: {
-    text: [
-      'reiz',
-      'bunkurs',
-    ],
+    text: ['reiz', 'bunkurs'],
     atb: [
-      'Reiz bija bunkurs trīspadsmit, kur veči dzīvoja. Kad granātu tur iemeta, tad sūdi pajuka.'
-    ]
-  }
+      'Reiz bija bunkurs trīspadsmit, kur veči dzīvoja. Kad granātu tur iemeta, tad sūdi pajuka.',
+    ],
+  },
 }
