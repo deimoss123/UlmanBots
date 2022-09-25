@@ -15,7 +15,7 @@ export const emoji = [
 ]
 
 export const emojiList = {
-  udenszive: 'a920839478174683136',
+  udenszive: 'a1023702584986439762',
   cope1: 'a920842349339353098',
   cope2: 'a920842349821706260',
   zive: 'a920844107583221782',
