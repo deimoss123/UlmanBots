@@ -1,20 +1,21 @@
-import { Intents, Client, Permissions } from "discord.js";
+import { Intents, Client, Permissions, MessageEmbed } from 'discord.js'
 
-import dotenv from "dotenv";
-import mongo from "./mongo.js";
+import dotenv from 'dotenv'
+import mongo from './mongo.js'
 
-import { reakcijas } from "./reakcijas/reakcijas.js";
-import commandHandler from "./commands/commandHandler.js";
-import { settingsCache } from "./commands/admin/iestatijumi.js";
-import settingsSchema from "./schemas/settings-schema.js";
-import redis from "./redis.js";
-import { calculateDiscounts } from "./commands/ekonomija/veikals/veikals.js";
+import { reakcijas } from './reakcijas/reakcijas.js'
+import commandHandler from './commands/commandHandler.js'
+import { settingsCache } from './commands/admin/iestatijumi.js'
+import settingsSchema from './schemas/settings-schema.js'
+import redis from './redis.js'
+import { calculateDiscounts } from './commands/ekonomija/veikals/veikals.js'
+import { addLati, findUser } from './ekonomija.js'
 
-dotenv.config();
+dotenv.config()
 
-export const redisEnabled = true;
-export const okddId = "797584379685240882";
-const devMode = false;
+export const redisEnabled = true
+export const okddId = '797584379685240882'
+const devMode = false
 
 // definē DiscordJS klientu
 const client = new Client({
@@ -24,64 +25,64 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
-});
+})
 
 const getDayOfMonth = async () => {
-  if (!redisEnabled) return 1;
-  const redisClient = await redis();
+  if (!redisEnabled) return 1
+  const redisClient = await redis()
   return new Promise((res, rej) => {
-    redisClient.get("dayofmonth", (err, r) => {
-      if (err) return rej(err);
-      return res(r);
-    });
-  });
-};
+    redisClient.get('dayofmonth', (err, r) => {
+      if (err) return rej(err)
+      return res(r)
+    })
+  })
+}
 
 const checkPerms = (msg) => {
-  const perms = [Permissions.FLAGS.SEND_MESSAGES];
-  const res = msg.guild.me.permissionsIn(msg.channel).has(perms);
+  const perms = [Permissions.FLAGS.SEND_MESSAGES]
+  const res = msg.guild.me.permissionsIn(msg.channel).has(perms)
   //console.log(res)
-  return res;
-};
+  return res
+}
 
 const mobings = async (msg) => {
-  const perms = [Permissions.FLAGS.ADD_REACTIONS];
-  if (!msg.guild.me.permissionsIn(msg.channel).has(perms)) return;
+  const perms = [Permissions.FLAGS.ADD_REACTIONS]
+  if (!msg.guild.me.permissionsIn(msg.channel).has(perms)) return
 
-  const henrijsId = "571398169359810562";
+  const henrijsId = '571398169359810562'
 
   if (msg.author.id === henrijsId && msg.guildId === okddId) {
-    await msg.react("🏳️‍🌈");
+    await msg.react('🏳️‍🌈')
   }
-};
+}
 
 // galvenais kods
-client.on("ready", async () => {
-  console.log("client ready");
+client.on('ready', async () => {
+  console.log('client ready')
   // mēģina savienoties ar mongo datubāzi
   await mongo().then(async (mongoose) => {
     try {
-      console.log("connected to mongodb");
+      console.log('connected to mongodb')
 
-      const settings = await settingsSchema.find();
+      const settings = await settingsSchema.find()
 
       settings.map((setting) => {
-        settingsCache[setting._id] = setting;
-      });
+        settingsCache[setting._id] = setting
+      })
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
-  });
+  })
 
   if (redisEnabled) {
     try {
-      await redis();
-      console.log("connected to redis");
+      await redis()
+      console.log('connected to redis')
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
   } else {
-    console.log("REDIS DISABLED!");
+    console.log('REDIS DISABLED!')
   }
 
   /*
@@ -100,7 +101,38 @@ client.on("ready", async () => {
   })
   */
 
-  await client.on("messageCreate", async (message) => {
+  await client.on('messageCreate', async (message) => {
+    const { guildId } = message
+
+    if (message.content.startsWith('.seks') && guildId === okddId) {
+      const mentionedUser = message.mentions.users.first()
+      if (!mentionedUser) return
+
+      if (mentionedUser.id !== message.author.id) {
+        const user = await findUser(guildId, message.author.id)
+        if (!user) return
+
+        const latiToRemove = user.lati * 0.1
+
+        await addLati(guildId, message.author.id, -latiToRemove)
+        await addLati(guildId, mentionedUser.id, latiToRemove)
+      }
+
+      return message.reply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle('Seks')
+            .setDescription(
+              `${message.author.tag} bija seggs ar ${mentionedUser.tag}, viņš nozaga tev mazliet naudu`
+            )
+            .setThumbnail(
+              'https://images-ext-1.discordapp.net/external/_s9NCUazihitrxKmdPZ3DZA2l4-Iq39wzoR1ytKWyVA/https/i.pinimg.com/originals/ec/b0/7f/ecb07f912670b91bbf714bb6d8053f8e.jpg?width=807&height=683'
+            )
+            .setFooter('UlmaņPašdaris 20222805'),
+        ],
+      })
+    }
+
     //await mobings(message)
 
     if (!settingsCache[message.guildId]) {
@@ -110,46 +142,46 @@ client.on("ready", async () => {
         const newSchema = {
           _id: message.guildId,
           allowedChannels: [],
-        };
-        settingsSchema[newSchema._id] = newSchema;
-        await new settingsSchema(newSchema).save();
-      });
+        }
+        settingsSchema[newSchema._id] = newSchema
+        await new settingsSchema(newSchema).save()
+      })
     }
 
-    if (!checkPerms(message)) return;
+    if (!checkPerms(message)) return
 
     //if (devMode && message.author.id !== process.env.DEVUSERID) return
 
     // pārbauda vai ziņa sākas ar . (tad tā būs komanda)
-    if (message.content.startsWith(".")) {
-      await commandHandler(client, message);
+    if (message.content.startsWith('.')) {
+      await commandHandler(client, message)
     } else if (message.author.id !== process.env.ULMANISID) {
-      await reakcijas(client, message);
+      await reakcijas(client, message)
     }
-  });
+  })
 
   const loop = async () => {
     // parbauda kura diena menesi ir prieks veikala atlaidem
-    let date = new Date();
+    let date = new Date()
 
-    const currDay = await getDayOfMonth();
+    const currDay = await getDayOfMonth()
 
     if (currDay !== `${date.getDay()}`) {
-      await calculateDiscounts();
-      const redisClient = await redis();
-      redisClient.set("dayofmonth", `${date.getDay()}`);
-      console.log("discounts reset");
+      await calculateDiscounts()
+      const redisClient = await redis()
+      redisClient.set('dayofmonth', `${date.getDay()}`)
+      console.log('discounts reset')
     }
 
     setTimeout(async () => {
-      await loop();
-    }, 20000);
-  };
-  await loop();
-});
+      await loop()
+    }, 20000)
+  }
+  await loop()
+})
 
 // bots ieloggojas discorda
 client.login(process.env.TOKEN).then(() => {
-  console.log("logged in");
-  client.user.setActivity(".palīdzība", { type: "PLAYING" });
-});
+  console.log('logged in')
+  client.user.setActivity('.palīdzība', { type: 'PLAYING' })
+})
