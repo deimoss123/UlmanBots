@@ -118,7 +118,7 @@ client.on('ready', async () => {
         await addLati(guildId, mentionedUser.id, latiToRemove)
       }
 
-      return message.reply({
+      return message.channel.send({
         embeds: [
           new MessageEmbed()
             .setTitle('Seks')
